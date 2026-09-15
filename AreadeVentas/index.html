@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="VentasPro — Dashboard Tecnológico de Área de Ventas" />
+  <title>VentasPro — Dashboard de Ventas</title>
+  <link rel="icon" type="image/png" href="../portal/img/logo.png" />
+  <link rel="shortcut icon" type="image/png" href="../portal/img/logo.png" />
+
+  <!-- Fonts: Plus Jakarta Sans + Fira Code (elegante y moderno) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
+
+  <!-- ApexCharts — gráficas avanzadas -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.54.1/dist/apexcharts.min.js"></script>
+
+  <!-- SheetJS — Excel export -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/main.css?v=37" />
+
+  <!-- Blindaje de Seguridad y Anti-Ingeniería Inversa -->
+  <script src="js/security-shield.js"></script>
+</head>
+<body>
+
+  <!-- ===== LOGIN SCREEN ===== -->
+  <div class="login-screen" id="login-screen" style="display:none;">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="login-logo-icon">
+          <i class="ph-fill ph-chart-line-up"></i>
+        </div>
+        <div>
+          <div class="login-logo-name">VentasPro</div>
+          <div class="login-logo-sub">Dashboard de Ventas</div>
+        </div>
+      </div>
+      <h2 class="login-title">Selecciona tu perfil</h2>
+      <div class="login-profiles" id="login-profiles"></div>
+      <div class="login-pin-area" id="login-pin-area" style="display:none;">
+        <p class="login-pin-label">Ingresa tu PIN</p>
+        <div class="pin-dots" id="pin-dots">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="pin-pad" id="pin-pad"></div>
+        <button class="btn btn-secondary" onclick="cancelLogin()" style="width:100%;margin-top:12px">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== APP WRAPPER ===== -->
+  <div class="app-wrapper" id="app-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Logo -->
+      <div class="sidebar-brand">
+        <div class="brand-icon-wrapper">
+          <img src="assets/logo.jpg" alt="VentasPro Logo" class="brand-logo-img" />
+        </div>
+        <div class="brand-texts">
+          <span class="brand-name">VentasPro</span>
+          <span class="brand-sub">Área de Ventas</span>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <div class="sidebar-content">
+        <div class="sidebar-section-label">PRINCIPAL</div>
+        <nav class="sidebar-nav">
+          <a href="#" class="nav-item active" data-page="estadisticas" id="nav-estadisticas">
+            <i class="ph-fill ph-chart-bar nav-icon"></i>
+            <span class="nav-label">Estadísticas</span>
+          </a>
+          <a href="#" class="nav-item" data-page="catalogo" id="nav-catalogo">
+            <i class="ph-fill ph-storefront nav-icon" style="color:var(--neon-cyan)"></i>
+            <span class="nav-label">Catálogo Público</span>
+            <span class="nav-badge nav-badge-new">NUEVO</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-section-label">GESTIÓN</div>
+        <nav class="sidebar-nav">
+          <a href="#" class="nav-item" data-page="inventario" id="nav-inventario">
+            <i class="ph-fill ph-package nav-icon"></i>
+            <span class="nav-label">Inventario</span>
+            <span class="nav-badge nav-badge-warn" id="badge-stock"></span>
+          </a>
+          <a href="#" class="nav-item" data-page="proformas" id="nav-proformas">
+            <i class="ph-fill ph-shopping-bag nav-icon"></i>
+            <span class="nav-label">Pedidos</span>
+            <span class="nav-badge" id="badge-proformas"></span>
+          </a>
+          <a href="#" class="nav-item" data-page="facturacion" id="nav-facturacion">
+            <i class="ph-fill ph-receipt nav-icon"></i>
+            <span class="nav-label">Facturación</span>
+            <span class="nav-badge" id="badge-facturas"></span>
+          </a>
+        </nav>
+
+      </div>
+
+      <!-- PEDIDO PERMANENTE EN EL LADO INFERIOR IZQUIERDO -->
+      <div class="sidebar-cart-widget" id="sidebar-cart-widget" onclick="CatalogoCart.openModal()" title="Ver resumen de pedido" style="margin:8px 12px 10px;padding:10px 12px;background:linear-gradient(135deg,rgba(0,212,255,0.14),rgba(0,255,157,0.08));border:1px solid rgba(0,212,255,0.4);border-radius:12px;cursor:pointer;transition:all 0.25s ease;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+          <div style="display:flex;align-items:center;gap:7px;font-weight:800;font-size:12px;color:#00d4ff;">
+            <i class="ph-fill ph-shopping-bag" style="font-size:15px;"></i>
+            <span>Mi Pedido</span>
+          </div>
+          <span id="sidebar-cart-badge" style="background:#00d4ff;color:#060a17;font-size:10.5px;font-weight:800;padding:1px 7px;border-radius:10px;font-family:var(--font-mono);">0</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span id="sidebar-cart-count-txt" style="font-size:10.5px;color:var(--text-2);">0 productos</span>
+          <span id="sidebar-cart-total-txt" style="font-size:12.5px;font-weight:800;color:#fff;font-family:var(--font-mono);">S/ 0.00</span>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-info">
+          <div class="footer-avatar" id="footer-avatar">
+            <i class="ph-fill ph-user" style="font-size:16px;"></i>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div class="footer-name" id="footer-name">Área de Ventas</div>
+            <div class="footer-role" id="footer-role">Administrador</div>
+          </div>
+          <button class="footer-settings-btn" id="manage-users-btn" title="Gestionar usuarios">
+            <i class="ph ph-gear" style="font-size:16px;"></i>
+          </button>
+        </div>
+        <div class="sidebar-version-bar">
+          <span class="sidebar-version-tag">v1.0.0 · DEMO</span>
+          <span class="sidebar-copyright">© 2026 VentasPro</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- SIDEBAR MOBILE BACKDROP -->
+    <div id="sidebar-backdrop" class="sidebar-backdrop" onclick="closeMobileSidebar()"></div>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper" id="main-wrapper">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle" title="Colapsar menú">
+          <i class="ph ph-list" style="font-size:22px;"></i>
+        </button>
+
+        <div class="topbar-breadcrumb">
+          <i class="ph-fill ph-chart-line-up" style="font-size:16px; color:var(--neon-cyan)"></i>
+          <span id="page-title" class="topbar-page-title">Estadísticas de Ventas</span>
+        </div>
+
+        <div class="topbar-right">
+          <div class="topbar-live-indicator">
+            <span class="live-dot"></span>
+            <span class="live-text mono-text">DEMO</span>
+          </div>
+          <div class="topbar-date mono-text" id="current-date"></div>
+          <!-- Notificaciones -->
+          <button class="topbar-btn topbar-btn-notif" title="Notificaciones y Alertas del sistema" id="notif-btn">
+            <i class="ph-fill ph-bell" style="font-size:15px;"></i>
+            <span>Alertas</span>
+            <span id="notif-badge-dot" style="width:7px;height:7px;background:var(--neon-pink);border-radius:50%;box-shadow:0 0 8px var(--neon-pink);display:none;"></span>
+          </button>
+
+          <!-- Botón Info Demo -->
+          <button class="topbar-btn topbar-btn-reset" title="Información del modo demostración" id="reset-btn">
+            <i class="ph-fill ph-info" style="font-size:15px;"></i>
+            <span>Demo</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- ===== DEMO MODE NOTICE (Integrated in main wrapper) ===== -->
+      <div id="demo-banner" style="background:linear-gradient(90deg, rgba(0,212,255,0.1) 0%, rgba(168,85,247,0.06) 100%); border-bottom:1px solid rgba(0,212,255,0.22); padding:8px 24px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.35);color:#00d4ff;padding:3px 10px;border-radius:20px;font-size:10.5px;font-weight:800;letter-spacing:0.5px;">
+            <i class="ph-fill ph-flask"></i> ENTORNO DE DEMOSTRACIÓN
+          </span>
+          <span style="font-size:11.5px;color:var(--text-2);">
+            Las solicitudes, pedidos e interacciones son ilustrativos para evaluación comercial y no persisten información real.
+          </span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:10.5px;color:var(--neon-cyan);font-family:var(--font-mono);">
+          <span>SOLO LECTURA INTERACTIVA</span>
+          <div style="width:7px;height:7px;border-radius:50%;background:#00d4ff;box-shadow:0 0 8px #00d4ff;"></div>
+        </div>
+      </div>
+
+      <!-- PAGE CONTENT -->
+      <main class="content" id="main-content">
+        <div class="initial-loading">
+          <div class="tech-spinner"></div>
+          <p class="loading-text mono-text">Cargando sistema...</p>
+        </div>
+      </main>
+
+    </div><!-- /main-wrapper -->
+  </div><!-- /app-wrapper -->
+
+  <!-- ===== MODAL ===== -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title">Modal</h2>
+        <button class="modal-close-btn" id="modal-close" title="Cerrar">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <!-- ===== CONFIRM DIALOG ===== -->
+  <div class="modal-overlay" id="confirm-overlay">
+    <div class="modal modal-sm" id="confirm-box">
+      <div class="modal-header">
+        <h2 class="modal-title" id="confirm-title">Confirmar</h2>
+        <button class="modal-close-btn" id="confirm-close" title="Cerrar">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="confirm-body"></div>
+      <div class="modal-footer" id="confirm-footer"></div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST CONTAINER ===== -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/catalogo.js"></script>
+  <script src="js/proformas.js"></script>
+  <script src="js/facturacion.js"></script>
+  <script src="js/inventario.js"></script>
+  <script src="js/estadisticas.js"></script>
+  <script src="js/excel.js"></script>
+</body>
+</html>

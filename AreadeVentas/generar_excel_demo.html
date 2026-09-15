@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Generador de Excel Completo — VentasPro</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    background: #060d1f;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    flex-direction: column;
+    gap: 24px;
+    padding: 20px;
+  }
+  .card {
+    background: #101f3a;
+    border: 1px solid rgba(0,220,255,0.35);
+    border-radius: 20px;
+    padding: 44px 48px;
+    text-align: center;
+    max-width: 580px;
+    box-shadow: 0 0 50px rgba(0,220,255,0.16);
+  }
+  h1 { font-size: 24px; font-weight: 800; color: #00dcff; margin-bottom: 12px; }
+  p  { font-size: 14.5px; color: #cbd5e1; line-height: 1.6; margin-bottom: 24px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, #00dcff, #00ffaa);
+    color: #060d1f; font-weight: 800; font-size: 16px;
+    padding: 16px 36px; border-radius: 14px; border: none;
+    cursor: pointer; text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 24px rgba(0,220,255,0.4);
+  }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,220,255,0.6); }
+  .status {
+    font-size: 13px; font-family: monospace;
+    color: #00dcff; margin-top: 20px; min-height: 20px;
+  }
+  .sheets-info {
+    display: flex; gap: 10px; justify-content: center; margin-bottom: 24px; flex-wrap: wrap;
+  }
+  .sheet-badge {
+    background: rgba(0,220,255,0.12); border: 1px solid rgba(0,220,255,0.35);
+    color: #00dcff; border-radius: 20px; padding: 7px 18px;
+    font-size: 12.5px; font-weight: 700;
+  }
+  .feature-list {
+    text-align: left; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 18px 20px; margin-bottom: 24px; font-size: 13px; color: #94a3b8;
+  }
+  .feature-list li { margin-bottom: 8px; list-style-type: none; display: flex; align-items: center; gap: 8px; }
+  .feature-list li:last-child { margin-bottom: 0; }
+  .feature-list i { color: #00ffaa; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>📊 Generador de Excel Multi-Módulo</h1>
+  <p>Genera un archivo Excel <strong>100% completo</strong> con todas las hojas (Inventario con imágenes, Proformas y Facturas) para probar y calcular todo el dashboard.</p>
+
+  <ul class="feature-list">
+    <li><i>✓</i> <strong>Inventario completo:</strong> 15 productos con imágenes referenciales, precios en Soles, categoría y descripción comercial para el Catálogo.</li>
+    <li><i>✓</i> <strong>Proformas:</strong> 8 cotizaciones con clientes, montos, IGV y estados.</li>
+    <li><i>✓</i> <strong>Facturas:</strong> 10 comprobantes con pagos cobrados, pendientes y parciales para actualizar los gráficos de ventas.</li>
+  </ul>
+
+  <div class="sheets-info">
+    <span class="sheet-badge">📦 Inventario (15)</span>
+    <span class="sheet-badge">📋 Proformas (8)</span>
+    <span class="sheet-badge">🧾 Facturas (10)</span>
+  </div>
+
+  <button class="btn" onclick="generarExcelCompleto()">⬇️ Descargar Excel Completo</button>
+  <div class="status" id="status">Listo para generar…</div>
+</div>
+
+<!-- SheetJS CDN -->
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script>
+function generarExcelCompleto() {
+  const status = document.getElementById('status');
+  status.textContent = 'Generando Excel completo…';
+
+  try {
+    const wb = XLSX.utils.book_new();
+
+    /* ══════════════════════════════════════════
+       HOJA 1 — INVENTARIO (15 Productos)
+    ══════════════════════════════════════════ */
+    const inventario = [
+      {
+        'Código': 'CAB-CAT6-GR',
+        'Producto': 'Cable Ethernet Cat6 Gris (por metro)',
+        'Categoría': 'Cables',
+        'Stock': 850,
+        'Stock Mínimo': 200,
+        'Unidad': 'm',
+        'Precio Compra': 3.20,
+        'Precio Venta': 3.50,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Cable de red Cat6 FTP de alto rendimiento. Velocidad 10/100/1000 Mbps, longitud a medida. Chaqueta gris LSZH ignifuga.',
+        'Ubicación': 'Almacén A - Estante 1'
+      },
+      {
+        'Código': 'NET-RTR-WF6',
+        'Producto': 'Router WiFi 6 AX3000 Doble Banda',
+        'Categoría': 'Networking',
+        'Stock': 32,
+        'Stock Mínimo': 10,
+        'Unidad': 'un',
+        'Precio Compra': 340.00,
+        'Precio Venta': 360.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Router inalámbrico WiFi 6 (802.11ax) con velocidad combinada 3000 Mbps. Soporta hasta 64 dispositivos, 4 antenas de alto ganancia.',
+        'Ubicación': 'Almacén A - Estante 2'
+      },
+      {
+        'Código': 'NET-SW-24P',
+        'Producto': 'Switch Administrable 24P PoE Gigabit',
+        'Categoría': 'Networking',
+        'Stock': 8,
+        'Stock Mínimo': 5,
+        'Unidad': 'un',
+        'Precio Compra': 1280.00,
+        'Precio Venta': 1350.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Switch gestionable Layer 2 de 24 puertos Gigabit PoE+ 802.3at. Potencia total PoE 370W, 4 puertos SFP uplink.',
+        'Ubicación': 'Almacén A - Estante 3'
+      },
+      {
+        'Código': 'SEG-CAM-2MP',
+        'Producto': 'Cámara IP Domo 2MP IR 30m',
+        'Categoría': 'Seguridad',
+        'Stock': 24,
+        'Stock Mínimo': 10,
+        'Unidad': 'un',
+        'Precio Compra': 215.00,
+        'Precio Venta': 225.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Cámara IP tipo domo 2 megapíxeles con visión nocturna IR hasta 30m. Full HD 1080p, lente varifocal 2.8-12mm. IP67.',
+        'Ubicación': 'Almacén B - Estante 1'
+      },
+      {
+        'Código': 'ENE-UPS-1KVA',
+        'Producto': 'UPS 1000VA / 600W Senoidal',
+        'Categoría': 'Energía',
+        'Stock': 5,
+        'Stock Mínimo': 5,
+        'Unidad': 'un',
+        'Precio Compra': 625.00,
+        'Precio Venta': 650.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1647427060118-4911c9821b82?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'UPS 1000VA/600W con salida senoidal pura. 6 tomas protegidas, batería 12V/9Ah. Tiempo de respaldo ~15 min a carga completa.',
+        'Ubicación': 'Almacén B - Estante 2'
+      },
+      {
+        'Código': 'CAB-HDMI-2M',
+        'Producto': 'Cable HDMI 4K 2 metros',
+        'Categoría': 'Cables',
+        'Stock': 120,
+        'Stock Mínimo': 30,
+        'Unidad': 'un',
+        'Precio Compra': 35.00,
+        'Precio Venta': 38.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1601524909162-ae8725290836?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Cable HDMI 2.0 de alta velocidad compatible con 4K UHD 60Hz, HDR, ARC y Ethernet. Conectores bañados en oro.',
+        'Ubicación': 'Almacén A - Estante 1'
+      },
+      {
+        'Código': 'INF-RACK-12U',
+        'Producto': 'Rack Pared Abierto 12U 550mm',
+        'Categoría': 'Infraestructura',
+        'Stock': 4,
+        'Stock Mínimo': 3,
+        'Unidad': 'un',
+        'Precio Compra': 720.00,
+        'Precio Venta': 760.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Rack de pared abierto 12U, profundidad 550mm. Acero galvanizado, capacidad 60kg. Incluye accesorios de montaje.',
+        'Ubicación': 'Almacén C - Estante 1'
+      },
+      {
+        'Código': 'INF-PP-24',
+        'Producto': 'Panel de Parcheo Cat6 24 Puertos',
+        'Categoría': 'Infraestructura',
+        'Stock': 18,
+        'Stock Mínimo': 5,
+        'Unidad': 'un',
+        'Precio Compra': 195.00,
+        'Precio Venta': 210.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1630019852942-7a3592136ccd?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Panel de parcheo 24 puertos Cat6, montaje en rack 1U. Conectores Cat6 con etiqueta de identificación.',
+        'Ubicación': 'Almacén C - Estante 1'
+      },
+      {
+        'Código': 'ACC-RJ45-C6',
+        'Producto': 'Conector RJ45 Cat6 (caja x100)',
+        'Categoría': 'Accesorios',
+        'Stock': 28,
+        'Stock Mínimo': 10,
+        'Unidad': 'caja',
+        'Precio Compra': 32.00,
+        'Precio Venta': 35.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1609429019995-8c40f49535a5?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Caja 100 unidades de conectores RJ45 Cat6 para cable UTP/FTP. Contactos bañados en oro 50μm.',
+        'Ubicación': 'Almacén B - Estante 3'
+      },
+      {
+        'Código': 'CAB-FO-SM500',
+        'Producto': 'Cable Fibra Óptica SM G.652D 500m',
+        'Categoría': 'Cables',
+        'Stock': 3,
+        'Stock Mínimo': 2,
+        'Unidad': 'rollo',
+        'Precio Compra': 1840.00,
+        'Precio Venta': 1920.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Cable fibra óptica monomodo G.652D 500m, 12 fibras OS2, chaqueta LSZH. Pérdida <0.4dB/km.',
+        'Ubicación': 'Almacén A - Estante 4'
+      },
+      {
+        'Código': 'NET-SFP-MM',
+        'Producto': 'Transceiver SFP 1G Multimodo 550m',
+        'Categoría': 'Networking',
+        'Stock': 16,
+        'Stock Mínimo': 8,
+        'Unidad': 'un',
+        'Precio Compra': 145.00,
+        'Precio Venta': 155.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Módulo SFP 1000BASE-SX fibra óptica multimodo. Alcance 550m en OM2, longitud de onda 850nm.',
+        'Ubicación': 'Almacén A - Estante 3'
+      },
+      {
+        'Código': 'NET-AP-WF6',
+        'Producto': 'Access Point WiFi 6 Techo Dual Band',
+        'Categoría': 'Networking',
+        'Stock': 14,
+        'Stock Mínimo': 5,
+        'Unidad': 'un',
+        'Precio Compra': 498.00,
+        'Precio Venta': 520.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1574377593903-5cf4a2b2e2e4?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Access Point montaje en techo WiFi 6 (AX3000). 2.4GHz + 5GHz simultáneas, 200+ clientes, PoE 802.3at.',
+        'Ubicación': 'Almacén A - Estante 2'
+      },
+      {
+        'Código': 'CAB-UTP-305',
+        'Producto': 'Cable UTP Cat5e 305m (caja)',
+        'Categoría': 'Cables',
+        'Stock': 10,
+        'Stock Mínimo': 4,
+        'Unidad': 'caja',
+        'Precio Compra': 285.00,
+        'Precio Venta': 300.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Caja 305m cable UTP Cat5e 24AWG certificado EIA/TIA 568B. Ideal para instalaciones residenciales.',
+        'Ubicación': 'Almacén A - Estante 1'
+      },
+      {
+        'Código': 'SEG-DVR-8CH',
+        'Producto': 'DVR Turbo HD 8 Canales 5MP',
+        'Categoría': 'Seguridad',
+        'Stock': 6,
+        'Stock Mínimo': 3,
+        'Unidad': 'un',
+        'Precio Compra': 780.00,
+        'Precio Venta': 820.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Grabador DVR 8 canales TurboHD resolución hasta 5MP Lite. 1 bahía HDD hasta 8TB, H.265+, app móvil.',
+        'Ubicación': 'Almacén B - Estante 1'
+      },
+      {
+        'Código': 'INF-CAN-6040',
+        'Producto': 'Canaleta PVC 60x40mm 2m c/tapa',
+        'Categoría': 'Infraestructura',
+        'Stock': 38,
+        'Stock Mínimo': 20,
+        'Unidad': 'un',
+        'Precio Compra': 54.00,
+        'Precio Venta': 58.00,
+        'Imagen Referencial': 'https://images.unsplash.com/photo-1562516155-e0c1ee44059b?w=600&auto=format&fit=crop&q=80',
+        'Descripción Larga': 'Canaleta organizadora de cables PVC blanco 60x40mm, longitud 2m con tapa. Autoextinguible, ignifuga.',
+        'Ubicación': 'Almacén C - Estante 2'
+      }
+    ];
+
+    /* ══════════════════════════════════════════
+       HOJA 2 — PROFORMAS (8 Registros)
+    ══════════════════════════════════════════ */
+    const proformas = [
+      { 'N° Proforma':'PRO-0001', 'Cliente':'Cliente Demo - Soluciones Tech S.A.C.', 'Fecha':'2026-07-05', 'Vencimiento':'2026-08-04', 'Estado':'aprobada',   'Moneda':'PEN', 'Subtotal':2717.00, 'IGV':489.06,  'Total':3206.06, 'Notas':'Proyecto WiFi Corporativo Fase 1' },
+      { 'N° Proforma':'PRO-0002', 'Cliente':'Cliente Demo - Empresa Alfa',           'Fecha':'2026-07-12', 'Vencimiento':'2026-08-11', 'Estado':'pendiente',  'Moneda':'PEN', 'Subtotal':3920.00, 'IGV':705.60,  'Total':4625.60, 'Notas':'Cableado estructurado edificio norte' },
+      { 'N° Proforma':'PRO-0003', 'Cliente':'Cliente Demo - Corporación Norte',      'Fecha':'2026-07-18', 'Vencimiento':'2026-08-17', 'Estado':'convertida','Moneda':'PEN', 'Subtotal':4646.80, 'IGV':836.42,  'Total':5483.22, 'Notas':'Sistema CCTV urgencias y salas' },
+      { 'N° Proforma':'PRO-0004', 'Cliente':'Cliente Demo - Institución Beta',       'Fecha':'2026-07-25', 'Vencimiento':'2026-08-24', 'Estado':'vencida',   'Moneda':'PEN', 'Subtotal':5461.25, 'IGV':983.03,  'Total':6444.28, 'Notas':'Enlace fibra entre sedes' },
+      { 'N° Proforma':'PRO-0005', 'Cliente':'Cliente Demo - Telecom Delta',          'Fecha':'2026-08-01', 'Vencimiento':'2026-08-31', 'Estado':'aprobada',   'Moneda':'PEN', 'Subtotal':4020.00, 'IGV':723.60,  'Total':4743.60, 'Notas':'Cuarto de comunicaciones' },
+      { 'N° Proforma':'PRO-0006', 'Cliente':'Cliente Demo - Soluciones Tech S.A.C.', 'Fecha':'2026-08-05', 'Vencimiento':'2026-09-04', 'Estado':'pendiente',  'Moneda':'PEN', 'Subtotal':8500.00, 'IGV':1530.00, 'Total':10030.00,'Notas':'Equipamiento nuevo almacén' },
+      { 'N° Proforma':'PRO-0007', 'Cliente':'Cliente Demo - Empresa Alfa',           'Fecha':'2026-08-08', 'Vencimiento':'2026-09-07', 'Estado':'aprobada',   'Moneda':'PEN', 'Subtotal':7890.00, 'IGV':1420.20, 'Total':9310.20, 'Notas':'Sistema de control de acceso' },
+      { 'N° Proforma':'PRO-0008', 'Cliente':'Cliente Demo - Corporación Norte',      'Fecha':'2026-08-10', 'Vencimiento':'2026-09-09', 'Estado':'pendiente',  'Moneda':'PEN', 'Subtotal':1980.00, 'IGV':356.40,  'Total':2336.40, 'Notas':'Donación equipos telecomunicaciones' }
+    ];
+
+    /* ══════════════════════════════════════════
+       HOJA 3 — FACTURAS (10 Registros)
+    ══════════════════════════════════════════ */
+    const facturas = [
+      { 'N° Factura':'FAC-0001', 'Cliente':'Cliente Demo - Soluciones Tech S.A.C.', 'Fecha':'2026-05-10', 'Vencimiento Pago':'2026-06-09', 'Estado Pago':'cobrada',  'Moneda':'PEN', 'Subtotal':3200.00, 'IGV':576.00,  'Total':3776.00, 'Monto Cobrado':3776.00 },
+      { 'N° Factura':'FAC-0002', 'Cliente':'Cliente Demo - Empresa Alfa',           'Fecha':'2026-05-20', 'Vencimiento Pago':'2026-06-19', 'Estado Pago':'cobrada',  'Moneda':'PEN', 'Subtotal':5400.00, 'IGV':972.00,  'Total':6372.00, 'Monto Cobrado':6372.00 },
+      { 'N° Factura':'FAC-0003', 'Cliente':'Cliente Demo - Corporación Norte',      'Fecha':'2026-06-01', 'Vencimiento Pago':'2026-07-01', 'Estado Pago':'cobrada',  'Moneda':'PEN', 'Subtotal':4600.00, 'IGV':828.00,  'Total':5428.00, 'Monto Cobrado':5428.00 },
+      { 'N° Factura':'FAC-0004', 'Cliente':'Cliente Demo - Institución Beta',       'Fecha':'2026-06-15', 'Vencimiento Pago':'2026-07-15', 'Estado Pago':'pendiente','Moneda':'PEN', 'Subtotal':6200.00, 'IGV':1116.00, 'Total':7316.00, 'Monto Cobrado':0.00 },
+      { 'N° Factura':'FAC-0005', 'Cliente':'Cliente Demo - Telecom Delta',          'Fecha':'2026-07-01', 'Vencimiento Pago':'2026-07-31', 'Estado Pago':'cobrada',  'Moneda':'PEN', 'Subtotal':2800.00, 'IGV':504.00,  'Total':3304.00, 'Monto Cobrado':3304.00 },
+      { 'N° Factura':'FAC-0006', 'Cliente':'Cliente Demo - Soluciones Tech S.A.C.', 'Fecha':'2026-07-10', 'Vencimiento Pago':'2026-08-09', 'Estado Pago':'parcial',  'Moneda':'PEN', 'Subtotal':8500.00, 'IGV':1530.00, 'Total':10030.00,'Monto Cobrado':5000.00 },
+      { 'N° Factura':'FAC-0007', 'Cliente':'Cliente Demo - Empresa Alfa',           'Fecha':'2026-07-20', 'Vencimiento Pago':'2026-08-19', 'Estado Pago':'cobrada',  'Moneda':'PEN', 'Subtotal':7800.00, 'IGV':1404.00, 'Total':9204.00, 'Monto Cobrado':9204.00 },
+      { 'N° Factura':'FAC-0008', 'Cliente':'Cliente Demo - Institución Beta',       'Fecha':'2026-07-28', 'Vencimiento Pago':'2026-08-27', 'Estado Pago':'pendiente','Moneda':'PEN', 'Subtotal':3100.00, 'IGV':558.00,  'Total':3658.00, 'Monto Cobrado':0.00 },
+      { 'N° Factura':'FAC-0009', 'Cliente':'Cliente Demo - Telecom Delta',          'Fecha':'2026-08-02', 'Vencimiento Pago':'2026-09-01', 'Estado Pago':'pendiente','Moneda':'PEN', 'Subtotal':4500.00, 'IGV':810.00,  'Total':5310.00, 'Monto Cobrado':0.00 },
+      { 'N° Factura':'FAC-0010', 'Cliente':'Cliente Demo - Corporación Norte',      'Fecha':'2026-08-08', 'Vencimiento Pago':'2026-09-07', 'Estado Pago':'cobrada',  'Moneda':'PEN', 'Subtotal':9200.00, 'IGV':1656.00, 'Total':10856.00,'Monto Cobrado':10856.00 }
+    ];
+
+    /* ── Crear hojas con ancho inteligente de columnas ── */
+    function createSheet(data) {
+      const ws = XLSX.utils.json_to_sheet(data);
+      const cols = Object.keys(data[0] || {});
+      ws['!cols'] = cols.map(k => ({
+        wch: Math.max(k.length, ...data.map(r => String(r[k] || '').length)) + 3
+      }));
+      return ws;
+    }
+
+    XLSX.utils.book_append_sheet(wb, createSheet(inventario), 'Inventario');
+    XLSX.utils.book_append_sheet(wb, createSheet(proformas),  'Proformas');
+    XLSX.utils.book_append_sheet(wb, createSheet(facturas),   'Facturas');
+
+    /* ── Descargar ── */
+    const fechaStr = new Date().toISOString().slice(0, 10);
+    XLSX.writeFile(wb, `VentasPro_DatasetCompleto_${fechaStr}.xlsx`);
+    status.textContent = '✅ ¡Excel Completo descargado exitosamente!';
+    status.style.color = '#00ffaa';
+
+  } catch(e) {
+    status.textContent = '❌ Error al generar Excel: ' + e.message;
+    status.style.color = '#ff2d78';
+    console.error(e);
+  }
+}
+
+window.addEventListener('load', () => {
+  if (window.XLSX) {
+    status.textContent = 'Librería SheetJS lista ✓ — Haz clic en el botón para descargar.';
+  } else {
+    status.textContent = '⚠️ Cargando componentes Excel…';
+  }
+});
+</script>
+</body>
+</html>
