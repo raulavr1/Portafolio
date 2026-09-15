@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACTG &middot; Sistema de Predicci&oacute;n de Incidentes</title>
+  <link rel="icon" type="image/png" href="/portal/img/logo.png" />
+  <link rel="shortcut icon" type="image/png" href="/portal/img/logo.png" />
+  <meta name="description" content="Dashboard t&aacute;ctico de predicci&oacute;n de eventos e incidentes, mapa de calor sectorizado y an&aacute;lisis de riesgo en tiempo real." />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- Blindaje de Seguridad y Anti-Ingeniería Inversa -->
+  <script src="js/security-shield.js"></script>
+</head>
+<body>
+
+  <!-- Drawer detalle incidente -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="cerrarDrawer()"></div>
+  <aside class="incident-drawer" id="incidentDrawer">
+    <div class="drawer-header">
+      <h3>Detalle del Incidente</h3>
+      <button class="btn-close" onclick="cerrarDrawer()">&times;</button>
+    </div>
+    <div id="drawerContent" class="drawer-body"></div>
+  </aside>
+
+  <!-- ══════════════════════════════
+       NAVBAR
+  ══════════════════════════════ -->
+  <header class="navbar">
+
+    <!-- MARCA POLICIAL -->
+    <div class="nav-brand">
+      <div class="brand-icon">
+        <svg width="42" height="42" viewBox="0 0 44 44" fill="none">
+          <!-- Police Badge Shield -->
+          <path d="M22 3 L38 8 V21 C38 31.5 22 41 22 41 C22 41 6 31.5 6 21 V8 Z" fill="url(#policeBadgeGrad)" stroke="#f59e0b" stroke-width="2"/>
+          <path d="M22 6 L35 10.5 V20 C35 28.5 22 37 22 37 C22 37 9 28.5 9 20 V10.5 Z" fill="#0c192c" stroke="rgba(245,158,11,0.5)" stroke-width="1"/>
+          <!-- Police Star 8 points -->
+          <path d="M22 12 L24.5 17.5 L30.5 18 L26 22 L27.5 28 L22 24.8 L16.5 28 L18 22 L13.5 18 L19.5 17.5 Z" fill="#fbbf24" stroke="#d97706" stroke-width="0.8"/>
+          <circle cx="22" cy="21" r="3.2" fill="#0c192c" stroke="#fbbf24" stroke-width="1.2"/>
+          <defs>
+            <linearGradient id="policeBadgeGrad" x1="0" y1="0" x2="44" y2="44">
+              <stop offset="0%" stop-color="#1d4ed8"/>
+              <stop offset="100%" stop-color="#0b1528"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>Sistema Policial de Inteligencia &amp; Control Criminal</h1>
+        <div class="brand-status-row">
+          <span class="telemetry-badge">
+            <span class="pulse-dot"></span>
+            <span class="telemetry-text">🛡️ COMANDO POLICIAL ACTIVO &middot; SEÑAL 10-4</span>
+          </span>
+          <span class="brand-subtitle">&middot; <span id="fechaActual"></span> &middot; <span class="live-clock" id="liveClock">--:--:--</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABS POLICIALES TIPO RUEDA / ROTATIVO -->
+    <div class="nav-tabs-wheel-wrapper">
+      <button type="button" class="tab-wheel-arrow" onclick="scrollTabsWheel(-1)" title="Opción anterior" aria-label="Anterior">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+
+      <nav class="nav-tabs" id="navTabsBar">
+        <button class="tab-btn active" id="tab-btn-general" onclick="switchTab('general')">
+          <span class="tab-icon">📊</span> Panel de Mando
+        </button>
+        <button class="tab-btn" id="tab-btn-mapa" onclick="switchTab('mapa')">
+          <span class="tab-icon">🗺️</span> Cartograf&iacute;a de Cuadrantes
+        </button>
+        <button class="tab-btn" id="tab-btn-data" onclick="switchTab('data')">
+          <span class="tab-icon">📋</span> Libro de Novedades
+        </button>
+      </nav>
+
+      <button type="button" class="tab-wheel-arrow" onclick="scrollTabsWheel(1)" title="Siguiente opción" aria-label="Siguiente">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+
+    <!-- ACCIÓN ÚNICA: Información de Integración & Datos de Muestra -->
+    <div class="nav-actions">
+      <button type="button" class="btn btn-info-modal" onclick="abrirModalUpload()" title="Información sobre compatibilidad de formatos, hojas de cálculo e integración de datos">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        Información
+      </button>
+      <button type="button" class="btn btn-demo-data" id="btnDemoData" onclick="abrirModalDatosPrueba()" title="Ver aviso y especificación técnica de los datos de muestra">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+        Datos de Prueba
+      </button>
+    </div>
+
+  </header>
+
+  <!-- ══════════════════════════════
+       BARRA DE FILTROS & PRESETS
+  ══════════════════════════════ -->
+  <div class="filter-strip">
+    <div class="filters">
+
+
+
+      <div class="filter-group">
+        <label for="filterTipo">Tipificación del Delito</label>
+        <select id="filterTipo" onchange="aplicarFiltros()">
+          <option value="todos">Todas las tipificaciones</option>
+          <option value="Robo">Robo</option>
+          <option value="Hurto">Hurto</option>
+          <option value="Lesiones">Lesiones</option>
+        </select>
+      </div>
+
+      <div class="filter-sep"></div>
+
+      <div class="filter-group">
+        <label for="filterSector">Cuadrante Policial</label>
+        <select id="filterSector" onchange="aplicarFiltros()">
+          <option value="todos">Todos los cuadrantes</option>
+        </select>
+      </div>
+
+      <div class="filter-sep"></div>
+
+      <div class="filter-group">
+        <label for="filterPeriodo">Turno / Guardia</label>
+        <select id="filterPeriodo" onchange="aplicarFiltros()">
+          <option value="0" selected>Historial acumulado</option>
+          <option value="30">Últimos 30 días</option>
+          <option value="90">Últimos 90 días</option>
+        </select>
+      </div>
+
+      <div class="filter-sep"></div>
+
+      <div class="filter-group search">
+        <label for="filterSearch">Buscar Registro</label>
+        <input type="text" id="filterSearch"
+               placeholder="Cuadrante, delito, descripción..."
+               oninput="aplicarFiltros()" />
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       PRESETS POLICIALES DE INTERVENCIÓN RÁPIDA
+  ══════════════════════════════ -->
+  <div class="preset-bar">
+    <div class="preset-bar-inner">
+      <span class="preset-label">Despliegues T&aacute;cticos:</span>
+      <div class="preset-chips">
+        <button class="preset-chip active" id="chip-todos" onclick="aplicarPreset('todos')">Jurisdicción Completa</button>
+        <button class="preset-chip chip-danger" id="chip-critico" onclick="aplicarPreset('critico')">🚨 Cuadrante Crítico (Oriente - Foco Rojo)</button>
+        <button class="preset-chip chip-warning" id="chip-noche" onclick="aplicarPreset('noche')">🌙 Guardia Nocturna (18:00 - 00:00)</button>
+        <button class="preset-chip chip-primary" id="chip-robos" onclick="aplicarPreset('robos')">⚡ Foco Prioritario Robos</button>
+        <button class="preset-chip chip-purple" id="chip-pendientes" onclick="aplicarPreset('pendientes')">📋 Investigaciones Judiciales Abiertas</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       TABS
+  ══════════════════════════════ -->
+  <div class="tabs-container">
+
+    <!-- ── PESTAÑA 1: PANEL GENERAL ── -->
+    <div class="tab-content active" id="tab-general">
+
+      <div class="kpis-premium-grid">
+
+        <div class="kpi-premium-card kpi-total">
+          <div class="kpi-premium-content">
+            <span class="kpi-premium-title">Partes Delictivos Totales</span>
+            <span class="kpi-premium-value" id="kpiTotal">0</span>
+            <span class="kpi-premium-sub">Incidencias en per&iacute;odo activo</span>
+          </div>
+          <div class="kpi-premium-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                 stroke="#1d4ed8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="kpi-premium-card kpi-robos">
+          <div class="kpi-premium-content">
+            <span class="kpi-premium-title">Denuncias por Robo</span>
+            <span class="kpi-premium-value" id="kpiRobos">0</span>
+            <span class="kpi-premium-sub">Mayor severidad patrimonial</span>
+          </div>
+          <div class="kpi-premium-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                 stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86 1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="kpi-premium-card kpi-hurtos">
+          <div class="kpi-premium-content">
+            <span class="kpi-premium-title">Hurtos y Sustracciones</span>
+            <span class="kpi-premium-value" id="kpiHurtos">0</span>
+            <span class="kpi-premium-sub">Vigilancia continua activa</span>
+          </div>
+          <div class="kpi-premium-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                 stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="kpi-premium-card kpi-sector">
+          <div class="kpi-premium-content">
+            <span class="kpi-premium-title">Cuadrante en Alerta M&aacute;xima</span>
+            <span class="kpi-premium-value" id="kpiSectorCritico">&mdash;</span>
+            <span class="kpi-premium-sub">Foco de intervenci&oacute;n prioritaria</span>
+          </div>
+          <div class="kpi-premium-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                 stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════════
+           CENTRO DE ALERTA TEMPRANA & DESPACHO HORARIO EN VIVO
+      ══════════════════════════════════════════════════════════ -->
+      <section class="card alert-dispatch-card">
+        <div class="dispatch-header">
+          <div class="dispatch-title-group">
+            <div class="dispatch-beacon-pulse">
+              <span class="beacon-circle"></span>
+              <span class="beacon-dot"></span>
+            </div>
+            <div>
+              <div class="dispatch-headline-row">
+                <h2>Centro de Alerta Temprana &amp; Despacho Horario de Guardia</h2>
+                <span class="badge-dispatch-live" id="badgeModoHora">🕒 MODO TIEMPO REAL</span>
+              </div>
+              <span class="card-subtitle">Análisis probabilístico forense en tiempo real según hora de patrulla, cuadrante y antecedentes criminales</span>
+            </div>
+          </div>
+
+          <div class="dispatch-controls">
+            <button type="button" class="btn-time-mode active" id="btnHoraReal" onclick="activarModoHoraReal()">
+              ⏱️ Hora en Vivo
+            </button>
+            <button type="button" class="btn-time-mode" id="btnHoraManual" onclick="activarModoSimularHora()">
+              🎛️ Simular Hora
+            </button>
+          </div>
+        </div>
+
+        <!-- Línea de Tiempo de Guardia -->
+        <div class="dispatch-timeline-strip">
+          <div class="timeline-slider-box">
+            <div class="timeline-slider-label">
+              <span>Franja Horaria de Guardia Analizada:</span>
+              <span class="badge-active-hour" id="badgeHoraTexto">20:00h · Guardia Nocturna</span>
+            </div>
+            <input type="range" class="timeline-slider" id="sliderHoraGuardia" min="0" max="23" step="1" value="20" oninput="cambiarHoraGuardia(this.value)" />
+            <div class="timeline-ticks">
+              <span>00:00 (Madrugada)</span>
+              <span>06:00 (Apertura)</span>
+              <span>12:00 (Comercial)</span>
+              <span>18:00 (Retorno/Pico)</span>
+              <span>23:00 (Cierre)</span>
+            </div>
+          </div>
+          <div class="timeline-presets">
+            <button class="t-preset-btn" onclick="seleccionarHoraRapida(3)">03:00h (Madrugada)</button>
+            <button class="t-preset-btn" onclick="seleccionarHoraRapida(8)">08:00h (Mañana)</button>
+            <button class="t-preset-btn" onclick="seleccionarHoraRapida(14)">14:00h (Tarde)</button>
+            <button class="t-preset-btn active" onclick="seleccionarHoraRapida(20)">20:00h (Noche)</button>
+          </div>
+        </div>
+
+        <!-- Ficha de Predicción Inminente y Acción Inmediata -->
+        <div class="dispatch-prediction-grid">
+          <div class="dispatch-alert-box" id="dispatchAlertBox">
+            <div class="dispatch-alert-top">
+              <span class="dispatch-code-badge badge-code-red" id="dispatchCodigoBadge">🚨 CÓDIGO ROJO · ALERTA INMINENTE</span>
+              <span class="dispatch-prob-badge" id="dispatchProbBadge">Probabilidad: 82%</span>
+            </div>
+            <h3 class="dispatch-crime-title" id="dispatchDelitoPronosticado">Posible Incidencia: Robo a Mano Armada / Vía Pública</h3>
+            <div class="dispatch-details-row">
+              <span class="detail-tag">📍 Cuadrante Foco: <strong id="dispatchCuadranteFoco">Oriente</strong></span>
+              <span class="detail-tag">🕒 Ventana Crítica: <strong id="dispatchVentanaCritica">19:00 &ndash; 22:00h</strong></span>
+              <span class="detail-tag">📊 Registros Previos: <strong id="dispatchHistorialCasos">14 incidentes</strong></span>
+            </div>
+          </div>
+
+          <div class="dispatch-action-box">
+            <div class="action-box-header">
+              <span class="action-icon-shield">🛡️</span>
+              <div>
+                <h4>Directiva Táctica de Despacho Recomendada</h4>
+                <span class="action-sub">Respuesta operativa calibrada por algoritmo predictivo</span>
+              </div>
+            </div>
+            <p class="dispatch-action-text" id="dispatchAccionTexto">
+              Desplegar preventivamente <strong>3 patrullas móviles</strong> y <strong>4 unidades motorizadas</strong> en los corredores comerciales de <strong>Cuadrante Oriente</strong> para disuadir delitos de oportunidad antes de las 21:00h.
+            </p>
+            <div class="dispatch-action-footer">
+              <button type="button" class="btn-apply-dispatch" onclick="aplicarDespachoRecomendado()">
+                ⚡ Transferir Recursos al Planificador Táctico
+              </button>
+              <span class="dispatch-foot-note">Ajusta automáticamente patrullas, motos y retenes en el simulador</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="general-panel-layout">
+        <div class="panel-layout-left">
+          <section class="card prediction-card">
+            <div class="card-header">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <h2>Alerta Temprana &amp; Inteligencia Policial Predictiva</h2>
+                <span class="badge-prediction">Algoritmo T&aacute;ctico Policial v5.0</span>
+              </div>
+              <span class="prediction-live-tag">⚡ ANÁLISIS POLICIAL EN VIVO</span>
+            </div>
+            
+            <!-- Contenedor Principal de Predicción Táctica y Análisis Operativo -->
+            <div class="prediction-body-clean" id="predictionBody"></div>
+
+            <!-- PLANIFICADOR TÁCTICO DE DESPLIEGUE MULTI-RECURSO -->
+            <div class="simulator-panel">
+              <div class="sim-header">
+                <div class="sim-header-row">
+                  <div>
+                    <div class="sim-title-group">
+                      <span class="sim-pill">🛡️ PLANIFICADOR TÁCTICO POLICIAL</span>
+                      <h3>Planificador de Despliegue de Recursos en Cuadrante</h3>
+                    </div>
+                    <span class="sim-desc">Asigna patrullas, motos y oficiales a pie con distribución táctica georreferenciada</span>
+                  </div>
+                  <div class="sim-target-zone-box">
+                    <span class="stz-label">📍 Cuadrante Objetivo:</span>
+                    <select id="simSectorTarget" class="stz-select" onchange="cambiarSectorSimulador(this.value)">
+                      <option value="Oriente">Cuadrante Oriente (Foco Crítico)</option>
+                      <option value="Centro">Cuadrante Centro</option>
+                      <option value="Norte">Cuadrante Norte</option>
+                      <option value="Sur">Cuadrante Sur</option>
+                      <option value="Occidente">Cuadrante Occidente</option>
+                    </select>
+                    <button type="button" class="btn btn-sm btn-action" onclick="enfocarSectorDesdeSimulador()" title="Ver este despliegue geográficamente en el mapa táctico">🗺️ Ver en Cartografía</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CONTENEDOR MULTI-RECURSO: CONTROLES + MONITOR TÁCTICO CLARO -->
+              <div class="sim-multi-layout">
+                <!-- Columna Izquierda: Asignación de Recursos -->
+                <div class="sim-units-col">
+                  <!-- Control Patrulleros -->
+                  <div class="sim-unit-card">
+                    <div class="unit-card-header">
+                      <div class="unit-info">
+                        <span class="unit-icon">🚔</span>
+                        <div>
+                          <span class="unit-name">Patrullas Móviles</span>
+                          <span class="unit-role">Cobertura perimetral y transporte de detenidos</span>
+                        </div>
+                      </div>
+                      <span class="unit-count-badge" id="badgePatrullas">3 móviles</span>
+                    </div>
+                    <input type="range" class="unit-slider slider-patrullas" id="simPatrullas" min="0" max="8" step="1" value="3" oninput="actualizarSimulacionMulti()" />
+                  </div>
+
+                  <!-- Control Motorizados -->
+                  <div class="sim-unit-card">
+                    <div class="unit-card-header">
+                      <div class="unit-info">
+                        <span class="unit-icon">🏍️</span>
+                        <div>
+                          <span class="unit-name">Unidades Motorizadas (Águilas)</span>
+                          <span class="unit-role">Intercepción rápida en callejones &lt; 3.5 min</span>
+                        </div>
+                      </div>
+                      <span class="unit-count-badge badge-motos" id="badgeMotos">4 motos</span>
+                    </div>
+                    <input type="range" class="unit-slider slider-motos" id="simMotos" min="0" max="12" step="1" value="4" oninput="actualizarSimulacionMulti()" />
+                  </div>
+
+                  <!-- Control Oficiales a Pie -->
+                  <div class="sim-unit-card">
+                    <div class="unit-card-header">
+                      <div class="unit-info">
+                        <span class="unit-icon">👮‍♂️</span>
+                        <div>
+                          <span class="unit-name">Binomios de Infantería (A Pie)</span>
+                          <span class="unit-role">Disuasión en aceras, comercios y paradas</span>
+                        </div>
+                      </div>
+                      <span class="unit-count-badge badge-pie" id="badgeOficialesPie">6 oficiales</span>
+                    </div>
+                    <input type="range" class="unit-slider slider-pie" id="simOficialesPie" min="0" max="16" step="2" value="6" oninput="actualizarSimulacionMulti()" />
+                  </div>
+
+                  <!-- Toggles de Medidas Complementarias -->
+                  <div class="sim-actions-grid">
+                    <button type="button" class="sim-action-btn active" id="simBtnReten" onclick="toggleSimAction('reten')">
+                      <span class="sim-act-icon">🛑</span>
+                      <span class="sim-act-text">Retén Nocturno (+14%)</span>
+                    </button>
+                    <button type="button" class="sim-action-btn active" id="simBtnCamaras" onclick="toggleSimAction('camaras')">
+                      <span class="sim-act-icon">📡</span>
+                      <span class="sim-act-text">Drones / Cámaras (+10%)</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Columna Derecha: Monitor Táctico de Despliegue en Calles (Mini-Mapa Real) -->
+                <div class="sim-radar-col">
+                  <div class="sector-monitor-box">
+                    <div class="monitor-header">
+                      <div>
+                        <span class="monitor-title" id="monTitle">DISTRIBUCIÓN TÁCTICA: CUADRANTE ORIENTE</span>
+                        <span class="monitor-sub">Esquema georreferenciado de unidades sobre calles y avenidas</span>
+                      </div>
+                      <span class="monitor-live-tag" id="monLiveTag">DESPLIEGUE EN CALLE</span>
+                    </div>
+                    <div class="monitor-map-wrap">
+                      <div id="simMiniMap" class="sim-mini-map"></div>
+                    </div>
+                    <div class="monitor-summary" id="monSummaryText">
+                      🚔 3 Móviles &middot; 🏍️ 4 Motos &middot; 👮 6 Infantería en Cuadrante Oriente
+                    </div>
+                    <div class="monitor-legend-light">
+                      <span><span class="m-dot m-blue"></span> 🚔 Móviles (<strong id="monLegPatrullas">3</strong>)</span>
+                      <span><span class="m-dot m-amber"></span> 🏍️ Motos (<strong id="monLegMotos">4</strong>)</span>
+                      <span><span class="m-dot m-green"></span> 👮 Infantería (<strong id="monLegPie">6</strong>)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Resultados de Telemetría Operacional del Despliegue -->
+              <div class="sim-telemetry-grid">
+                <div class="sim-tel-card">
+                  <span class="tel-label">⏱️ Tiempo Estimado de Respuesta</span>
+                  <span class="tel-value" id="simTiempoRespuesta">3.4 min</span>
+                  <div class="tel-progress-bar">
+                    <div class="tel-progress-fill" id="simProgresoRespuesta" style="width: 82%;"></div>
+                  </div>
+                  <span class="tel-sub">Reducido desde 14.5 min base</span>
+                </div>
+
+                <div class="sim-tel-card">
+                  <span class="tel-label">🛡️ Cobertura Territorial</span>
+                  <span class="tel-value" id="simCoberturaPct">86%</span>
+                  <div class="tel-progress-bar">
+                    <div class="tel-progress-fill" id="simProgresoCobertura" style="width: 86%; background: #3b82f6;"></div>
+                  </div>
+                  <span class="tel-sub">Saturación disuasiva activa</span>
+                </div>
+
+                <div class="sim-tel-card">
+                  <span class="tel-label">📉 Reducción del Índice Delictivo</span>
+                  <span class="tel-value text-success" id="simMitigacionVal">-54% de Riesgo</span>
+                  <span class="tel-sub" id="simCasosEvitadosVal">6 a 9 delitos prevenidos / mes</span>
+                </div>
+
+                <div class="sim-tel-card">
+                  <span class="tel-label">👥 Efectivos en Calle</span>
+                  <span class="tel-value" id="simTotalEfectivos">18 Oficiales</span>
+                  <span class="tel-sub" id="simDistribucionEfectivos">6 patrulleros · 4 motorizados · 6 a pie</span>
+                </div>
+              </div>
+
+            </div>
+
+          </section>
+
+
+        </div>
+
+        <div class="panel-layout-right">
+          <section class="card recs-card">
+            <div class="card-header">
+              <h2>Directivas Operativas de Intervenci&oacute;n</h2>
+            </div>
+            <ul class="recs-list" id="recsList"></ul>
+          </section>
+
+          <section class="card conclusions-card">
+            <div class="card-header">
+              <h2>Apreciaci&oacute;n de Inteligencia Criminal</h2>
+            </div>
+            <div class="conclusions-body" id="conclusionsText"></div>
+          </section>
+
+          <!-- SECCIÓN: DISTRIBUCIÓN ANALÍTICA DE DELITOS AJUSTADA AL ESPACIO LIBRE -->
+          <section class="card chart-card side-donut-card">
+            <div class="card-header">
+              <div>
+                <h2>Distribuci&oacute;n Anal&iacute;tica de Tipos de Delito</h2>
+                <span class="card-subtitle">Desglose por volumen, severidad y tasa de resoluci&oacute;n</span>
+              </div>
+              <span class="badge-prediction" id="badgeTotalDelitos">Total: -- casos</span>
+            </div>
+            <div class="donut-dashboard-layout">
+              <div class="donut-chart-col">
+                <div class="chart-container" style="height: 185px; width: 100%; max-width: 195px; position: relative; margin: 0 auto;">
+                  <canvas id="canvasDonut"></canvas>
+                </div>
+              </div>
+              <div class="donut-details-col" id="donutDetailsCol">
+                <!-- Información detallada y dinámica generada por main.js -->
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PESTAÑA 2: MAPA ── -->
+    <div class="tab-content" id="tab-mapa">
+      <div class="map-panel-layout">
+
+        <section class="card map-card">
+          <div class="card-header map-header-clean">
+            <div>
+              <h2>Cartograf&iacute;a Operativa de Cuadrantes</h2>
+              <span class="card-subtitle">Despliegue georreferenciado, an&aacute;lisis por franjas cr&iacute;ticas y predicci&oacute;n anticipada de delitos</span>
+            </div>
+
+            <div class="map-actions-group">
+              <button class="btn btn-sm btn-action-pulse" onclick="enfocarPrediccionMapa()" title="Centrar cámara en la zona con mayor probabilidad de incidencia">🎯 Enfocar Predicción</button>
+              <button class="btn btn-sm btn-secondary" id="btnToggleBannerMap" onclick="toggleBannerPrediccion()" title="Ocultar o desplegar el recuadro flotante de predicción">👁️ Ocultar Predicción</button>
+              <button class="btn btn-sm btn-action" onclick="enfocarFocoCritico()" title="Centrar en el cuadrante con mayor concentración delictiva">🚨 Punto Caliente</button>
+            </div>
+          </div>
+
+          <!-- BARRA DE FILTRADO POR HORAS CRÍTICAS -->
+          <div class="map-critical-hours-bar">
+            <div class="mch-header">
+              <span class="mch-tag">🕒 FILTRO DE HORAS CRÍTICAS:</span>
+              <span class="mch-active-label" id="mapFranjaActivaTexto">Todas las 24 Horas</span>
+            </div>
+            <div class="mch-chips">
+              <button class="mch-chip active" id="mch-todos" onclick="filtrarMapaFranja('todos')">🌐 Todas las 24h</button>
+              <button class="mch-chip chip-danger" id="mch-noche" onclick="filtrarMapaFranja('noche')">🚨 Noche Crítica (18–02h)</button>
+              <button class="mch-chip chip-warning" id="mch-madrugada" onclick="filtrarMapaFranja('madrugada')">🌙 Madrugada (02–06h)</button>
+              <button class="mch-chip chip-success" id="mch-manana" onclick="filtrarMapaFranja('manana')">☀️ Mañana Operativa (06–12h)</button>
+              <button class="mch-chip chip-primary" id="mch-tarde" onclick="filtrarMapaFranja('tarde')">🌆 Tarde Comercial (12–18h)</button>
+            </div>
+          </div>
+
+          <!-- Barra de Modos y Capas Cartográficas -->
+          <div class="map-subtoolbar">
+            <div class="map-subtoolbar-row1">
+              <div class="map-mode-selector">
+                <button class="map-mode-btn active" id="btnModeSectores" onclick="setMapMode('sectores')">Cuadrantes Policiales</button>
+                <button class="map-mode-btn" id="btnModeHeat" onclick="setMapMode('heat')">Mapa de Calor</button>
+                <button class="map-mode-btn" id="btnModeBoth" onclick="setMapMode('both')">Vista Combinada</button>
+              </div>
+
+              <!-- Selector de Estilo de Mapa -->
+              <div class="map-layer-selector">
+                <button class="map-tile-btn active" id="tileBtnTactical" onclick="cambiarCapaMapa('tactical')">🗺️ Táctico</button>
+                <button class="map-tile-btn" id="tileBtnSat" onclick="cambiarCapaMapa('satellite')">🛰️ Satelital</button>
+                <button class="map-tile-btn" id="tileBtnOsm" onclick="cambiarCapaMapa('osm')">🏙️ Calles</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contenedor del mapa con Overlay de Predicción Táctica -->
+          <div class="map-relative-wrapper">
+            <div id="mapaInteractivo" class="map-container"></div>
+            
+            <!-- BANNER FLOTANTE DE PREDICCIÓN TÁCTICA SOBRE EL MAPA -->
+            <div class="map-prediction-banner" id="mapPredictionBanner">
+              <button type="button" class="mpb-close-btn" onclick="toggleBannerPrediccion()" title="Ocultar este aviso para despejar el mapa">✕</button>
+              <div class="mpb-beacon" id="mpbBeacon">
+                <span class="mpb-ring" id="mpbRing"></span>
+                <span class="mpb-dot" id="mpbDot">🎯</span>
+              </div>
+              <div class="mpb-info">
+                <div class="mpb-top">
+                  <span class="mpb-badge" id="mpbProbBadge">PREDICCIÓN INMINENTE · 84% PROB.</span>
+                  <span class="mpb-cuadrante" id="mpbCuadrante">Cuadrante Oriente</span>
+                </div>
+                <div class="mpb-delito" id="mpbDelito">Posible Incidencia: Robo a Transeúnte / Mano Armada</div>
+                <div class="mpb-action" id="mpbAccion">
+                  ⚡ <strong>Respuesta Anticipada:</strong> Desplegar 2 patrullas y 3 motos en vías clave antes del horario crítico.
+                </div>
+              </div>
+              <button type="button" class="mpb-btn" onclick="enfocarPrediccionMapa()" title="Centrar cámara en el foco previsto">📍 Acudir al Foco</button>
+            </div>
+
+            <!-- Mini Botón para restaurar banner cuando esté cerrado -->
+            <button type="button" class="mpb-mini-pill" id="mpbMiniPill" onclick="toggleBannerPrediccion()" style="display:none;" title="Clic para desplegar predicción táctica">
+              <span class="mpb-mini-dot">🎯</span> Predicción Táctica (<span id="mpbMiniProb">84%</span>) ⤢
+            </button>
+
+            <!-- Leyenda vertical de Mapa de Calor -->
+            <div class="heat-scale-legend" id="heatScaleLegend">
+              <span class="heat-scale-title">Riesgo</span>
+              <span class="heat-scale-label high">Alto</span>
+              <div class="heat-scale-bar"></div>
+              <span class="heat-scale-label low">Bajo</span>
+            </div>
+          </div>
+
+          <div class="map-hint">🚔 Haz clic en un cuadrante del mapa o franja horaria para aislar sus partes policiales georreferenciados en la tabla inferior.</div>
+        </section>
+
+        <!-- Columna Derecha del Mapa: Inteligencia Geoespacial & Gráfica -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <!-- Tarjeta de Respuesta Anticipada y Predicción -->
+          <section class="card map-predictive-card" id="mapPredictiveCard">
+            <div class="card-header">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:20px;">🧠</span>
+                <h2>Inteligencia Geoespacial &amp; Respuesta Anticipada</h2>
+              </div>
+              <span class="badge-prediction" id="mapCardProbBadge">84% Certeza</span>
+            </div>
+            <div class="map-pred-body">
+              <div class="map-pred-item highlight-red" id="mapPredItemCard">
+                <span class="pred-label" id="mapPredLabelTag">Incidencia Pronosticada:</span>
+                <span class="pred-val-big" id="mapPredDelito">Robo con Violencia</span>
+                <span class="pred-sub" id="mapPredCuadrante">Foco proyectado en <strong>Cuadrante Oriente</strong></span>
+              </div>
+              <div class="map-pred-grid-metrics">
+                <div class="mp-metric">
+                  <span class="mpm-lbl">Franja Crítica</span>
+                  <span class="mpm-val" id="mapPredHorario">18:00 &ndash; 02:00h</span>
+                </div>
+                <div class="mp-metric">
+                  <span class="mpm-lbl">Nivel de Amenaza</span>
+                  <span class="mpm-val text-danger" id="mapPredRiesgo">CÓDIGO ROJO</span>
+                </div>
+                <div class="mp-metric">
+                  <span class="mpm-lbl">Fuerza Sugerida</span>
+                  <span class="mpm-val" id="mapPredEfectivos">3 Móviles + 4 Motos</span>
+                </div>
+              </div>
+              <div class="map-pred-action-box" id="mapPredActionBox">
+                <span class="pred-action-title" id="mapPredActionTitle">🚨 Maniobra Táctica de Anticipación:</span>
+                <p id="mapPredDirectiva">
+                  Desplegar cerco preventivo en arterias comerciales de Cuadrante Oriente para neutralizar la franja crítica y cerrar rutas de fuga antes del horario pico.
+                </p>
+                <button type="button" class="btn-activate-containment" id="btnActivateContainment" onclick="ejecutarRespuestaAnticipada()">
+                  ⚡ Despachar Unidades al Foco Previsto
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Gráfica de Cuadrantes en la Franja Horaria -->
+          <section class="card chart-card flex-1">
+            <div class="card-header">
+              <div>
+                <h2>Incidentes por Cuadrante</h2>
+                <span class="card-subtitle" id="barSubtitleFranja">Partes registrados en la franja horaria seleccionada</span>
+              </div>
+            </div>
+            <div class="chart-container map-chart">
+              <canvas id="canvasBar"></canvas>
+            </div>
+          </section>
+        </div>
+
+      </div>
+
+      <!-- MATRIZ TEMPORAL DE CONCENTRACIÓN (DÍA VS HORA) & TABLA DE PARTES POR ZONA -->
+      <section class="card temporal-card" style="margin-top:20px;">
+        <div class="card-header">
+          <div>
+            <h2>Matriz Temporal de Concentraci&oacute;n Delictiva (D&iacute;a &times; Franja Horaria)</h2>
+            <span class="card-subtitle" id="temporalMatrixSubtitle">An&aacute;lisis forense de patrones horarios. Haz clic en una celda para aislar los partes por ese momento delictivo.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span class="zone-active-pill" id="zoneActivePill">📍 Zona: Toda la Jurisdicción</span>
+            <button class="btn btn-sm btn-secondary" id="btnResetZoneMatrix" onclick="limpiarSeleccionZona()" style="display:none;">🌐 Ver Toda la Jurisdicción</button>
+            <button class="btn btn-sm btn-secondary" onclick="limpiarFiltroTemporal()">Restablecer Matriz</button>
+          </div>
+        </div>
+        <div class="temporal-matrix-wrapper" id="temporalMatrixWrapper">
+          <div class="temporal-matrix" id="temporalMatrix"></div>
+        </div>
+
+        <!-- REGISTRO DIRECTO DE PARTES POLICIALES DE LA ZONA / NIVEL SELECCIONADO -->
+        <div class="zone-incidents-section" id="zoneIncidentsSection" style="margin-top:22px; border-top:1px solid rgba(194, 209, 230, 0.5); padding-top:18px;">
+          <div class="zip-subbar">
+            <div class="zip-title-box">
+              <span class="zip-icon-pulse">📋</span>
+              <div>
+                <h3 class="zip-h3" id="zipHeadingTitle">Partes Policiales Registrados en: Toda la Jurisdicción</h3>
+                <span class="zip-subtext" id="zipHeadingSub">Vista global de denuncias. Selecciona un cuadrante del mapa para filtrar por zona.</span>
+              </div>
+            </div>
+            <div class="zip-ctrls">
+              <span class="counter-badge" id="zipBadgeCount">0 partes</span>
+              <input type="text" id="zipSearchInput" class="zip-search" placeholder="🔍 Buscar por delito, ID, fecha..." oninput="filtrarTablaZona(this.value)">
+            </div>
+          </div>
+
+          <div class="table-wrapper zip-table-wrapper" style="margin-top:12px; max-height:360px; overflow-y:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>N° Parte</th>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Tipificación del Delito</th>
+                  <th>Cuadrante</th>
+                  <th>Situación Judicial</th>
+                  <th style="text-align:center;">Acción Táctica</th>
+                </tr>
+              </thead>
+              <tbody id="zipTableBody">
+                <tr><td colspan="7" class="loading-state">Cargando partes del cuadrante...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ── PESTAÑA 3: DATOS ── -->
+    <div class="tab-content" id="tab-data">
+      <div class="data-panel-layout">
+
+        <!-- Tabla de Registros -->
+        <section class="card table-card">
+          <div class="card-header">
+            <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+              <h2>📋 Libro de Novedades Policiales</h2>
+              <div class="table-quick-tabs">
+                <button class="t-tab-btn active" id="ttab-todos" onclick="filtrarTablaEstado('todos')">Todos los Partes</button>
+                <button class="t-tab-btn" id="ttab-investigados" onclick="filtrarTablaEstado('Investigado')">Con Diligencias</button>
+                <button class="t-tab-btn" id="ttab-pendientes" onclick="filtrarTablaEstado('Pendiente')">Sin Diligencias</button>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span class="counter-badge" id="tableCount">0 partes</span>
+            </div>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th onclick="ordenarPor('id')" class="sortable-th">N° Parte <span id="sort-id" class="sort-icon">⇅</span></th>
+                  <th onclick="ordenarPor('fecha')" class="sortable-th">Fecha <span id="sort-fecha" class="sort-icon">⇅</span></th>
+                  <th onclick="ordenarPor('hora')" class="sortable-th">Hora <span id="sort-hora" class="sort-icon">⇅</span></th>
+                  <th onclick="ordenarPor('tipo')" class="sortable-th">Tipificaci&oacute;n del Delito <span id="sort-tipo" class="sort-icon">⇅</span></th>
+                  <th onclick="ordenarPor('sector')" class="sortable-th">Cuadrante <span id="sort-sector" class="sort-icon">⇅</span></th>
+                  <th onclick="ordenarPor('estado')" class="sortable-th">Situaci&oacute;n Judicial <span id="sort-estado" class="sort-icon">⇅</span></th>
+                </tr>
+              </thead>
+              <tbody id="tbodyIncidentes">
+                <tr><td colspan="6" class="loading-state">🚔 Aguardando carga de partes policiales...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       MODAL VENTANA EMERGENTE: ASISTENTE DE CARGA DE DATOS & GUÍA DEMO
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="modalUploadBackdrop" onclick="cerrarModalUpload(event)" style="display:none;">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      
+      <!-- Encabezado del Modal -->
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-icon-badge" style="background:#eff6ff; border-color:#93c5fd; color:#1d4ed8;">ℹ️</div>
+          <div>
+            <h3 class="modal-title">Información de Compatibilidad &amp; Integración de Datos</h3>
+            <span class="modal-subtitle">Directrices para alimentar el dashboard desde Excel, Google Sheets y bases de datos institucionales</span>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="cerrarModalUpload()" title="Cerrar ventana">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- AVISO INSTITUCIONAL DE INTEGRACIÓN Y CONTINUIDAD DE DATOS -->
+        <div class="modal-alert-institutional">
+          <div class="mai-icon">🛡️</div>
+          <div class="mai-content">
+            <strong class="mai-title">SISTEMA DE ALIMENTACIÓN E INTEGRACIÓN DIRECTA</strong>
+            <p class="mai-text">
+              Este dashboard es una plataforma analítica táctica diseñada para alimentarse e integrarse de manera continua con los registros y sistemas que su institución u organización ya utiliza. <strong>No requiere transcripciones manuales ni volver a ingresar datos desde cero</strong>, permitiendo conservar intactos meses o años de partes policiales acumulados mediante procesos estandarizados de sincronización.
+            </p>
+          </div>
+        </div>
+
+        <!-- FORMATOS COMPATIBLES ADMITIDOS -->
+        <div class="modal-section">
+          <h4 class="modal-section-title">📁 Formatos Compatibles y Fuentes de Alimentación Admitidas</h4>
+          <div class="modal-formats-grid">
+            <div class="format-card">
+              <span class="fmt-badge fmt-xlsx">.XLSX</span>
+              <div class="fmt-info">
+                <strong>Microsoft Excel Moderno</strong>
+                <span>Libros de cálculo Excel 2007 en adelante</span>
+              </div>
+            </div>
+            <div class="format-card">
+              <span class="fmt-badge fmt-gsheets">Google Sheets</span>
+              <div class="fmt-info">
+                <strong>Hojas de Google en la Nube</strong>
+                <span>Sincronización en vivo mediante enlace web o API de Drive</span>
+              </div>
+            </div>
+            <div class="format-card">
+              <span class="fmt-badge fmt-csv">.CSV / .TSV</span>
+              <div class="fmt-info">
+                <strong>Valores Delimitados</strong>
+                <span>Archivos planos exportables desde cualquier base de datos SQL</span>
+              </div>
+            </div>
+            <div class="format-card">
+              <span class="fmt-badge fmt-xls">.XLS</span>
+              <div class="fmt-info">
+                <strong>Excel Heredado (97–2003)</strong>
+                <span>Hojas de cálculo binarias de registros anteriores</span>
+              </div>
+            </div>
+            <div class="format-card">
+              <span class="fmt-badge fmt-ods">.ODS</span>
+              <div class="fmt-info">
+                <strong>OpenDocument Spreadsheet</strong>
+                <span>Estándar abierto compatible con LibreOffice y suites libres</span>
+              </div>
+            </div>
+            <div class="format-card">
+              <span class="fmt-badge fmt-json">JSON / API CAD</span>
+              <div class="fmt-info">
+                <strong>Servicios Web &amp; Despacho</strong>
+                <span>Integración mediante endpoints REST y sistemas de emergencia</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GUÍA DE MIGRACIÓN Y CONTINUIDAD HISTÓRICA -->
+        <div class="modal-section">
+          <h4 class="modal-section-title">💡 ¿Cómo Integrar sus Datos Históricos sin Perder Información ni Transcribir Manualmente?</h4>
+          <div class="modal-integration-guide">
+            <div class="mig-item">
+              <span class="mig-badge">1</span>
+              <div class="mig-content">
+                <strong>Mapeo Automático de Columnas (Sin alterar su estructura previa)</strong>
+                <p>No es necesario reestructurar ni cambiar el orden de sus tablas históricas. Basta con que sus archivos incluyan los campos fundamentales de un parte: <code>Fecha</code>, <code>Hora</code>, <code>Delito / Evento</code>, <code>Cuadrante / Sector</code> y <code>Situación Judicial</code>. El motor analítico identifica las columnas automáticamente.</p>
+              </div>
+            </div>
+            <div class="mig-item">
+              <span class="mig-badge">2</span>
+              <div class="mig-content">
+                <strong>Vinculación Directa con Google Sheets (En Tiempo Real)</strong>
+                <p>Si el personal de guardia o los analistas ya registran novedades en Google Sheets día a día, la plataforma puede enlazarse a la hoja compartida. Cada nuevo parte ingresado se proyecta de manera automática en la cartografía y en la proyección de patrullas sin tener que subir archivos recurrentemente.</p>
+              </div>
+            </div>
+            <div class="mig-item">
+              <span class="mig-badge">3</span>
+              <div class="mig-content">
+                <strong>Ingesta Masiva de Años de Registros en Segundos</strong>
+                <p>Permite procesar miles de registros históricos de una sola vez, consolidando la serie temporal para calcular matrices de riesgo por hora y día, detectar patrones reiterativos y calibrar el algoritmo táctico con toda la evidencia previa de su jurisdicción.</p>
+              </div>
+            </div>
+            <div class="mig-item">
+              <span class="mig-badge">4</span>
+              <div class="mig-content">
+                <strong>Seguridad y Confidencialidad de la Información</strong>
+                <p>Todo el análisis y visualización se ejecuta dentro del entorno local de la institución, garantizando la estricta protección de datos personales o confidenciales.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pie del Modal -->
+      <div class="modal-footer" style="justify-content: flex-end;">
+        <button type="button" class="btn btn-primary" onclick="cerrarModalUpload()">Entendido / Cerrar</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       MODAL VENTANA EMERGENTE: DECLARACIÓN Y ESPECIFICACIÓN DE DATOS DE MUESTRA
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="modalDemoDataBackdrop" onclick="cerrarModalDatosPrueba(event)" style="display:none;">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      
+      <!-- Encabezado del Modal -->
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-icon-badge" style="background:#fef3c7; border-color:#fde68a; color:#b45309;">📋</div>
+          <div>
+            <h3 class="modal-title">Aviso de Información de Muestra y Carácter Demostrativo</h3>
+            <span class="modal-subtitle">Especificación técnica sobre el entorno simulado</span>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="cerrarModalDatosPrueba()" title="Cerrar ventana">✕</button>
+      </div>
+
+      <div class="modal-body">
+        
+        <!-- AVISO PRINCIPAL DE DATOS FICTICIOS / SINTÉTICOS -->
+        <div class="modal-alert-demo-statement">
+          <div class="mads-icon">⚖️</div>
+          <div class="mads-content">
+            <strong class="mads-title">ENTORNO ESTRICTAMENTE DEMOSTRATIVO &middot; SIN DATOS REALES</strong>
+            <p class="mads-text">
+              Los partes policiales, ubicaciones geográficas, tipificaciones, horarios y estadísticas visualizados en este dashboard corresponden <strong>exclusivamente a datos ficticios generados de manera sintética con propósitos ilustrativos y de demostración técnica</strong>.
+            </p>
+          </div>
+        </div>
+
+        <!-- TARJETAS DE ACLARACIÓN TÉCNICA -->
+        <div class="demo-notice-grid">
+          
+          <div class="demo-notice-card">
+            <div class="dnc-header">
+              <span class="dnc-icon">🔒</span>
+              <strong>Protección y Confidencialidad de Información</strong>
+            </div>
+            <p>
+              Este sistema no almacena ni expone información sensible, partes en curso, identidades de personas ni registros verídicos de intervenciones.
+            </p>
+          </div>
+
+          <div class="demo-notice-card">
+            <div class="dnc-header">
+              <span class="dnc-icon">🔬</span>
+              <strong>Propósito del Conjunto Sintético</strong>
+            </div>
+            <p>
+              Los registros han sido estructurados para demostrar la capacidad del motor predictivo, la generación de mapas de calor, el cálculo de matrices de riesgo horario y el funcionamiento de la simulación táctica de patrullas.
+            </p>
+          </div>
+
+          <div class="demo-notice-card">
+            <div class="dnc-header">
+              <span class="dnc-icon">📍</span>
+              <strong>Puntos Cartográficos Desvinculados</strong>
+            </div>
+            <p>
+              Las coordenadas empleadas corresponden a polígonos referenciales desvinculados de hechos delictivos verídicos. No representan niveles de peligrosidad ni antecedentes reales de las zonas geográficas exhibidas.
+            </p>
+          </div>
+
+          <div class="demo-notice-card">
+            <div class="dnc-header">
+              <span class="dnc-icon">🔄</span>
+              <strong>Restablecimiento y Evaluación</strong>
+            </div>
+            <p>
+              Puede reiniciar el set de prueba en cualquier momento para evaluar el comportamiento del sistema ante diferentes filtros, cuadrantes y escenarios tácticos sin alterar ninguna base de datos institucional.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Pie del Modal -->
+      <div class="modal-footer" style="display:flex; justify-content:space-between; align-items:center;">
+        <button type="button" class="btn btn-secondary" onclick="ejecutarRecargaDatosPrueba()" style="display:flex; align-items:center; gap:8px;">
+          <span>🔄</span> Recargar Datos de Muestra
+        </button>
+        <button type="button" class="btn btn-primary" onclick="cerrarModalDatosPrueba()">Entendido / Cerrar</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Contenedor Toast de Notificaciones -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <footer class="footer">
+    <p>🛡️ ACTG &middot; Sistema Policial de Inteligencia y Control Criminal &middot; Plataforma T&aacute;ctica v5.0 &middot; USO OFICIAL RESTRINGIDO</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

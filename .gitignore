@@ -1,0 +1,24 @@
+﻿# Node binaries y modulos
+node-v24.15.0-win-x64/
+node_modules/
+PredicciondeEventos/node_modules/
+AreadeVentas/node_modules/
+
+# Archivos de arranque local (no necesarios en nube)
+*.bat
+
+# Logs y archivos temporales
+*.log
+npm-debug.log*
+
+# Variables de entorno
+.env
+.env.local
+
+# Carpeta Antigravity / IDE
+.gemini/
+
+# Sistema operativo
+Thumbs.db
+.DS_Store
+desktop.ini
