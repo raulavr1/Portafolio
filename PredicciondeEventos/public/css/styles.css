@@ -5388,3 +5388,86 @@ html.modal-open {
   }
 }
 
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE COMPLETO — NAVBAR, FILTROS & PRESETS
+   Cubre: laptop, tablet, movil horizontal, movil, ultra-movil
+══════════════════════════════════════════════════════════════ */
+
+/* Laptops medianos (<=1200px) */
+@media (max-width: 1200px) {
+  .navbar {
+    padding: 0 20px;
+    gap: 14px;
+    height: auto;
+    min-height: 68px;
+    flex-wrap: wrap;
+  }
+  .nav-brand h1 { font-size: 17px; }
+  .nav-tabs-wheel-wrapper { flex: 1; min-width: 0; }
+  .nav-actions { flex-shrink: 0; gap: 6px; }
+  .btn-info-modal, .btn-demo-data { font-size: 12px; padding: 7px 11px; }
+  .filter-strip { padding: 8px 20px; }
+  .preset-bar { padding: 8px 20px; }
+}
+
+/* Tablet grande (<=960px) */
+@media (max-width: 960px) {
+  .navbar {
+    padding: 10px 16px;
+    height: auto;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .nav-brand { width: 100%; }
+  .nav-brand h1 { font-size: 15px; white-space: normal; }
+  .brand-subtitle { font-size: 11px; }
+  .nav-tabs-wheel-wrapper { width: 100%; order: 2; }
+  .nav-actions {
+    width: 100%;
+    order: 3;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .btn-info-modal, .btn-demo-data {
+    flex: 1;
+    justify-content: center;
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+  .filter-strip { padding: 8px 16px; min-height: auto; }
+  .filters { flex-wrap: wrap; gap: 8px; }
+  .filter-group { flex: 1 1 45%; min-width: 140px; }
+  .filter-group select, .filter-group input { width: 100%; box-sizing: border-box; }
+  .filter-sep { display: none; }
+  .preset-bar { padding: 8px 16px; }
+  .preset-bar-inner { gap: 8px; }
+  .preset-chips { flex-wrap: wrap; }
+  .preset-chip { font-size: 11px; padding: 5px 10px; }
+}
+
+/* Tablet pequena / movil horizontal (<=768px) */
+@media (max-width: 768px) {
+  .navbar { padding: 8px 12px; gap: 8px; }
+  .nav-brand h1 { font-size: 13.5px; }
+  .brand-icon svg { width: 34px; height: 34px; }
+  .tab-btn { font-size: 11.5px; padding: 6px 12px; }
+  .tab-btn .tab-icon { font-size: 12px; }
+  .filter-group { flex: 1 1 100%; }
+  .filter-group.search { flex: 1 1 100%; }
+  .preset-label { font-size: 10px; }
+  .preset-chip { font-size: 10.5px; padding: 4px 9px; }
+}
+
+/* Movil (<=540px) */
+@media (max-width: 540px) {
+  .navbar { padding: 8px 10px; }
+  .nav-brand h1 { font-size: 12.5px; }
+  .brand-subtitle { display: none; }
+  .telemetry-badge { font-size: 10px; }
+  .btn-info-modal, .btn-demo-data { padding: 7px; flex: 0 0 auto; }
+  .filter-strip { padding: 6px 10px; }
+  .preset-bar { padding: 6px 10px; }
+  .preset-chip { font-size: 10px; padding: 4px 8px; }
+}
