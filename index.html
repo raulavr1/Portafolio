@@ -469,6 +469,38 @@
               <i class="ph ph-info"></i> Ficha
             </button>
           </div>
+      <!-- TARJETA 3: Farmacia Clínica Hospitalaria -->
+      <article class="showcase-card" style="--card-accent:#0d9488; --card-accent-border:rgba(13,148,136,0.5); --card-accent-glow:rgba(13,148,136,0.2);">
+        <div class="card-preview-banner clinico">
+          <span class="banner-badge live" style="background:rgba(13,148,136,0.25); border:1px solid rgba(13,148,136,0.4); color:#2dd4bf;">
+            <span class="pulse-dot" style="background:#2dd4bf;"></span> 100% Autónomo
+          </span>
+          <div class="banner-hero-icon" style="color: #2dd4bf;">
+            <i class="ph-duotone ph-first-aid"></i>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-category">Salud &amp; Gestión Hospitalaria</span>
+          <h4 class="card-title">Farmacia Clínica &middot; Dashboard de Control &amp; Abastecimiento</h4>
+          <p class="card-desc">
+            Sistema integral de trazabilidad farmacéutica con monitoreo de stock crítico, semáforo de vencimiento de lotes, registro de salidas por áreas asistenciales (UCI, Quirófano, Emergencia) y auditorías de cambio de guardia.
+          </p>
+
+          <div class="feature-chips">
+            <span class="chip"><i class="ph ph-shield-check"></i> Alertas de stock crítico</span>
+            <span class="chip"><i class="ph ph-calendar-check"></i> Semáforo de vencimiento de lotes</span>
+            <span class="chip"><i class="ph ph-arrows-left-right"></i> Salidas a UCI y Quirófano</span>
+            <span class="chip"><i class="ph ph-clipboard-text"></i> Auditorías de guardia</span>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="window.open('DashboardClinico/dist/index.html', '_blank')" title="Abrir dashboard en pantalla completa" style="background: linear-gradient(135deg, #0d9488, #14b8a6); box-shadow: 0 4px 14px rgba(13,148,136,0.35);">
+              <i class="ph-bold ph-arrow-square-out"></i> Abrir Dashboard
+            </button>
+            <button class="btn btn-secondary" onclick="openTechModal('clinico')" title="Ver Ficha Técnica">
+              <i class="ph ph-info"></i> Ficha
+            </button>
+          </div>
         </div>
       </article>
 
@@ -503,6 +535,10 @@
           <button class="tab-btn" data-project="prediccion" onclick="selectProject('prediccion', false)">
             <i class="ph ph-shield-warning"></i>
             <span>ACTG Predicción Táctica</span>
+          </button>
+          <button class="tab-btn" data-project="clinico" onclick="selectProject('clinico', false)">
+            <i class="ph ph-first-aid"></i>
+            <span>Farmacia Clínica</span>
           </button>
         </div>
 

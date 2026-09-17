@@ -57,6 +57,33 @@ const PROJECTS = {
       'Filtre, analice y exporte incidentes por zona, fecha y tipo desde un panel centralizado sin necesidad de conocimientos técnicos.',
       'Carga sus propios datos desde Excel o CSV y el sistema los organiza automáticamente en el mapa y los paneles analíticos.'
     ]
+  },
+  clinico: {
+    id: 'clinico',
+    title: 'Farmacia Clínica — Dashboard de Control & Gestión Farmacéutica Hospitalaria',
+    shortName: 'Farmacia Clínica',
+    category: 'Salud & Gestión Hospitalaria',
+    icon: 'ph-first-aid',
+    badge: '100% Autónomo',
+    directUrl: 'DashboardClinico/dist/index.html',
+    serverUrl: 'http://localhost:5188',
+    currentMode: 'direct',
+    port: 5188,
+    requiresServer: false,
+    description: 'Sistema integral de gestión farmacéutica y abastecimiento hospitalario con monitoreo de stock crítico en tiempo real, trazabilidad de lotes con semáforo de vencimiento, registro de salidas por áreas asistenciales (UCI, Quirófano, Emergencia) y auditorías sistemáticas de relevo de guardia.',
+    techStack: ['Monitoreo de stock crítico en tiempo real', 'Semáforo de vencimiento de lotes', 'Trazabilidad de salidas por área médica', 'Auditorías de turnos y relevo de guardia', 'Gestión de solicitudes de reposición', 'Exportación de reportes analíticos'],
+    metrics: {
+      'Seguridad asistencial': 'Alertas de stock crítico',
+      'Trazabilidad': 'Lotes y fechas de caducidad',
+      'Despacho médico': 'UCI, Emergencias, Quirófano',
+      'Control operativo': 'Auditorías de guardia'
+    },
+    keyFeatures: [
+      'Monitorea el inventario de medicamentos e insumos médicos con alertas visuales inmediatas cuando un producto llega a su umbral crítico.',
+      'Control riguroso de fechas de caducidad y números de lote para evitar pérdidas y garantizar la seguridad farmacológica de los pacientes.',
+      'Registro instantáneo de movimientos y salidas vinculados al área médica de destino (UCI, Quirófano, Consultorios) y responsable de turno.',
+      'Auditoría y cierre de relevo de guardia sistematizado para un traspaso de turno transparente y sin discrepancias en stock.'
+    ]
   }
 };
 

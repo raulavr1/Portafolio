@@ -439,6 +439,10 @@ body {
   background: radial-gradient(circle at center, rgba(88, 28, 135, 0.45), #060b18);
 }
 
+.card-preview-banner.clinico {
+  background: radial-gradient(circle at center, rgba(13, 148, 136, 0.5), #060b18);
+}
+
 .banner-badge {
   position: absolute;
   top: 1rem;

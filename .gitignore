@@ -1,8 +1,12 @@
-﻿# Node binaries y modulos
+# Node binaries y modulos
 node-v24.15.0-win-x64/
 node_modules/
 PredicciondeEventos/node_modules/
 AreadeVentas/node_modules/
+DashboardClinico/node_modules/
+
+# Archivos multimedia pesados (no necesarios para ejecucion web)
+*.mp4
 
 # Archivos de arranque local (no necesarios en nube)
 *.bat
