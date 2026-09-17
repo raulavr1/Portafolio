@@ -379,8 +379,9 @@ body {
 
 .showcase-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(3, minmax(320px, 1fr));
+  gap: 1.75rem;
+  width: 100%;
 }
 
 .showcase-card {
@@ -1420,6 +1421,17 @@ body {
   }
   .plan-card.featured:hover {
     transform: translateY(-4px);
+  }
+  /* Showcase en mobile: 1 columna */
+  .showcase-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tablet: 2 columnas */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .showcase-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
