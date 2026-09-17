@@ -175,13 +175,13 @@ export default function Sidebar({ activeTab, setActiveTab, lowStockCount, irregu
       </aside>
 
       {/* ── MOBILE BOTTOM NAVIGATION RAIL CON DESPLAZADOR COMPLETO ──────────────── */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 p-2 shadow-2xl">
-        <div className="relative flex items-center">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 p-1.5 sm:p-2 shadow-2xl">
+        <div className="flex items-center gap-1.5 w-full">
           {/* Botón desplazador izquierdo */}
           {canScrollLeft && (
             <button
               onClick={() => scrollByAmount(-180)}
-              className="absolute left-0 z-20 w-8 h-8 rounded-full bg-white dark:bg-slate-800 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-slate-700 shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all"
+              className="shrink-0 w-8 h-8 rounded-full bg-teal-50 dark:bg-slate-800 text-teal-700 dark:text-teal-300 border border-teal-300 dark:border-slate-700 shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all"
               title="Desplazar a la izquierda"
               aria-label="Anterior"
             >
@@ -198,12 +198,12 @@ export default function Sidebar({ activeTab, setActiveTab, lowStockCount, irregu
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUpOrLeave}
             onMouseLeave={handleMouseUpOrLeave}
-            className={`w-full overflow-x-auto select-none py-1 px-1 custom-scrollbar-thin ${
+            className={`flex-1 min-w-0 overflow-x-auto select-none py-1 custom-scrollbar-thin ${
               isDragging ? 'cursor-grabbing' : 'cursor-grab'
             }`}
             style={{ scrollBehavior: isDragging ? 'auto' : 'smooth' }}
           >
-            <div className="flex items-center gap-2 min-w-max px-2">
+            <div className="flex items-center gap-2 min-w-max px-1">
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
@@ -215,7 +215,7 @@ export default function Sidebar({ activeTab, setActiveTab, lowStockCount, irregu
                         setActiveTab(item.id);
                       }
                     }}
-                    className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all shrink-0 border select-none ${
+                    className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all shrink-0 border select-none ${
                       isActive
                         ? 'bg-teal-600 text-white border-teal-600 shadow-md shadow-teal-600/30 ring-2 ring-teal-400/20'
                         : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-700'
@@ -238,7 +238,7 @@ export default function Sidebar({ activeTab, setActiveTab, lowStockCount, irregu
           {canScrollRight && (
             <button
               onClick={() => scrollByAmount(180)}
-              className="absolute right-0 z-20 w-8 h-8 rounded-full bg-white dark:bg-slate-800 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-slate-700 shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all"
+              className="shrink-0 w-8 h-8 rounded-full bg-teal-50 dark:bg-slate-800 text-teal-700 dark:text-teal-300 border border-teal-300 dark:border-slate-700 shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all"
               title="Desplazar a la derecha"
               aria-label="Siguiente"
             >
