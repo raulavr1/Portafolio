@@ -381,7 +381,7 @@ function openCotizacionModal(selectedScope = 'Diagnóstico y Prototipo de Datos'
     </form>
   `;
 
-  modalOverlay.classList.add('open');
+  _openModal();
 }
 
 // Alias de retrocompatibilidad
@@ -490,11 +490,29 @@ function openTechModal(projectId) {
     </div>
   `;
 
-  modalOverlay.classList.add('open');
+  _openModal();
 }
 
 function closeTechModal() {
   if (modalOverlay) modalOverlay.classList.remove('open');
+  // Unlock body scroll without layout shift
+  const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+  document.documentElement.style.removeProperty('overflow');
+  document.documentElement.style.removeProperty('padding-right');
+  if (sandboxWrapper) sandboxWrapper.style.removeProperty('padding-right');
+}
+
+// Helper to open overlay with scroll lock
+function _openModal() {
+  // Measure scrollbar before locking to prevent layout shift
+  const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+  document.documentElement.style.overflow = 'hidden';
+  if (scrollbarWidth > 0) {
+    document.documentElement.style.paddingRight = scrollbarWidth + 'px';
+    // Also compensate the sandbox wrapper if visible
+    if (sandboxWrapper) sandboxWrapper.style.paddingRight = scrollbarWidth + 'px';
+  }
+  modalOverlay.classList.add('open');
 }
 
 // Cerrar modal al hacer clic en el backdrop
