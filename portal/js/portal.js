@@ -301,55 +301,78 @@ function toggleFullscreen() {
   }
 }
 
-// Modal de Solicitud de Prototipo Gratuito / Plan
-function openPrototipoModal(selectedPlan = 'Dashboard Compartido (S/. 440)') {
+// Modal de Solicitud de Cotización & Diagnóstico de Datos (Efecto Consultor)
+function openCotizacionModal(selectedScope = 'Diagnóstico y Prototipo de Datos') {
   if (!modalContent || !modalOverlay) return;
 
   modalContent.innerHTML = `
     <div class="modal-header">
-      <div class="modal-badge">Fase 1: Diagnóstico &amp; Prototipo</div>
-      <h2 class="modal-title">Solicitar Prototipo Gratuito de Dashboard</h2>
+      <div class="modal-badge">Consultoría &amp; Diagnóstico Estratégico</div>
+      <h2 class="modal-title">Solicitar Diagnóstico de Datos y Cotización a Medida</h2>
     </div>
 
     <p style="color:var(--text-secondary); margin-bottom:1.5rem; line-height:1.6;">
-      Inicie la transformación digital de sus datos sin compromiso financiero. Evaluamos sus KPIs esenciales y construimos un prototipo interactivo adaptado a sus planillas Excel (.xlsx, .csv) o Google Sheets.
+      Inicie la optimización de sus operaciones sin compromiso financiero previo. Evaluamos sus flujos de trabajo actuales, planillas Excel o Google Sheets, identificamos cuántas horas semanales puede ahorrar su equipo y le entregamos una propuesta personalizada.
     </p>
 
     <div class="guarantee-strip" style="margin-top:0; margin-bottom:1.5rem;">
       <i class="ph-bold ph-shield-check guarantee-icon"></i>
       <div class="guarantee-text">
-        <strong>Confidencialidad Garantizada:</strong> Sus datos están 100% protegidos bajo acuerdo estricto de privacidad empresarial.
+        <strong>Confidencialidad Garantizada:</strong> Su información operativa y comercial se evalúa bajo estricto acuerdo de privacidad profesional.
       </div>
     </div>
 
-    <form class="proto-form" onsubmit="submitPrototipoForm(event)">
+    <form class="proto-form" onsubmit="submitCotizacionForm(event)">
       <div class="form-group">
-        <label>Nombre de la Empresa o Proyecto</label>
-        <input type="text" id="protoEmpresa" class="form-control" placeholder="Ej. Corporación Comercial SAC" required />
+        <label>Nombre de su Empresa o Negocio</label>
+        <input type="text" id="cotiEmpresa" class="form-control" placeholder="Ej. Inversiones &amp; Retail del Norte SAC" required />
       </div>
 
       <div class="form-group">
-        <label>Plan de Interés</label>
-        <select id="protoPlan" class="form-control">
-          <option value="Dashboard Local (S/. 220)" ${selectedPlan.includes('220') ? 'selected' : ''}>Dashboard Local — S/. 220 (Despliegue en PC, 1 Clic)</option>
-          <option value="Dashboard Compartido (S/. 440)" ${selectedPlan.includes('440') ? 'selected' : ''}>Dashboard Compartido — S/. 440 (Red Local + Responsive)</option>
-          <option value="Dashboard Profesional (S/. 880)" ${selectedPlan.includes('880') ? 'selected' : ''}>Dashboard Profesional — S/. 880 (Cloud 24/7 + Roles)</option>
+        <label>Tipo de Solución / Alcance Estimado</label>
+        <select id="cotiAlcance" class="form-control">
+          <option value="Dashboard Operativo Local" ${selectedScope.includes('Local') ? 'selected' : ''}>Dashboard Operativo Local (Automatización en PC, Cero Cuotas)</option>
+          <option value="Suite Analítica Multiusuario" ${selectedScope.includes('Multiusuario') || selectedScope.includes('Compartido') ? 'selected' : ''}>Suite Analítica Multiusuario (Red Interna + Responsive Móvil)</option>
+          <option value="Plataforma Cloud &amp; BI Empresarial" ${selectedScope.includes('Cloud') || selectedScope.includes('Profesional') ? 'selected' : ''}>Plataforma Cloud &amp; BI Empresarial (Acceso 24/7 + Roles + Respaldo)</option>
+          <option value="Diagnóstico General de Datos" ${(!selectedScope.includes('Local') && !selectedScope.includes('Multiusuario') && !selectedScope.includes('Cloud') && !selectedScope.includes('Compartido') && !selectedScope.includes('Profesional')) ? 'selected' : ''}>Diagnóstico General de Datos (Asesoría y Recomendación)</option>
         </select>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+        <div class="form-group">
+          <label>Herramientas que usan hoy</label>
+          <select id="cotiHerramientas" class="form-control">
+            <option value="Excel manual / Hojas de cálculo">Excel manual / Hojas de cálculo</option>
+            <option value="Google Sheets compartido">Google Sheets compartido</option>
+            <option value="ERP básico / Sistema cerrado">ERP básico / Sistema cerrado</option>
+            <option value="Cuadernos / Múltiples formatos">Múltiples formatos dispersos</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Meta Principal</label>
+          <select id="cotiMeta" class="form-control">
+            <option value="Ahorrar horas de trabajo manual">Ahorrar horas de trabajo manual</option>
+            <option value="Evitar errores en stock y facturación">Evitar errores en stock y facturación</option>
+            <option value="Monitorear ventas y metas en tiempo real">Monitorear ventas y metas en tiempo real</option>
+            <option value="Reportes ejecutivos para gerencia">Reportes ejecutivos para gerencia</option>
+          </select>
+        </div>
       </div>
 
       <div class="form-group">
         <label>Teléfono / WhatsApp de Contacto</label>
-        <input type="text" id="protoTelefono" class="form-control" placeholder="Ej. +51 999 888 777" required />
+        <input type="text" id="cotiTelefono" class="form-control" placeholder="Ej. +51 999 888 777" required />
       </div>
 
       <div class="form-group">
-        <label>Correo Electrónico para Permisos y Enlace Temporal</label>
-        <input type="email" id="protoCorreo" class="form-control" placeholder="gerencia@empresa.com" required />
+        <label>Correo Electrónico Corporativo</label>
+        <input type="email" id="cotiCorreo" class="form-control" placeholder="gerencia@empresa.com" required />
       </div>
 
       <div style="margin-top:1.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
         <button type="submit" class="btn btn-primary" style="flex:2;">
-          <i class="ph-bold ph-paper-plane-tilt"></i> Enviar Solicitud de Prototipo Gratuito
+          <i class="ph-bold ph-paper-plane-tilt"></i> Solicitar Diagnóstico y Cotización
         </button>
         <button type="button" class="btn btn-secondary" onclick="closeTechModal()" style="flex:1;">
           Cerrar
@@ -361,28 +384,41 @@ function openPrototipoModal(selectedPlan = 'Dashboard Compartido (S/. 440)') {
   modalOverlay.classList.add('open');
 }
 
-function submitPrototipoForm(e) {
-  e.preventDefault();
-  const empresa = document.getElementById('protoEmpresa').value;
-  const plan = document.getElementById('protoPlan').value;
-  const tel = document.getElementById('protoTelefono').value;
-  const email = document.getElementById('protoCorreo').value;
+// Alias de retrocompatibilidad
+window.openPrototipoModal = openCotizacionModal;
+window.openCotizacionModal = openCotizacionModal;
 
-  const msg = encodeURIComponent(`Hola! Deseo solicitar el Diagnóstico y Prototipo Gratuito para mi empresa "${empresa}".\nPlan de interés: ${plan}.\nContacto: ${tel} | ${email}`);
+function submitCotizacionForm(e) {
+  e.preventDefault();
+  const empresa = document.getElementById('cotiEmpresa').value.trim();
+  const alcance = document.getElementById('cotiAlcance').value;
+  const herramientas = document.getElementById('cotiHerramientas').value;
+  const meta = document.getElementById('cotiMeta').value;
+  const tel = document.getElementById('cotiTelefono').value.trim();
+  const email = document.getElementById('cotiCorreo').value.trim();
+
+  const msgText = `¡Hola! Deseo solicitar un Diagnóstico de Datos y Cotización para mi negocio:
+• Empresa: ${empresa}
+• Alcance de interés: ${alcance}
+• Sistema actual: ${herramientas}
+• Objetivo principal: ${meta}
+• Contacto: ${tel} | ${email}`;
+
+  const msg = encodeURIComponent(msgText);
   
   modalContent.innerHTML = `
     <div style="text-align:center; padding:2rem 1rem;">
       <div style="font-size:3.5rem; color:#34d399; margin-bottom:1rem;">
         <i class="ph-fill ph-check-circle"></i>
       </div>
-      <h2 style="font-size:1.6rem; font-weight:800; margin-bottom:0.75rem;">¡Solicitud Registrada con Éxito!</h2>
+      <h2 style="font-size:1.6rem; font-weight:800; margin-bottom:0.75rem;">¡Solicitud de Diagnóstico Registrada!</h2>
       <p style="color:var(--text-secondary); max-width:520px; margin:0 auto 1.5rem; line-height:1.6;">
-        Nos pondremos en contacto a la brevedad para coordinar la sesión de diagnóstico inicial vía Google Meet o llamada. También puedes contactar directamente a través del enlace inferior:
+        Hemos recibido los detalles de su empresa <strong>${empresa}</strong>. Para acelerar la evaluación y agendar una sesión breve de revisión de datos, contáctenos directamente por WhatsApp:
       </p>
 
       <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
-        <a href="https://api.whatsapp.com/send?text=${msg}" target="_blank" class="btn btn-primary" style="padding:0.75rem 1.5rem;">
-          <i class="ph-bold ph-whatsapp-logo"></i> Confirmar vía WhatsApp
+        <a href="https://api.whatsapp.com/send?text=${msg}" target="_blank" class="btn btn-primary" style="background:#25D366; border-color:#25D366; padding:0.85rem 1.75rem; font-size:1rem; box-shadow: 0 4px 15px rgba(37,211,102,0.35);">
+          <i class="ph-bold ph-whatsapp-logo"></i> Abrir Chat en WhatsApp Ahora
         </a>
         <button class="btn btn-secondary" onclick="closeTechModal()">
           Volver al Portal
@@ -392,6 +428,10 @@ function submitPrototipoForm(e) {
   `;
 }
 
+// Alias de retrocompatibilidad para formularios antiguos
+function submitPrototipoForm(e) {
+  submitCotizacionForm(e);
+}
 
 // Modal de Ficha Técnica
 function openTechModal(projectId) {
@@ -437,12 +477,15 @@ function openTechModal(projectId) {
       ${bulletsHtml}
     </ul>
 
-    <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+    <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
       <button class="btn btn-primary" onclick="closeTechModal(); selectProject('${project.id}', true);">
         <i class="ph ph-play-circle"></i> Interactuar en Vivo
       </button>
       <button class="btn btn-secondary" onclick="window.open('${project.directUrl}', '_blank')">
         <i class="ph ph-arrow-square-out"></i> Abrir en Pestaña Independiente
+      </button>
+      <button class="btn" onclick="closeTechModal(); openCotizacionModal('${project.title}');" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.35);">
+        <i class="ph-bold ph-chats-circle"></i> Cotizar un Sistema Similar
       </button>
     </div>
   `;

@@ -47,9 +47,10 @@
 
     <ul class="nav-links">
       <li><a href="#metodologia"><i class="ph ph-tree-structure"></i> Metodología</a></li>
-      <li><a href="#planes"><i class="ph ph-tag"></i> Planes &amp; Tarifas</a></li>
+      <li><a href="#planes"><i class="ph ph-briefcase"></i> Soluciones &amp; Cotización</a></li>
       <li><a href="#showcase"><i class="ph ph-squares-four"></i> Casos Reales</a></li>
       <li><a href="#sandbox"><i class="ph ph-desktop"></i> Probar en Vivo</a></li>
+      <li><a href="#contacto" style="color:var(--accent-cyan); font-weight:700;"><i class="ph ph-chat-circle-dots"></i> Contacto</a></li>
     </ul>
   </header>
 
@@ -60,64 +61,67 @@
     <section class="hero">
       <div class="hero-pill">
         <i class="ph-bold ph-sparkle"></i>
-        <span>Desarrollo de Dashboards Empresariales 100% Personalizados</span>
+        <span>Desarrollo de Dashboards Empresariales &middot; Soluciones de Alto Impacto</span>
       </div>
       
       <h2>
         Transforme sus Datos de Excel y Sheets en <br />
-        <span class="highlight">Dashboards Interactivos de Alto Rendimiento</span>
+        <span class="highlight">Control Total, Tiempo Ahorrado y Decisiones Rentables</span>
       </h2>
 
       <p class="hero-subtitle">
-        Optimice la toma de decisiones con paneles analíticos intuitivos, visualización en tiempo real y arquitectura de datos a medida. <strong>Usted no tendrá que cambiar su forma de trabajar</strong>: nuestros dashboards se adaptan e integran directamente a sus herramientas actuales de trabajo (Excel, Google Sheets o bases de datos) <strong>para que no pierda meses o años de valiosa información acumulada</strong>.
+        Elimine horas de consolidación manual en hojas de cálculo y evite pérdidas por información desactualizada. <strong>Usted no tendrá que cambiar su forma de trabajar</strong>: diseñamos paneles ejecutivos que se conectan directamente a sus archivos actuales (Excel, Google Sheets o bases de datos) <strong>para que tome decisiones estratégicas con datos en tiempo real</strong>.
       </p>
 
-      <!-- Botón de Acción -->
+      <!-- Botones de Acción -->
       <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-bottom:2.5rem;">
         <a href="#sandbox" class="btn btn-primary" style="padding:0.85rem 1.8rem; font-size:1rem;">
           <i class="ph-bold ph-play"></i> Probar Dashboards en Vivo
         </a>
+        <button onclick="openCotizacionModal('Diagnóstico Estratégico')" class="btn btn-secondary" style="padding:0.85rem 1.8rem; font-size:1rem; border-color:rgba(56,189,248,0.5); background:rgba(15,23,42,0.7);">
+          <i class="ph-bold ph-calendar-check"></i> Solicitar Diagnóstico de Datos
+        </button>
       </div>
 
-      <!-- Métricas clave de calidad -->
+      <!-- Métricas clave de valor de negocio (ROI & Ahorro) -->
       <div class="hero-stats-strip">
         <div class="stat-item">
           <div class="stat-icon blue">
-            <i class="ph-bold ph-gauge"></i>
+            <i class="ph-bold ph-clock-countdown"></i>
           </div>
           <div>
-            <div class="stat-value">60 FPS</div>
-            <div class="stat-label">Fluidez Gráfica Vectorial</div>
-          </div>
-        </div>
-
-        <div class="stat-item">
-          <div class="stat-icon cyan">
-            <i class="ph-bold ph-file-xls"></i>
-          </div>
-          <div>
-            <div class="stat-value">XLSX &amp; Sheets</div>
-            <div class="stat-label">Compatibilidad Total</div>
+            <div class="stat-value">-15h / sem</div>
+            <div class="stat-label">Ahorro en Tareas Manuales</div>
           </div>
         </div>
 
         <div class="stat-item">
           <div class="stat-icon emerald">
-            <i class="ph-bold ph-device-mobile"></i>
+            <i class="ph-bold ph-shield-check"></i>
           </div>
           <div>
-            <div class="stat-value">100% Responsive</div>
-            <div class="stat-label">Adaptable a Móvil / PC</div>
+            <div class="stat-value">0% Errores</div>
+            <div class="stat-label">Decisiones con Datos Reales</div>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-icon cyan">
+            <i class="ph-bold ph-chart-line-up"></i>
+          </div>
+          <div>
+            <div class="stat-value">Control 24/7</div>
+            <div class="stat-label">Monitoreo Operativo en Vivo</div>
           </div>
         </div>
 
         <div class="stat-item">
           <div class="stat-icon amber">
-            <i class="ph-bold ph-shield-check"></i>
+            <i class="ph-bold ph-trend-up"></i>
           </div>
           <div>
-            <div class="stat-value">50% / 50%</div>
-            <div class="stat-label">Pago Seguro Contra Entrega</div>
+            <div class="stat-value">ROI Inmediato</div>
+            <div class="stat-label">Cotización a su Medida</div>
           </div>
         </div>
       </div>
@@ -234,121 +238,109 @@
   <!-- =========================================================================
        PLANES Y TARIFAS DE DESARROLLO (IMAGEN 2)
        ========================================================================= -->
+  <!-- =========================================================================
+       SOLUCIONES Y CONSULTORÍA DE DATOS A MEDIDA (EFECTO CONSULTOR)
+       ========================================================================= -->
   <section class="section-container" id="planes">
     <div class="section-header">
       <div class="section-title-wrap">
         <div class="section-badge">
-          <i class="ph-bold ph-tag"></i> Inversión Clara &amp; Transparente
+          <i class="ph-bold ph-handshake"></i> Soluciones &amp; Consultoría Estratégica
         </div>
-        <h3 class="section-title">Planes de Desarrollo 100% Personalizado</h3>
+        <h3 class="section-title">Soluciones a la Medida de su Negocio</h3>
         <p class="section-desc">
-          Elija el modelo que mejor se adapte al tamaño de su empresa y flujo de trabajo. Sin costos ocultos ni letras pequeñas.
+          Cada empresa maneja un volumen, equipo y flujo de información diferente. Evaluamos sus planillas y diseñamos una propuesta personalizada orientada a maximizar el ahorro de tiempo y el control de su operación.
         </p>
       </div>
     </div>
 
     <div class="plans-grid">
-      <!-- PLAN 1: DASHBOARD LOCAL -->
+      <!-- SOLUCIÓN 1: DASHBOARD LOCAL -->
       <div class="plan-card">
         <div class="plan-header">
-          <div class="plan-tier">Modalidad Autónoma</div>
-          <h4 class="plan-name">Dashboard Local</h4>
+          <div class="plan-tier">Modalidad Autónoma &middot; Monousuario</div>
+          <h4 class="plan-name">Dashboard Estación Local</h4>
         </div>
 
         <p style="font-size:0.85rem; color:var(--text-secondary); min-height:42px;">
-          Ideal para análisis privado en un solo equipo o estación de trabajo sin necesidad de conexión externa.
+          Ideal para gerentes, administradores o analistas que requieren procesar reportes en su propia computadora de forma 100% privada y confidencial.
         </p>
 
-        <div class="plan-price-wrap">
-          <div class="price-row">
-            <span class="price-currency">S/.</span>
-            <span class="price-amount">220</span>
-            <span class="price-type">/ Elaboración</span>
-          </div>
-          <div class="support-fee-badge">
-            <i class="ph ph-gear"></i> Soporte: S/. 50 / mes (opcional)
-          </div>
+        <div class="consulting-action-box">
+          <div class="consulting-tag"><i class="ph-bold ph-check"></i> Cotización Personalizada</div>
+          <button class="btn btn-primary w-full" onclick="openCotizacionModal('Dashboard Estación Local')" style="width:100%; justify-content:center;">
+            <i class="ph-bold ph-chats-circle"></i> Solicitar Cotización &amp; Diagnóstico
+          </button>
         </div>
 
         <ul class="plan-features">
-          <li><i class="ph-bold ph-check-circle"></i> <span>Despliegue rápido con un solo click.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span>Gráficas adaptadas a sus archivos <strong>.xlsx, .xls, .csv</strong>.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span>Actualización automática de métricas al subir archivos.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span>Posibilidad de descargar reportes desde el dashboard.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span>Datos 100% archivados y protegidos en su PC.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Despliegue rápido en su PC en <strong>un solo click</strong> sin configuraciones técnicas.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Conexión directa a sus archivos <strong>.xlsx, .xls, .csv</strong> existentes.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Ahorro de horas en generación de reportes e indicadores para gerencia.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Actualización instantánea de gráficas al cargar nuevos datos.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Datos 100% protegidos y resguardados en su propia estación de trabajo.</span></li>
         </ul>
       </div>
 
-      <!-- PLAN 2: DASHBOARD COMPARTIDO (DESTACADO) -->
+      <!-- SOLUCIÓN 2: DASHBOARD CONECTADO EN RED Y NUBE (DESTACADO) -->
       <div class="plan-card featured">
-        <span class="featured-pill">MÁS POPULAR / EQUIPOS</span>
+        <span class="featured-pill">RECOMENDADO &middot; EQUIPOS Y SUCURSALES</span>
         <div class="plan-header">
-          <div class="plan-tier" style="color:var(--accent-cyan);">Nube 24/7 &amp; Multi-dispositivo</div>
-          <h4 class="plan-name">Dashboard Compartido</h4>
+          <div class="plan-tier" style="color:var(--accent-cyan);">Nube 24/7 &amp; Multi-Dispositivo</div>
+          <h4 class="plan-name">Dashboard en Red &amp; Nube</h4>
         </div>
 
         <p style="font-size:0.85rem; color:var(--text-secondary); min-height:42px;">
-          Configuración con <strong>servidor en la nube para acceso 24/7 desde cualquier lugar</strong> y red local, ideal para equipos y flujo estándar de información.
+          Acceso multiusuario sincronizado para equipos de trabajo desde PC, tablet o móvil. Su información disponible 24/7 sin depender de enviar archivos por correo.
         </p>
 
-        <div class="plan-price-wrap">
-          <div class="price-row">
-            <span class="price-currency" style="color:var(--accent-cyan);">S/.</span>
-            <span class="price-amount" style="color:#38bdf8;">440</span>
-            <span class="price-type">/ Elaboración</span>
-          </div>
-          <div class="support-fee-badge" style="background:rgba(6,182,212,0.15); border-color:rgba(6,182,212,0.3); color:#22d3ee;">
-            <i class="ph ph-gear"></i> Soporte: S/. 100 / mes (opcional)
-          </div>
+        <div class="consulting-action-box featured">
+          <div class="consulting-tag highlight"><i class="ph-bold ph-sparkle"></i> Diagnóstico de Flujo Incluido</div>
+          <button class="btn btn-primary w-full" onclick="openCotizacionModal('Dashboard en Red & Nube')" style="width:100%; justify-content:center; background:linear-gradient(135deg, #0284c7, #06b6d4); box-shadow:0 4px 15px rgba(6,182,212,0.35);">
+            <i class="ph-bold ph-chats-circle"></i> Solicitar Cotización &amp; Diagnóstico
+          </button>
         </div>
 
         <ul class="plan-features">
-          <li><i class="ph-bold ph-check-circle"></i> <span><strong>Servidor en la nube configurado para conectividad 24/7</strong> y acceso seguro desde cualquier lugar.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span>Acceso simultáneo desde <strong>red local (LAN / WiFi)</strong> y conexión remota.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span>Sincronización híbrida con <strong>Google Sheets API</strong>, archivos <strong>.xlsx, .xls, .csv</strong>.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span>Visualización sincronizada en tiempo real desde <strong>PC, Tablet y Smartphone</strong>.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span>Descarga y exportación de reportes procesados.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span>Diseño de interfaz táctica adaptada al flujo de su equipo.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span><strong>Dashboard 100% Responsivo</strong> sin desbordamientos en ningún dispositivo.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span><strong>Acceso 24/7 seguro desde cualquier lugar</strong> o red local sin cortes de servicio.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Sincronización automática con <strong>Google Sheets y planillas compartidas</strong>.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span><strong>Cero errores humanos</strong>: todo su personal visualiza la versión oficial y actualizada.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Visualización optimizada en <strong>computadoras, tablets y teléfonos móviles</strong>.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Exportación y descarga de resúmenes ejecutivos con un solo clic.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Diseño táctico adaptado a la dinámica diaria de sus colaboradores.</span></li>
         </ul>
       </div>
 
-      <!-- PLAN 3: DASHBOARD PROFESIONAL (ALTO FLUJO + CONSULTORÍA) -->
+      <!-- SOLUCIÓN 3: SISTEMA ANALÍTICO EMPRESARIAL -->
       <div class="plan-card">
         <div class="plan-header">
-          <div class="plan-tier">Alto Flujo &amp; Reestructuración de Procesos</div>
-          <h4 class="plan-name">Dashboard Profesional</h4>
+          <div class="plan-tier">Alto Flujo &middot; Reestructuración de Procesos</div>
+          <h4 class="plan-name">Sistema Analítico &amp; Consultoría</h4>
         </div>
 
         <p style="font-size:0.85rem; color:var(--text-secondary); min-height:42px;">
-          Misma arquitectura en la <strong>nube 24/7</strong>, pero preparado para <strong>alto flujo masivo de datos</strong> e incluye <strong>mi acompañamiento directo para analizar y reestructurar el flujo de trabajo</strong>.
+          Acompañamiento y consultoría integral directa para empresas que manejan alto flujo de datos, múltiples áreas operativas y buscan optimizar sus procesos.
         </p>
 
-        <div class="plan-price-wrap">
-          <div class="price-row">
-            <span class="price-currency">S/.</span>
-            <span class="price-amount">880</span>
-            <span class="price-type">/ Elaboración</span>
-          </div>
-          <div class="support-fee-badge">
-            <i class="ph ph-gear"></i> Soporte: S/. 200 / mes (opcional)
-          </div>
+        <div class="consulting-action-box">
+          <div class="consulting-tag"><i class="ph-bold ph-check"></i> Asesoría de Procesos Incluida</div>
+          <button class="btn btn-primary w-full" onclick="openCotizacionModal('Sistema Analítico & Consultoría')" style="width:100%; justify-content:center;">
+            <i class="ph-bold ph-chats-circle"></i> Solicitar Cotización &amp; Diagnóstico
+          </button>
         </div>
 
         <ul class="plan-features">
-          <li><i class="ph-bold ph-check-circle"></i> <span>Todo lo incluido en el Plan Compartido (<strong>servidor en la nube 24/7</strong> + acceso desde cualquier lugar).</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span><strong>Preparado para manejar mayor flujo masivo de información</strong> y concurrencia elevada de usuarios.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span><strong>Consultoría y asesoramiento personalizado de mi parte</strong> para analizar y reestructurar los flujos de trabajo de su empresa acordes a la nueva herramienta.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span>Conexión directa a <strong>bases de datos propias</strong>: SQL Server, PostgreSQL, MySQL o Google Sheets API.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span>Actualización y procesamiento de métricas en <strong>tiempo real</strong> para altos volúmenes de datos.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span>Gestión integral de roles y permisos por usuario (administrador, editor, visor).</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span>Exportación masiva avanzada y copias de respaldo programadas.</span></li>
-          <li><i class="ph-bold ph-check-circle"></i> <span><strong>Dashboard 100% Responsivo</strong> con optimización de rendimiento para cualquier pantalla.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span><strong>Consultoría directa conmigo</strong> para auditar y optimizar sus flujos de datos operativos.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Conexión directa a <strong>bases de datos</strong>: SQL Server, PostgreSQL, MySQL o APIs.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Preparado para manejar <strong>grandes volúmenes de transacciones</strong> con rendimiento instantáneo.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Gestión de <strong>roles y accesos</strong> (gerencia, supervisores, operadores).</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Manual de usuario detallado y capacitación técnica a su personal autorizado.</span></li>
+          <li><i class="ph-bold ph-check-circle"></i> <span>Soporte post-implementación y garantía de funcionamiento continuo.</span></li>
         </ul>
       </div>
     </div>
 
-    <!-- Compromisos de Servicio Extraídos de la Ficha -->
+    <!-- Compromisos de Calidad -->
     <div class="commitments-strip">
       <div class="commitment-item">
         <i class="ph-duotone ph-phone-call"></i>
@@ -362,7 +354,7 @@
         <i class="ph-duotone ph-link"></i>
         <div>
           <h5>Enlace Temporal Dinámico</h5>
-          <p>Dispondrá de un enlace privado para auditar y verificar los cambios en tiempo real hasta culminar el proyecto.</p>
+          <p>Dispondrá de un enlace privado para auditar y verificar los avances en tiempo real antes de la entrega final.</p>
         </div>
       </div>
 
@@ -370,7 +362,7 @@
         <i class="ph-duotone ph-book-open"></i>
         <div>
           <h5>Manual &amp; Capacitación</h5>
-          <p>Entrega de manual de usuario paso a paso y capacitación al personal autorizado de su equipo.</p>
+          <p>Entrega de guía de uso paso a paso y sesión de inducción al equipo responsable de su empresa.</p>
         </div>
       </div>
 
@@ -378,7 +370,31 @@
         <i class="ph-duotone ph-arrows-out-cardinal"></i>
         <div>
           <h5>Escalabilidad Futura</h5>
-          <p>Código preparado para conectarse a futuras aplicaciones móviles o integrarse en sitios web corporativos.</p>
+          <p>Arquitectura modular preparada para conectarse a futuras aplicaciones o integrarse a su web corporativa.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOQUE DE CONTACTO DIRECTO (CANAL RÁPIDO WHATSAPP / CORREO) -->
+    <div class="direct-contact-card" id="contacto">
+      <div class="direct-contact-glow"></div>
+      <div class="direct-contact-inner">
+        <div class="contact-header-wrap">
+          <span class="contact-badge">
+            <i class="ph-bold ph-chat-circle-dots"></i> Atención &amp; Diagnóstico Inmediato
+          </span>
+          <h4 class="contact-card-title">¿Desea evaluar el caso particular de su empresa?</h4>
+          <p class="contact-card-desc">
+            Cuénteme qué planillas o procesos desea optimizar. Analizamos sus archivos actuales y le brindamos un diagnóstico con propuesta económica adaptada a su presupuesto y tiempos.
+          </p>
+        </div>
+        <div class="contact-card-actions">
+          <a href="https://api.whatsapp.com/send?text=Hola%2C%20quisiera%20solicitar%20un%20diagn%C3%B3stico%20de%20datos%20y%20cotizaci%C3%B3n%20para%20un%20dashboard%20empresarial%20para%20mi%20empresa." target="_blank" class="btn btn-whatsapp" style="padding:0.9rem 1.8rem; font-size:1rem;">
+            <i class="ph-bold ph-whatsapp-logo"></i> Escribir por WhatsApp
+          </a>
+          <button onclick="openCotizacionModal('Contacto Directo')" class="btn btn-secondary" style="padding:0.9rem 1.8rem; font-size:1rem; border-color:rgba(56,189,248,0.4);">
+            <i class="ph-bold ph-envelope-simple"></i> Solicitar Diagnóstico por Formulario
+          </button>
         </div>
       </div>
     </div>
@@ -607,6 +623,28 @@
           <span style="font-size:0.85rem; font-weight:600;">Inicializando Dashboard Interactivo...</span>
         </div>
         <iframe id="sandboxFrame" class="sandbox-iframe" src="AreadeVentas/index.html" title="Visor de Dashboard"></iframe>
+      </div>
+
+      <!-- BANNER GANCHO POST-DEMOSTRACIÓN (CONVERSIÓN DE ALTO IMPACTO) -->
+      <div class="sandbox-hook-banner">
+        <div class="hook-glow"></div>
+        <div class="hook-content-wrap">
+          <div class="hook-badge">
+            <i class="ph-bold ph-lightning"></i> De la Demostración a su Empresa Real
+          </div>
+          <h4 class="hook-title">¿Le gustaría ver sus propios datos de Excel en un sistema interactivo como este?</h4>
+          <p class="hook-desc">
+            Los dashboards que acaba de probar son prototipos funcionales de demostración. Cada organización maneja requerimientos, inventarios y métricas únicas: analizamos sus planillas actuales y diseñamos la solución exacta para su negocio, con presupuesto y tiempos a su medida.
+          </p>
+          <div class="hook-actions">
+            <button class="btn btn-primary" onclick="openCotizacionModal('Post-Demo Sandbox')" style="padding:0.85rem 1.8rem; font-size:0.95rem;">
+              <i class="ph-bold ph-calendar-check"></i> Solicitar Diagnóstico de Datos &amp; Cotización
+            </button>
+            <a href="https://api.whatsapp.com/send?text=Hola%2C%20estuve%20probando%20los%20dashboards%20interactivos%20en%20su%20web%20y%20me%20gustar%C3%ADa%20una%20cotizaci%C3%B3n%20para%20los%20datos%20de%20mi%20empresa." target="_blank" class="btn btn-whatsapp" style="padding:0.85rem 1.8rem; font-size:0.95rem;">
+              <i class="ph-bold ph-whatsapp-logo"></i> Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
