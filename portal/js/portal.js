@@ -8,7 +8,7 @@ const PROJECTS = {
     id: 'ventas',
     title: 'VentasPro — Dashboard Tecnológico de Área de Ventas',
     shortName: 'VentasPro Suite',
-    category: 'Business Intelligence & Ventas',
+    category: 'Desarrollo Analítico & Gestión Comercial',
     icon: 'ph-chart-line-up',
     badge: '100% Autónomo',
     directUrl: 'AreadeVentas/index.html',
@@ -301,13 +301,27 @@ function toggleFullscreen() {
   }
 }
 
+// Sanitizador para evitar inyecciones y XSS
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // Modal de Solicitud de Cotización & Diagnóstico de Datos (Efecto Consultor)
-function openCotizacionModal(selectedScope = 'Diagnóstico y Prototipo de Datos') {
+function openCotizacionModal(selectedScope = 'Consultoría y Diagnóstico de Flujo de Datos') {
   if (!modalContent || !modalOverlay) return;
+
+  // Limpieza previa de memoria de sesión
+  try { sessionStorage.clear(); } catch (_) {}
 
   modalContent.innerHTML = `
     <div class="modal-header">
-      <div class="modal-badge">Consultoría &amp; Diagnóstico Estratégico</div>
+      <div class="modal-badge">Desarrollo Profesional &amp; Consultoría</div>
       <h2 class="modal-title">Solicitar Diagnóstico de Datos y Cotización a Medida</h2>
     </div>
 
@@ -318,23 +332,23 @@ function openCotizacionModal(selectedScope = 'Diagnóstico y Prototipo de Datos'
     <div class="guarantee-strip" style="margin-top:0; margin-bottom:1.5rem;">
       <i class="ph-bold ph-shield-check guarantee-icon"></i>
       <div class="guarantee-text">
-        <strong>Confidencialidad Garantizada:</strong> Su información operativa y comercial se evalúa bajo estricto acuerdo de privacidad profesional.
+        <strong>Datos 100% Temporales &amp; Confidenciales:</strong> La información ingresada en este formulario no se almacena en ningún servidor, cookie ni base de datos de esta web. Se procesa de forma efímera en su navegador y se transfiere de inmediato a su conversación privada de WhatsApp.
       </div>
     </div>
 
-    <form class="proto-form" onsubmit="submitCotizacionForm(event)">
+    <form class="proto-form" id="cotiForm" autocomplete="off" onsubmit="submitCotizacionForm(event)">
       <div class="form-group">
         <label>Nombre de su Empresa o Negocio</label>
-        <input type="text" id="cotiEmpresa" class="form-control" placeholder="Ej. Inversiones &amp; Retail del Norte SAC" required />
+        <input type="text" id="cotiEmpresa" class="form-control" placeholder="Ej. Inversiones &amp; Retail del Norte SAC" autocomplete="off" spellcheck="false" required />
       </div>
 
       <div class="form-group">
         <label>Tipo de Solución / Alcance Estimado</label>
         <select id="cotiAlcance" class="form-control">
-          <option value="Dashboard Operativo Local" ${selectedScope.includes('Local') ? 'selected' : ''}>Dashboard Operativo Local (Automatización en PC, Cero Cuotas)</option>
-          <option value="Suite Analítica Multiusuario" ${selectedScope.includes('Multiusuario') || selectedScope.includes('Compartido') ? 'selected' : ''}>Suite Analítica Multiusuario (Red Interna + Responsive Móvil)</option>
-          <option value="Plataforma Cloud &amp; BI Empresarial" ${selectedScope.includes('Cloud') || selectedScope.includes('Profesional') ? 'selected' : ''}>Plataforma Cloud &amp; BI Empresarial (Acceso 24/7 + Roles + Respaldo)</option>
-          <option value="Diagnóstico General de Datos" ${(!selectedScope.includes('Local') && !selectedScope.includes('Multiusuario') && !selectedScope.includes('Cloud') && !selectedScope.includes('Compartido') && !selectedScope.includes('Profesional')) ? 'selected' : ''}>Diagnóstico General de Datos (Asesoría y Recomendación)</option>
+          <option value="Consultoría y Diagnóstico de Flujo de Datos" ${selectedScope.includes('Diagnóstico') || selectedScope.includes('Consultoría') ? 'selected' : ''}>Consultoría y Diagnóstico de Flujo de Datos</option>
+          <option value="Desarrollo de Dashboard Local" ${selectedScope.includes('Local') ? 'selected' : ''}>Desarrollo de Dashboard Operativo Local (Monousuario en PC)</option>
+          <option value="Suite Analítica para Red Interna" ${selectedScope.includes('Multiusuario') || selectedScope.includes('Red') || selectedScope.includes('Compartido') ? 'selected' : ''}>Suite Analítica para Red Interna (Equipos &amp; Sucursales)</option>
+          <option value="Desarrollo de Sistema Analítico a Medida" ${selectedScope.includes('Medida') || selectedScope.includes('Sistema') || selectedScope.includes('Profesional') ? 'selected' : ''}>Desarrollo de Sistema Analítico a Medida (Módulos &amp; Roles)</option>
         </select>
       </div>
 
@@ -362,12 +376,12 @@ function openCotizacionModal(selectedScope = 'Diagnóstico y Prototipo de Datos'
 
       <div class="form-group">
         <label>Teléfono / WhatsApp de Contacto</label>
-        <input type="text" id="cotiTelefono" class="form-control" placeholder="Ej. +51 999 888 777" required />
+        <input type="text" id="cotiTelefono" class="form-control" placeholder="Ej. +51 999 888 777" autocomplete="off" spellcheck="false" required />
       </div>
 
       <div class="form-group">
-        <label>Correo Electrónico Corporativo</label>
-        <input type="email" id="cotiCorreo" class="form-control" placeholder="gerencia@empresa.com" required />
+        <label>Correo Electrónico de Contacto</label>
+        <input type="email" id="cotiCorreo" class="form-control" placeholder="gerencia@empresa.com" autocomplete="off" spellcheck="false" required />
       </div>
 
       <div style="margin-top:1.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
@@ -390,12 +404,23 @@ window.openCotizacionModal = openCotizacionModal;
 
 function submitCotizacionForm(e) {
   e.preventDefault();
-  const empresa = document.getElementById('cotiEmpresa').value.trim();
-  const alcance = document.getElementById('cotiAlcance').value;
-  const herramientas = document.getElementById('cotiHerramientas').value;
-  const meta = document.getElementById('cotiMeta').value;
-  const tel = document.getElementById('cotiTelefono').value.trim();
-  const email = document.getElementById('cotiCorreo').value.trim();
+  const empresaInput = document.getElementById('cotiEmpresa');
+  const alcanceInput = document.getElementById('cotiAlcance');
+  const herramientasInput = document.getElementById('cotiHerramientas');
+  const metaInput = document.getElementById('cotiMeta');
+  const telInput = document.getElementById('cotiTelefono');
+  const emailInput = document.getElementById('cotiCorreo');
+
+  const empresa = empresaInput ? empresaInput.value.trim() : '';
+  const alcance = alcanceInput ? alcanceInput.value : '';
+  const herramientas = herramientasInput ? herramientasInput.value : '';
+  const meta = metaInput ? metaInput.value : '';
+  const tel = telInput ? telInput.value.trim() : '';
+  const email = emailInput ? emailInput.value.trim() : '';
+
+  // Purga inmediata de campos del formulario en el DOM
+  const form = document.getElementById('cotiForm');
+  if (form) form.reset();
 
   const msgText = `¡Hola! Deseo solicitar un Diagnóstico de Datos y Cotización para mi negocio:
 • Empresa: ${empresa}
@@ -405,6 +430,7 @@ function submitCotizacionForm(e) {
 • Contacto: ${tel} | ${email}`;
 
   const msg = encodeURIComponent(msgText);
+  const safeEmpresa = escapeHtml(empresa);
   
   modalContent.innerHTML = `
     <div style="text-align:center; padding:2rem 1rem;">
@@ -413,11 +439,11 @@ function submitCotizacionForm(e) {
       </div>
       <h2 style="font-size:1.6rem; font-weight:800; margin-bottom:0.75rem;">¡Solicitud de Diagnóstico Registrada!</h2>
       <p style="color:var(--text-secondary); max-width:520px; margin:0 auto 1.5rem; line-height:1.6;">
-        Hemos recibido los detalles de su empresa <strong>${empresa}</strong>. Para acelerar la evaluación y agendar una sesión breve de revisión de datos, contáctenos directamente por WhatsApp:
+        Hemos preparado los datos de su consulta para <strong>${safeEmpresa}</strong>. Por motivos de seguridad y privacidad, <strong>ningún dato se guarda en esta web</strong>: presione el botón inferior para enviarlos directamente a su conversación en WhatsApp:
       </p>
 
       <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
-        <a href="https://api.whatsapp.com/send?text=${msg}" target="_blank" class="btn btn-primary" style="background:#25D366; border-color:#25D366; padding:0.85rem 1.75rem; font-size:1rem; box-shadow: 0 4px 15px rgba(37,211,102,0.35);">
+        <a href="https://api.whatsapp.com/send?text=${msg}" target="_blank" onclick="wipeAndCloseModal()" class="btn btn-primary" style="background:#25D366; border-color:#25D366; padding:0.85rem 1.75rem; font-size:1rem; box-shadow: 0 4px 15px rgba(37,211,102,0.35);">
           <i class="ph-bold ph-whatsapp-logo"></i> Abrir Chat en WhatsApp Ahora
         </a>
         <button class="btn btn-secondary" onclick="closeTechModal()">
@@ -426,6 +452,13 @@ function submitCotizacionForm(e) {
       </div>
     </div>
   `;
+}
+
+// Limpiar y purgar memoria al pulsar WhatsApp
+function wipeAndCloseModal() {
+  setTimeout(() => {
+    closeTechModal();
+  }, 400);
 }
 
 // Alias de retrocompatibilidad para formularios antiguos
@@ -441,25 +474,25 @@ function openTechModal(projectId) {
   let metricsHtml = Object.entries(project.metrics)
     .map(([key, val]) => `
       <div class="spec-box">
-        <div class="spec-label">${key}</div>
-        <div class="spec-value">${val}</div>
+        <div class="spec-label">${escapeHtml(key)}</div>
+        <div class="spec-value">${escapeHtml(val)}</div>
       </div>
     `).join('');
 
   let chipsHtml = project.techStack
-    .map(t => `<span class="chip">${t}</span>`).join(' ');
+    .map(t => `<span class="chip">${escapeHtml(t)}</span>`).join(' ');
 
   let bulletsHtml = project.keyFeatures
-    .map(f => `<li><i class="ph-fill ph-check-circle"></i> <span>${f}</span></li>`).join('');
+    .map(f => `<li><i class="ph-fill ph-check-circle"></i> <span>${escapeHtml(f)}</span></li>`).join('');
 
   modalContent.innerHTML = `
     <div class="modal-header">
-      <div class="modal-badge">${project.category}</div>
-      <h2 class="modal-title">${project.title}</h2>
+      <div class="modal-badge">${escapeHtml(project.category)}</div>
+      <h2 class="modal-title">${escapeHtml(project.title)}</h2>
     </div>
 
     <p style="color:var(--text-secondary); margin-bottom:1.5rem; line-height:1.6;">
-      ${project.description}
+      ${escapeHtml(project.description)}
     </p>
 
     <h4 style="font-size:0.95rem; margin-bottom:0.75rem; color:#38bdf8;">✅ Lo que obtendrá con este sistema</h4>
@@ -494,9 +527,17 @@ function openTechModal(projectId) {
 }
 
 function closeTechModal() {
-  if (modalOverlay) modalOverlay.classList.remove('open');
+  if (modalOverlay) {
+    modalOverlay.classList.remove('open');
+    // Purgar inmediatamente el contenido del DOM para que no persista nada en memoria
+    if (modalContent) {
+      modalContent.innerHTML = '';
+    }
+  }
+  // Purgar cualquier dato residual en sessionStorage
+  try { sessionStorage.clear(); } catch (_) {}
+
   // Unlock body scroll without layout shift
-  const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
   document.documentElement.style.removeProperty('overflow');
   document.documentElement.style.removeProperty('padding-right');
   if (sandboxWrapper) sandboxWrapper.style.removeProperty('padding-right');

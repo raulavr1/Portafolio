@@ -145,7 +145,7 @@
     if (overlayEl) return;
     overlayEl = document.createElement('div');
     overlayEl.id = 'sec-shield-overlay';
-    overlayEl.style.cssText = 
+    overlayEl.style.cssText = `
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(15, 23, 42, 0.94);
@@ -161,24 +161,24 @@
       font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
       text-align: center;
       box-sizing: border-box;
-    ;
+    `;
 
-    overlayEl.innerHTML = 
-      <div style=max-width:480px; background:#1e293b; border:1.5px solid rgba(239,68,68,0.5); border-radius:18px; padding:32px 28px; box-shadow:0 24px 60px rgba(0,0,0,0.5);>
-        <div style=width:64px; height:64px; border-radius:50%; background:rgba(239,68,68,0.15); border:1.5px solid #ef4444; display:flex; align-items:center; justify-content:center; margin:0 auto 18px; font-size:30px;>
+    overlayEl.innerHTML = `
+      <div style="max-width:480px; background:#1e293b; border:1.5px solid rgba(239,68,68,0.5); border-radius:18px; padding:32px 28px; box-shadow:0 24px 60px rgba(0,0,0,0.5);">
+        <div style="width:64px; height:64px; border-radius:50%; background:rgba(239,68,68,0.15); border:1.5px solid #ef4444; display:flex; align-items:center; justify-content:center; margin:0 auto 18px; font-size:30px;">
           🛡️
         </div>
-        <h2 style=font-size:18px; font-weight:800; color:#ffffff; margin:0 0 10px;>
+        <h2 style="font-size:18px; font-weight:800; color:#ffffff; margin:0 0 10px;">
           Inspección de Código Inhabilitada
         </h2>
-        <p style=font-size:13px; color:#94a3b8; line-height:1.55; margin:0 0 20px;>
+        <p style="font-size:13px; color:#94a3b8; line-height:1.55; margin:0 0 20px;">
           Este entorno corporativo cuenta con protección activa contra ingeniería inversa y análisis de memoria. Por favor, <strong>cierre las herramientas de desarrollador</strong> para reanudar la visualización normal.
         </p>
-        <button id=btnDismissSec style=background:#ef4444; color:#ffffff; border:none; padding:10px 22px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer;>
+        <button id="btnDismissSec" style="background:#ef4444; color:#ffffff; border:none; padding:10px 22px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer;">
           Entendido
         </button>
       </div>
-    ;
+    `;
 
     document.body.appendChild(overlayEl);
 
@@ -204,7 +204,7 @@
     if (!toast) {
       toast = document.createElement('div');
       toast.id = 'sec-shield-toast';
-      toast.style.cssText = 
+      toast.style.cssText = `
         position: fixed;
         bottom: 20px;
         left: 50%;
@@ -222,10 +222,10 @@
         transition: all 0.25s ease;
         opacity: 0;
         white-space: nowrap;
-      ;
+      `;
       document.body.appendChild(toast);
     }
-    toast.innerHTML = 🛡️ <span></span>;
+    toast.innerHTML = `🛡️ <span>${msg}</span>`;
     toast.style.opacity = '1';
     toast.style.transform = 'translateX(-50%) translateY(0)';
 
@@ -237,6 +237,23 @@
       }
     }, 2400);
   }
+
+  // ─── 7. PURGA AUTOMÁTICA DE DATOS TEMPORALES Y PRIVACIDAD ───
+  function purgeEphemeralData() {
+    try {
+      sessionStorage.clear();
+      // Limpiar cualquier residuo de formulario
+      const forms = document.querySelectorAll('form');
+      forms.forEach(f => {
+        try { f.reset(); } catch (_) {}
+      });
+    } catch (_) {}
+  }
+
+  // Purgar al cargar y antes de salir
+  purgeEphemeralData();
+  window.addEventListener('beforeunload', purgeEphemeralData);
+  window.addEventListener('pagehide', purgeEphemeralData);
 
   setInterval(checkDevTools, CONFIG.checkIntervalMs);
   printForensicNotice();
