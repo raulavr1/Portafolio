@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>FinControl — Dashboard Financiero Profesional &amp; Gestión Patrimonial</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Blindaje de Seguridad y Anti-Ingeniería Inversa -->
+  <script src="../portal/js/security-shield.js"></script>
+  <!-- ApexCharts para visualizaciones dinámicas no planas con degradados modernos -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <!-- SheetJS para importación / manipulación en navegador -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- ═══════════════════════ SIDEBAR REORGANIZADO (11 SECCIONES) ═══════════════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-wrapper">
+        <div class="brand-text">
+          <h2 id="brandTitle">Dashboard de Finanzas</h2>
+          <p id="brandSubtitle">Finanzas & Control</p>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-menu" id="sidebarMenu">
+      <button class="menu-item-btn active" onclick="navigateTo('vista-inicio')" data-view="vista-inicio">
+        <span class="item-icon-wrapper"><svg class="fin-svg-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></span>
+        <span>Inicio</span>
+      </button>
+
+
+
+      <button class="menu-item-btn" onclick="navigateTo('vista-dashboard')" data-view="vista-dashboard">
+        <span class="item-icon-wrapper"><svg class="fin-svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg></span>
+        <span>Mi Panel</span>
+      </button>
+
+      <button class="menu-item-btn" onclick="navigateTo('vista-registro-efe')" data-view="vista-registro-efe">
+        <span class="item-icon-wrapper"><svg class="fin-svg-icon" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg></span>
+        <span>Mis Movimientos</span>
+      </button>
+
+      <button class="menu-item-btn" onclick="navigateTo('vista-efe')" data-view="vista-efe">
+        <span class="item-icon-wrapper"><svg class="fin-svg-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></span>
+        <span>¿A dónde fue mi dinero?</span>
+      </button>
+
+      <button class="menu-item-btn" onclick="navigateTo('vista-registro-esf')" data-view="vista-registro-esf">
+        <span class="item-icon-wrapper"><svg class="fin-svg-icon" viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 10v11M9 10v11M15 10v11M19 10v11M12 3l9 7H3l9-7z"></path></svg></span>
+        <span>Mis Cuentas</span>
+      </button>
+
+      <button class="menu-item-btn" onclick="navigateTo('vista-esf')" data-view="vista-esf">
+        <span class="item-icon-wrapper"><svg class="fin-svg-icon" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></span>
+        <span>Mi Patrimonio</span>
+      </button>
+
+      <button class="menu-item-btn" onclick="navigateTo('vista-objetivos')" data-view="vista-objetivos">
+        <span class="item-icon-wrapper"><svg class="fin-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span>
+        <span>Mis Metas</span>
+      </button>
+
+      <button class="menu-item-btn" onclick="navigateTo('vista-presupuesto')" data-view="vista-presupuesto">
+        <span class="item-icon-wrapper"><svg class="fin-svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></span>
+        <span>Mi Presupuesto</span>
+      </button>
+
+      <button class="menu-item-btn" onclick="navigateTo('vista-progreso')" data-view="vista-progreso">
+        <span class="item-icon-wrapper"><svg class="fin-svg-icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></span>
+        <span>Mi Salud Financiera</span>
+      </button>
+
+      <button class="menu-item-btn" onclick="navigateTo('vista-planes')" data-view="vista-planes">
+        <span class="item-icon-wrapper"><svg class="fin-svg-icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg></span>
+        <span>Mis Planes</span>
+      </button>
+
+      
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-profile-badge">
+        <div style="display: flex; flex-direction: column; gap: 0.15rem;">
+          <span style="font-size: 0.72rem; color: #94a3b8;">Perfil Activo</span>
+          <strong style="font-size: 0.8rem; color: #ffffff;" id="sidebarUserName">Admin</strong>
+        </div>
+        <span class="user-role-badge admin" id="sidebarUserRole">Admin</span>
+      </div>
+      <div style="font-size: 0.7rem; color: #64748b; text-align: center;">
+        Dashboard de Finanzas • Gestión Profesional
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════ MAIN WRAPPER ═══════════════════════ -->
+  <main class="main-wrapper">
+
+    <!-- TOPBAR LIMPIO (SIN BOTONES SOBRECARGADOS) -->
+    <header class="topbar">
+      <div class="view-heading">
+        <h1 id="pageTitle">Inicio</h1>
+        <p id="pageSubtitle">Tu resumen financiero personal — simple y claro</p>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="cyber-status-pill" title="Sincronización en tiempo real activa">
+          <span class="live-dot"></span>
+          <span class="cyber-status-text">PANEL FINANCIERO 2026</span>
+        </div>
+        <div class="user-pill-top">
+          
+          <span id="topbarUserName">Admin</span>
+          <span class="user-role-badge admin" id="topbarUserRole">Administrador</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- BARRA DE FILTROS DINÁMICOS (SOLO EN DASHBOARD Y PLANES) -->
+    <div class="filter-container" id="dashboardFilters">
+      <div class="filter-row">
+        <div class="filter-block">
+          <span class="filter-title">Período:</span>
+          <div class="month-pills-wrap" id="monthPills">
+            <button class="month-pill" data-mes="all" onclick="selectMonthFilter('all')">Todos</button>
+            <button class="month-pill" data-mes="1" onclick="selectMonthFilter(1)">Ene</button>
+            <button class="month-pill" data-mes="2" onclick="selectMonthFilter(2)">Feb</button>
+            <button class="month-pill" data-mes="3" onclick="selectMonthFilter(3)">Mar</button>
+            <button class="month-pill" data-mes="4" onclick="selectMonthFilter(4)">Abr</button>
+            <button class="month-pill" data-mes="5" onclick="selectMonthFilter(5)">May</button>
+            <button class="month-pill" data-mes="6" onclick="selectMonthFilter(6)">Jun</button>
+            <button class="month-pill" data-mes="7" onclick="selectMonthFilter(7)">Jul</button>
+            <button class="month-pill active" data-mes="8" onclick="selectMonthFilter(8)">Ago</button>
+            <button class="month-pill" data-mes="9" onclick="selectMonthFilter(9)">Set</button>
+            <button class="month-pill" data-mes="10" onclick="selectMonthFilter(10)">Oct</button>
+            <button class="month-pill" data-mes="11" onclick="selectMonthFilter(11)">Nov</button>
+            <button class="month-pill" data-mes="12" onclick="selectMonthFilter(12)">Dic</button>
+          </div>
+        </div>
+
+        <div class="filter-block">
+          <span class="filter-title">Tipo:</span>
+          <div class="type-pills-wrap" id="typePills">
+            <button class="type-pill active" data-tipo="all" onclick="selectTypeFilter('all')">Todos</button>
+            <button class="type-pill" data-tipo="Ingreso" onclick="selectTypeFilter('Ingreso')">Ingreso</button>
+            <button class="type-pill" data-tipo="Gasto" onclick="selectTypeFilter('Gasto')">Gasto</button>
+            <button class="type-pill" data-tipo="Ahorro e Inversión" onclick="selectTypeFilter('Ahorro e Inversión')">Ahorro/Inv.</button>
+            <button class="type-pill" data-tipo="Deuda" onclick="selectTypeFilter('Deuda')">Deuda</button>
+          </div>
+        </div>
+
+        <div class="filter-block">
+          <span class="filter-title">Categoría:</span>
+          <select id="categoriaFilterSelect" class="month-pill" style="border-radius: 6px; padding: 0.35rem 0.6rem;" onchange="applyCategoryFilter(this.value)">
+            <option value="all">Todas las Categorías</option>
+          </select>
+          <button class="btn btn-outline" style="padding: 0.3rem 0.6rem; font-size: 0.72rem;" onclick="resetAllFilters()">Restablecer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════ CONTENEDOR DE LAS 11 VISTAS ═══════════════════════ -->
+    <div class="view-content">
+
+      <!-- ════════════ 🏠 VISTA: INICIO — Amigable y Sin Jerga ════════════ -->
+      <section class="view-panel active" id="vista-inicio">
+
+        <!-- 🏛️ DIAGNÓSTICO INTEGRAL DE SALUD FINANCIERA (EJECUTIVO Y PROFESIONAL) -->
+        <div class="gamified-mastery-card" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
+          <div class="gmc-header">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem;">
+                <span class="gmc-level-badge" id="gmc-level-badge" style="color: #38bdf8; background: rgba(56, 189, 248, 0.12); border-color: rgba(56, 189, 248, 0.3);">
+                  Auditoría Financiera Activa
+                </span>
+                <span class="gmc-streak-badge" id="gmc-streak-badge" style="color: #02c076; background: rgba(2, 192, 118, 0.12); border-color: rgba(2, 192, 118, 0.3);">
+                  Presupuesto Cuadrado al 100%
+                </span>
+              </div>
+              <h2 class="gmc-title" style="font-size: 1.35rem; font-weight: 800; color: #ffffff; margin: 0 0 0.35rem 0;">
+                Diagnóstico Integral de Salud Financiera
+              </h2>
+              <p class="gmc-sub" id="exec-diagnostic-msg" style="color: #cbd5e1; font-size: 0.85rem; max-width: 820px; line-height: 1.5; margin: 0;">
+                Consolidado ejecutivo de la posición financiera global, estructura patrimonial y flujo de caja neto del período auditado. Control integral en tiempo real sin desviaciones operativas.
+              </p>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <div style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 0.45rem 0.9rem; font-size: 0.8rem;">
+                <span style="color: #94a3b8; font-weight: 600; margin-right: 0.35rem;">Período:</span>
+                <select id="inicio-mes-sel" style="background: transparent; color: #ffffff; border: none; font-weight: 700; cursor: pointer; outline: none;" onchange="cambiarMesInicio(this.value)">
+                  <option style="color:#000" value="1">Enero</option><option style="color:#000" value="2">Febrero</option>
+                  <option style="color:#000" value="3">Marzo</option><option style="color:#000" value="4">Abril</option>
+                  <option style="color:#000" value="5">Mayo</option><option style="color:#000" value="6">Junio</option>
+                  <option style="color:#000" value="7">Julio</option><option style="color:#000" value="8" selected>Agosto</option>
+                  <option style="color:#000" value="9">Septiembre</option><option style="color:#000" value="10">Octubre</option>
+                  <option style="color:#000" value="11">Noviembre</option><option style="color:#000" value="12">Diciembre</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 Pilares Ejecutivos de Cobertura Financiera -->
+          <div class="missions-grid" style="margin-top: 1.25rem;">
+            <div class="mission-card" style="background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08);">
+              <div class="mission-header">
+                <span style="color: #f8fafc; font-weight: 700;">1. Cobertura de Gastos Fijos</span>
+                <span class="mission-status-pill done" style="background: rgba(2,192,118,0.2); color: #02c076;">100% Cubierto</span>
+              </div>
+              <p class="mission-desc" style="color: #94a3b8;">S/. 2,500 en compromisos indispensables cubiertos con ingresos fijos.</p>
+            </div>
+
+            <div class="mission-card" style="background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08);">
+              <div class="mission-header">
+                <span style="color: #f8fafc; font-weight: 700;">2. Carga de Deuda Mensual</span>
+                <span class="mission-status-pill done" style="background: rgba(2,192,118,0.2); color: #02c076;">16.6% (Bajo límite 25%)</span>
+              </div>
+              <p class="mission-desc" style="color: #94a3b8;">S/. 850 en cuotas fijas pagadas al día sin incurrir en moras.</p>
+            </div>
+
+            <div class="mission-card" style="background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08);">
+              <div class="mission-header">
+                <span style="color: #f8fafc; font-weight: 700;">3. Tasa de Ahorro e Inversión</span>
+                <span class="mission-status-pill done" style="background: rgba(2,192,118,0.2); color: #02c076;">19.5% (En Meta)</span>
+              </div>
+              <p class="mission-desc" style="color: #94a3b8;">S/. 1,000 asignados sistemáticamente a liquidez y portafolio.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ⏳ LÍNEA DE TIEMPO FINANCIERA: PASADO ➔ PRESENTE ➔ FUTURO -->
+        <div class="audit-card" style="margin-bottom: 1.5rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin: 0 0 0.25rem 0;">
+                Evolución Temporal: Mi Yo del Pasado ➔ Mi Yo del Presente ➔ Mi Yo del Futuro
+              </h3>
+              <p style="font-size: 0.8rem; color: #64748b; margin: 0;">
+                Trazabilidad exacta de tus números: cómo cerró el ciclo anterior, cómo opera tu flujo de caja hoy y la proyección hacia fin de año.
+              </p>
+            </div>
+            <span class="audit-badge-net" style="background: rgba(2,192,118,0.12); color: #02c076; font-weight: 800; padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.8rem;">
+              Trayectoria de Crecimiento Sostenible
+            </span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+            
+            <!-- Columna 1: Mi Yo del Pasado -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">
+                <strong style="color: #475569; font-size: 0.88rem;">1. Mi Yo del Pasado (Julio)</strong>
+                <span style="font-size: 0.72rem; font-weight: 700; background: #e2e8f0; color: #475569; padding: 0.2rem 0.5rem; border-radius: 4px;">Cerrado</span>
+              </div>
+              <div style="font-size: 0.8rem; color: #475569; display: flex; flex-direction: column; gap: 0.45rem;">
+                <div style="display:flex; justify-content:space-between;"><span>Ingresos Totales:</span><strong style="color:#0f172a;">S/. 5,008</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Gastos Fijos (Vivienda/Alim/Educ):</span><strong style="color:#475569;">S/. 2,500</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Gastos Variables del mes:</span><strong style="color:#475569;">S/. 610</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Servicio de Deuda (Cuotas):</span><strong style="color:#475569;">S/. 850</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Ahorro e Inversión:</span><strong style="color:#02c076;">S/. 1,000</strong></div>
+                <div style="display:flex; justify-content:space-between; border-top:1px dashed #cbd5e1; padding-top:0.4rem;"><span>Saldo Libre Remanente:</span><strong style="color:#02c076;">+S/. 48</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Patrimonio Neto Final:</span><strong style="color:#1e3a8a;">S/. 177,350</strong></div>
+              </div>
+              <div style="margin-top: 0.75rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.6rem; font-size: 0.74rem; color: #64748b;">
+                <strong>Balance:</strong> Cumplió la regla de ahorro del 20% y cerró con excedente positivo sin recurrir a deuda.
+              </div>
+            </div>
+
+            <!-- Columna 2: Mi Yo del Presente -->
+            <div style="background: #ffffff; border: 2px solid #02c076; border-radius: 12px; padding: 1.25rem; box-shadow: 0 4px 14px rgba(2,192,118,0.1);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">
+                <strong style="color: #047857; font-size: 0.88rem;">2. Mi Yo del Presente (Agosto)</strong>
+                <span style="font-size: 0.72rem; font-weight: 800; background: rgba(2,192,118,0.15); color: #02c076; padding: 0.2rem 0.55rem; border-radius: 4px;">En Curso</span>
+              </div>
+              <div style="font-size: 0.8rem; color: #334155; display: flex; flex-direction: column; gap: 0.45rem;">
+                <div style="display:flex; justify-content:space-between;"><span>Ingresos Fijos Garantizados:</span><strong style="color:#0f172a;">S/. 5,126</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Gastos Fijos Indispensables:</span><strong style="color:#0f172a;">S/. 2,500</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Gastos Variables (Inc. Ropa est.):</span><strong style="color:#0f172a;">S/. 760</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Cuotas de Deuda Programada:</span><strong style="color:#0f172a;">S/. 850</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Ahorro e Inversión (20%):</span><strong style="color:#02c076;">S/. 1,000</strong></div>
+                <div style="display:flex; justify-content:space-between; border-top:1px dashed #cbd5e1; padding-top:0.4rem;"><span>Saldo Líquido Libre en Mano:</span><strong style="color:#02c076; font-size:0.95rem;">+S/. 16</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Patrimonio Neto Actual:</span><strong style="color:#1e3a8a; font-size:0.95rem;">S/. 178,008</strong></div>
+              </div>
+              <div style="margin-top: 0.75rem; background: rgba(2,192,118,0.06); border: 1px solid rgba(2,192,118,0.25); border-radius: 8px; padding: 0.6rem; font-size: 0.74rem; color: #065f46;">
+                <strong>Balance:</strong> Cobertura exacta al 100%. Los gastos y cuotas no sobrepasan tus ingresos; el patrimonio creció +S/. 658 en el mes.
+              </div>
+            </div>
+
+            <!-- Columna 3: Mi Yo del Futuro -->
+            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; border-bottom: 1px solid #dcfce7; padding-bottom: 0.5rem;">
+                <strong style="color: #166534; font-size: 0.88rem;">3. Mi Yo del Futuro (Septiembre ➔ Diciembre)</strong>
+                <span style="font-size: 0.72rem; font-weight: 700; background: #dcfce7; color: #166534; padding: 0.2rem 0.5rem; border-radius: 4px;">Proyectado</span>
+              </div>
+              <div style="font-size: 0.8rem; color: #166534; display: flex; flex-direction: column; gap: 0.45rem;">
+                <div style="display:flex; justify-content:space-between;"><span>Ingresos Proyectados:</span><strong style="color:#0f172a;">S/. 5,144</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Gastos Fijos (Mismos compromisos):</span><strong style="color:#475569;">S/. 2,500</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Compras Eventuales Repetidas:</span><strong style="color:#02c076;">S/. 0 (Vida útil activa)</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Servicio de Deuda Programado:</span><strong style="color:#475569;">S/. 850</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Ahorro Potenciado:</span><strong style="color:#02c076;">S/. 1,150 (22.4%)</strong></div>
+                <div style="display:flex; justify-content:space-between; border-top:1px dashed #bbf7d0; padding-top:0.4rem;"><span>Saldo Libre Proyectado:</span><strong style="color:#02c076;">+S/. 144</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Patrimonio Proyectado a Dic:</span><strong style="color:#1e3a8a; font-size:0.95rem;">S/. 183,000</strong></div>
+              </div>
+              <div style="margin-top: 0.75rem; background: #ffffff; border: 1px solid #bbf7d0; border-radius: 8px; padding: 0.6rem; font-size: 0.74rem; color: #15803d;">
+                <strong>Proyección:</strong> Al no repetir compras eventuales de ropa/equipamiento, liberas flujo para acelerar ahorro y llegar a S/. 183,000 en diciembre.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 📊 PANEL COCKPIT DE SALUD FINANCIERA & MONITORES EN VIVO -->
+        <div style="display: grid; grid-template-columns: 320px 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
+          
+          <!-- Medidor Central Circular Radial con Puntuación -->
+          <div class="chart-box" style="padding: 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+            <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem;">Medidor Biométrico FICO / Salud</span>
+            <div id="health-gauge-chart" style="width: 100%; height: 160px;"></div>
+            <h3 id="health-title" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin: 0.4rem 0 0.2rem 0;">Evaluando salud...</h3>
+            <p id="health-subtitle" style="font-size: 0.76rem; color: #64748b; margin: 0;">Analizando movimientos del mes</p>
+          </div>
+
+          <!-- 3 Monitores de Combate con Barras de Carga Shimmer -->
+          <div class="chart-box" style="padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-around; gap: 1rem;">
+            
+            <!-- Monitor 1: Gastos -->
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">
+                <span style="color: #0f172a;">Control de Gastos Ejecutados</span>
+                <span id="hd-gastos-val" style="color: #ef4444; font-weight: 800;">57.6% (Techo: 45%)</span>
+              </div>
+              <div class="fintech-track" style="height: 14px;">
+                <div class="fintech-loading-bar flb-red" id="bar-gastos-load" style="width: 57.6%;"></div>
+              </div>
+            </div>
+
+            <!-- Monitor 2: Ahorro -->
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">
+                <span style="color: #0f172a;">Capacidad de Ahorro e Inversión</span>
+                <span id="hd-ahorro-val" style="color: #10b981; font-weight: 800;">26.1% (Meta: 20%)</span>
+              </div>
+              <div class="fintech-track" style="height: 14px;">
+                <div class="fintech-loading-bar flb-green" id="bar-ahorro-load" style="width: 26.1%;"></div>
+              </div>
+            </div>
+
+            <!-- Monitor 3: Deuda -->
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">
+                <span style="color: #0f172a;">Carga de Servicio de Deuda</span>
+                <span id="hd-deuda-val" style="color: #f59e0b; font-weight: 800;">48.9% (Alerta: >25%)</span>
+              </div>
+              <div class="fintech-track" style="height: 14px;">
+                <div class="fintech-loading-bar flb-amber" id="bar-deuda-load" style="width: 48.9%;"></div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- 🧭 AUTOEVALUACIÓN FINANCIERA & SUPERACIÓN PERSONAL: YO ACTUAL VS YO ANTERIOR -->
+        <div class="autoeval-card">
+          <div class="autoeval-header">
+            <div>
+              <h3 class="autoeval-title">Autoevaluación de Superación: Mi Yo Actual vs Mi Yo Anterior</h3>
+              <p class="autoeval-sub">Comparativa evolutiva de desempeño financiero, discriminando gastos inevitables, inversiones de tiempo útil ya cubiertas y soluciones tácticas para el próximo mes.</p>
+            </div>
+            <div class="audit-badge-net" id="autoeval-badge-status">
+              <span class="ticker-arrow">▲</span> Superando Línea Base Previa
+            </div>
+          </div>
+
+          <!-- 1. Enfrentamiento Cuantitativo Directo (Mes Actual vs Mes Anterior) -->
+          <div class="autoeval-vs-grid">
+            <div class="autoeval-vs-box">
+              <div class="avb-label">Generación de Ingresos</div>
+              <div class="avb-comparison">
+                <span class="avb-prev" id="aev-prev-ing">Jul: S/. 4,450</span>
+                <span class="avb-cur" id="aev-cur-ing">S/. 4,600</span>
+              </div>
+              <div class="avb-delta good" id="aev-diff-ing">▲ +S/. 150 (+3.4%)</div>
+            </div>
+
+            <div class="autoeval-vs-box">
+              <div class="avb-label">Patrimonio Neto Real</div>
+              <div class="avb-comparison">
+                <span class="avb-prev" id="aev-prev-pat">Jul: S/. 174,500</span>
+                <span class="avb-cur" id="aev-cur-pat">S/. 178,008</span>
+              </div>
+              <div class="avb-delta good" id="aev-diff-pat">▲ +S/. 3,508 (+2.0%)</div>
+            </div>
+
+            <div class="autoeval-vs-box">
+              <div class="avb-label">Tasa de Ahorro e Inversión</div>
+              <div class="avb-comparison">
+                <span class="avb-prev" id="aev-prev-aho">Jul: 25.8%</span>
+                <span class="avb-cur" id="aev-cur-aho">26.1%</span>
+              </div>
+              <div class="avb-delta good" id="aev-diff-aho">▲ +0.3% (S/. 1,200)</div>
+            </div>
+
+            <div class="autoeval-vs-box" style="background: rgba(37,99,235,0.04); border-color: rgba(37,99,235,0.2);">
+              <div class="avb-label" style="color: #1d4ed8;">Score de Salud FICO</div>
+              <div class="avb-comparison">
+                <span class="avb-prev" id="aev-prev-score">Jul: 29 pts</span>
+                <span class="avb-cur" id="aev-cur-score" style="color: #2563eb;">33 pts</span>
+              </div>
+              <div class="avb-delta good" id="aev-diff-score">▲ +4 pts | Proy: 48 pts</div>
+            </div>
+          </div>
+
+          <!-- 2. Clasificación Real de Gastos por Naturaleza y Prioridad -->
+          <div style="margin-bottom: 0.75rem;">
+            <h4 style="font-size: 0.92rem; font-weight: 800; color: #0f172a; margin: 0 0 0.25rem 0;">Auditoría por Naturaleza del Gasto (Sin recortes ciegos)</h4>
+            <p style="font-size: 0.76rem; color: #64748b; margin: 0;">Diferenciamos lo que es vital de lo que ya cumplió su vida útil para no aplicar falsas soluciones de 'ahorrar y ya'.</p>
+          </div>
+
+          <div class="expense-nature-grid">
+            <!-- Pilar 1: Gastos Inevitables -->
+            <div class="expense-nature-card enc-inevitable">
+              <div>
+                <div class="enc-header">
+                  <span class="enc-title">1. Gastos Inevitables</span>
+                  <span class="enc-badge">No Tocables</span>
+                </div>
+                <div class="enc-amount" id="enc-amount-inev">S/. 1,080 / mes</div>
+                <div class="enc-subitems">
+                  Vivienda (S/. 415), Alimentación básica (S/. 130), Transporte esencial (S/. 75), Salud (S/. 125), Educación (S/. 335).
+                </div>
+              </div>
+              <div class="enc-verdict">
+                <strong>Veredicto Financiero:</strong> Representan el 23.5% de tus ingresos (bien por debajo del límite seguro de 45%). <em>No se deben recortar</em> porque sostienen tu estabilidad y capacidad de generar ingresos.
+              </div>
+            </div>
+
+            <!-- Pilar 2: Gastos de Tiempo Útil Cubierto -->
+            <div class="expense-nature-card enc-eventual">
+              <div>
+                <div class="enc-header">
+                  <span class="enc-title">2. Gastos de Vida Útil</span>
+                  <span class="enc-badge">Tiempo Cubierto</span>
+                </div>
+                <div class="enc-amount" id="enc-amount-even">S/. 665 / mes</div>
+                <div class="enc-subitems">
+                  Vestimenta estacional (S/. 540) y Equipamiento / Tecnología (S/. 125). Bienes con vida útil de 6 a 18 meses.
+                </div>
+              </div>
+              <div class="enc-verdict">
+                <strong>Oportunidad Estratégica:</strong> Ya se ejecutaron y ya están en uso. Para el próximo mes la asignación debe ser <strong>S/. 0</strong>, liberando <strong>S/. 665 en efectivo neto</strong> sin afectar tu bienestar.
+              </div>
+            </div>
+
+            <!-- Pilar 3: Gastos Discrecionales y Hábitos -->
+            <div class="expense-nature-card enc-discrecional">
+              <div>
+                <div class="enc-header">
+                  <span class="enc-title">3. Hábitos y Ocio</span>
+                  <span class="enc-badge">Palanca de Ajuste</span>
+                </div>
+                <div class="enc-amount" id="enc-amount-disc">S/. 905 / mes</div>
+                <div class="enc-subitems">
+                  Entretenimiento (S/. 375), Salidas familiares (S/. 400), Suscripciones no prioritarias (S/. 130).
+                </div>
+              </div>
+              <div class="enc-verdict">
+                <strong>Plan de Eficiencia:</strong> Un ajuste moderado del 20% en salidas de ocio y dar de baja 2 suscripciones duplicadas rescata <strong>S/. 185 / mes</strong> para el plan de rescate.
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Solución Táctica Exacta y Proyección para el Próximo Mes -->
+          <div class="tactical-solution-card">
+            <div class="tsc-left">
+              <h4>Solución Financiera Exacta (Próximo Mes)</h4>
+              <p>Reconociendo que los gastos de tiempo útil ya concluyeron y ajustando fugas discrecionales, liberas un excedente real sin tocar tus gastos de vida indispensables.</p>
+              <div class="tsc-liberated-badge">
+                <span>⚡ Flujo Neto Liberado:</span> <strong id="tsc-liberated-sum">+S/. 850 / mes</strong>
+              </div>
+            </div>
+            <div class="tsc-roadmap">
+              <div class="roadmap-item">
+                <div class="ri-num">1</div>
+                <div class="ri-content">
+                  <strong>Amortización Avalancha de Deuda: S/. 600</strong>
+                  <small id="tsc-road-deuda">Destinar S/. 600 del flujo liberado a la deuda de mayor tasa reduce tu carga del 48.9% al 35.8% en septiembre y te saca de la zona roja en 60 días.</small>
+                </div>
+              </div>
+              <div class="roadmap-item">
+                <div class="ri-num">2</div>
+                <div class="ri-content">
+                  <strong>Refuerzo de Portafolio: S/. 250</strong>
+                  <small id="tsc-road-ahorro">Inyectar S/. 250 al ahorro eleva tu tasa al 31.5%, superando con creces tu meta del 20%.</small>
+                </div>
+              </div>
+              <div class="roadmap-item">
+                <div class="ri-num">3</div>
+                <div class="ri-content">
+                  <strong>Salud Financiera Proyectada: 48 Puntos (Rango Guardián)</strong>
+                  <small id="tsc-road-salud">Tu índice FICO saldrá del nivel de cuidado (+15 puntos ganados) consolidando tu superación personal.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 💧 TARJETA DE EXCEDENTE LÍQUIDO DISPONIBLE DEL MES (DESGLOSE CONTABLE) -->
+        <div class="liquidity-cockpit-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+          <div class="lcc-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.85rem;">
+            <div>
+              <span style="font-size: 0.72rem; font-weight: 800; color: #64748b; letter-spacing: 0.05em; text-transform: uppercase;">
+                Excedente Líquido Disponible del Mes (Saldo Libre Remanente)
+              </span>
+              <div class="lcc-value-box" id="balance-libre" style="font-size: 1.8rem; font-weight: 900; color: #02c076; margin-top: 0.2rem;">
+                +S/. 16
+              </div>
+            </div>
+            <div id="badge-liquidez-status" class="ticker-badge ticker-up" style="font-size: 0.8rem; font-weight: 800; padding: 0.35rem 0.85rem; border-radius: 8px; background: rgba(2,192,118,0.12); color: #047857;">
+              Presupuesto Equilibrado (Sin Déficit)
+            </div>
+          </div>
+
+          <!-- Desglose contable paso a paso -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 0.75rem; font-size: 0.8rem; color: #475569; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem;">
+            <div><strong>Ingresos Totales:</strong> <span id="eq-ing-val" style="color: #0f172a; font-weight: 700;">S/. 5,126</span></div>
+            <div><strong>- Gastos Totales:</strong> <span id="eq-gas-val" style="color: #475569; font-weight: 700;">S/. 3,260</span></div>
+            <div><strong>- Ahorro e Inversión:</strong> <span id="eq-aho-val" style="color: #475569; font-weight: 700;">S/. 1,000</span></div>
+            <div><strong>- Cuotas de Deuda:</strong> <span id="eq-deu-val" style="color: #475569; font-weight: 700;">S/. 850</span></div>
+            <div style="border-left: 2px solid #cbd5e1; padding-left: 0.75rem;"><strong>= Remanente en Mano:</strong> <strong id="eq-net-val" style="color: #02c076; font-size: 0.9rem;">+S/. 16</strong></div>
+          </div>
+
+          <div class="lcc-daily-tip" id="daily-survival-tip" style="font-size: 0.78rem; color: #334155; line-height: 1.5; background: rgba(2,192,118,0.06); border: 1px solid rgba(2,192,118,0.25); border-radius: 8px; padding: 0.65rem 0.9rem;">
+            <strong>Diagnóstico de Flujo de Caja:</strong> Tus ingresos garantizan la cobertura íntegra de tus gastos de vida, tus compromisos de deuda al día y tu ahorro planificado del 20%. Los <strong>+S/. 16</strong> representan tu colchón neto positivo sin deudas ocultas.
+          </div>
+        </div>
+
+        <!-- 💼 AUDITORÍA ECONÓMICA REAL: MÉTODO MANUAL PROTOCOLARIO VS FINCONTROL -->
+        <div class="audit-card">
+          <div class="audit-header">
+            <div>
+              <h3 class="audit-title">Diferencia Económica Auditada: Tareas Protocolarias vs FinControl</h3>
+              <p class="audit-sub">Análisis cuantitativo del costo real en horas de trabajo, fugas no detectadas y sobrecostos financieros evitados.</p>
+            </div>
+            <div class="audit-badge-net">
+              <span class="ticker-arrow">▲</span> +S/. 1,348 / mes de Retorno Neto
+            </div>
+          </div>
+
+          <div class="audit-kpi-grid">
+            <div class="audit-kpi-box">
+              <div class="ak-label">Horas Invertidas al Mes</div>
+              <div class="ak-value">18.5h → 2.5h</div>
+              <div class="ak-diff good">▲ 16h ahorradas (+S/. 608/mes)</div>
+            </div>
+
+            <div class="audit-kpi-box">
+              <div class="ak-label">Fugas de Gasto Contenidas</div>
+              <div class="ak-value">S/. 520 → S/. 40</div>
+              <div class="ak-diff good">▲ S/. 480/mes preservados</div>
+            </div>
+
+            <div class="audit-kpi-box">
+              <div class="ak-label">Sobrecostos de Deuda</div>
+              <div class="ak-value">S/. 340 → S/. 80</div>
+              <div class="ak-diff good">▲ S/. 260/mes optimizados</div>
+            </div>
+
+            <div class="audit-kpi-box" style="background: rgba(2, 192, 118, 0.06); border-color: rgba(2, 192, 118, 0.3);">
+              <div class="ak-label" style="color: #047857;">Diferencial Económico Neto</div>
+              <div class="ak-value" style="color: #02c076;">+S/. 1,348</div>
+              <div class="ak-diff good">Impacto Anual: +S/. 16,176</div>
+            </div>
+          </div>
+
+          <!-- Tabla de Auditoría Técnica de Costos Operativos -->
+          <div class="audit-table-wrap">
+            <table class="audit-table">
+              <thead>
+                <tr>
+                  <th>Dimensión Auditada</th>
+                  <th>Método Manual Protocolario (Antes)</th>
+                  <th>Con Dashboard FinControl (Después)</th>
+                  <th style="text-align: right;">Diferencia Económica Real</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Horas de trabajo operativo</strong><br><small style="color:#64748b;">Registro manual, archivo de vouchers, cuadre bancario a fin de mes (Tasa S/. 38/h)</small></td>
+                  <td>18.5 horas / mes (S/. 703 costo laboral)</td>
+                  <td>2.5 horas / mes (S/. 95 costo laboral)</td>
+                  <td style="text-align: right; font-weight: 700; color: #02c076;">+S/. 608 / mes ahorrados</td>
+                </tr>
+                <tr>
+                  <td><strong>Fugas de gasto no detectadas</strong><br><small style="color:#64748b;">Desvíos en gastos hormiga, compras no planificadas detectadas 30 días tarde</small></td>
+                  <td>S/. 520 / mes (desvío medio 14.8%)</td>
+                  <td>S/. 40 / mes (alertas en tiempo real)</td>
+                  <td style="text-align: right; font-weight: 700; color: #02c076;">+S/. 480 / mes contenidos</td>
+                </tr>
+                <tr>
+                  <td><strong>Sobrecostos financieros de deuda</strong><br><small style="color:#64748b;">Penalidades por moras tardías, cuotas sin amortización estructurada</small></td>
+                  <td>S/. 340 / mes en intereses y cargos</td>
+                  <td>S/. 80 / mes (plan avalancha sin moras)</td>
+                  <td style="text-align: right; font-weight: 700; color: #02c076;">+S/. 260 / mes evitados</td>
+                </tr>
+                <tr class="highlight-total">
+                  <td>COSTO OPERATIVO Y PÉRDIDA CONSOLIDADA</td>
+                  <td style="color: #f6465d;">S/. 1,563 / mes de merma económica</td>
+                  <td style="color: #02c076;">S/. 215 / mes de gasto eficiente</td>
+                  <td style="text-align: right; color: #02c076; font-size: 0.95rem;">▲ +S/. 1,348 / mes A TU FAVOR</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 💡 CONSEJOS AUTOMÁTICOS PERSONALIZADOS -->
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 0.9rem; font-weight: 800; color: #0f172a; margin-bottom: 0.75rem;">Recomendaciones Financieras y Planes de Acción Tácticos</h4>
+          <div id="tipsContainer" class="tips-grid">
+            <div class="tip-card tip-neutral">
+              <span class="tip-icon">⏳</span>
+              <div class="tip-text"><p>Cargando consejos basados en tus datos...</p></div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      
+
+      <!-- ════════════ 2. VISTA: DASHBOARD PRINCIPAL (IMAGEN 1 - LOS 9 GRÁFICOS) ════════════ -->
+      <section class="view-panel active" id="vista-dashboard">
+        
+        <!-- Tarjetas Resumen Ejecutivo del Mes Seleccionado -->
+        <div class="kpis-grid">
+          <div class="kpi-card kpi-green">
+            <div class="kpi-header">
+              <span class="kpi-label">Ingresos Reales</span>
+              <span class="kpi-icon-pill" style="background: rgba(2,192,118,0.12); color: #02c076;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 8v8M8 12h8"/></svg></span>
+            </div>
+            <div class="kpi-value" id="dash-kpi-ingresos">S/ 0</div>
+            <div class="kpi-submeta">
+              <span>Presupuesto: <strong id="dash-ppto-ingresos">S/ 0</strong></span>
+              <span class="delta-badge" id="dash-delta-ingresos">0%</span>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi-red">
+            <div class="kpi-header">
+              <span class="kpi-label">Gastos Ejecutados</span>
+              <span class="kpi-icon-pill" style="background: rgba(246,70,93,0.12); color: #f6465d;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+            </div>
+            <div class="kpi-value" id="dash-kpi-gastos">S/ 0</div>
+            <div class="kpi-submeta">
+              <span>Presupuesto: <strong id="dash-ppto-gastos">S/ 0</strong></span>
+              <span class="delta-badge" id="dash-delta-gastos">0%</span>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi-purple">
+            <div class="kpi-header">
+              <span class="kpi-label">Ahorro e Inversión</span>
+              <span class="kpi-icon-pill" style="background: rgba(37,99,235,0.12); color: #2563eb;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+            </div>
+            <div class="kpi-value" id="dash-kpi-ahorro">S/ 0</div>
+            <div class="kpi-submeta">
+              <span>Presupuesto: <strong id="dash-ppto-ahorro">S/ 0</strong></span>
+              <span class="delta-badge" id="dash-delta-ahorro">0%</span>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi-amber">
+            <div class="kpi-header">
+              <span class="kpi-label">Pago de Deudas</span>
+              <span class="kpi-icon-pill" style="background: rgba(245,158,11,0.12); color: #f59e0b;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+            </div>
+            <div class="kpi-value" id="dash-kpi-deuda">S/ 0</div>
+            <div class="kpi-submeta">
+              <span>Presupuesto: <strong id="dash-ppto-deuda">S/ 0</strong></span>
+              <span class="delta-badge" id="dash-delta-deuda">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BANNER DINÁMICO DE ESTADO FINANCIERO (ALEGRE VS ALERTA) -->
+        <div id="dash-balance-banner" class="dynamic-balance-banner balance-happy">
+          <div class="dbb-content">
+            <span class="dbb-icon" id="dbb-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+            <div class="dbb-text">
+              <h4 id="dbb-title">Calculando diagnóstico financiero...</h4>
+              <p id="dbb-sub">Analizando ingresos, nivel de gasto y ratio de endeudamiento del mes.</p>
+            </div>
+          </div>
+          <span class="dbb-badge" id="dbb-badge">Estado Mensual</span>
+        </div>
+
+        <!-- CENTRO DE SUGERENCIAS INTELIGENTES CON ACCIONES Y PROYECCIÓN -->
+        <div class="smart-suggestions-row">
+          <div class="smart-suggestions-grid">
+            <div class="suggestion-card sc-deuda" id="sc-deuda-card">
+              <div class="sc-header">
+                <strong>Estrategia de Deuda</strong>
+              </div>
+              <p class="sc-body" id="sc-deuda-text">Analizando cuotas y carga de endeudamiento...</p>
+              <div class="sc-footer">
+                <span class="sc-tag danger" id="sc-deuda-tag">En Evaluación</span>
+                <span style="color: #64748b; font-size: 0.7rem;">Meta: ≤ 25%</span>
+              </div>
+            </div>
+
+            <div class="suggestion-card sc-gasto" id="sc-gasto-card">
+              <div class="sc-header">
+                <strong>Control de Gastos</strong>
+              </div>
+              <p class="sc-body" id="sc-gasto-text">Identificando categorías con mayor consumo...</p>
+              <div class="sc-footer">
+                <span class="sc-tag warning" id="sc-gasto-tag">Seguimiento</span>
+                <span style="color: #64748b; font-size: 0.7rem;">Techo: ≤ 45%</span>
+              </div>
+            </div>
+
+            <div class="suggestion-card sc-proyeccion" id="sc-proyeccion-card">
+              <div class="sc-header">
+                <strong>Proyección de Crecimiento</strong>
+              </div>
+              <p class="sc-body" id="sc-proyeccion-text">Calculando patrimonio acumulado con ahorro constante...</p>
+              <div class="sc-footer">
+                <span class="sc-tag success" id="sc-proyeccion-tag">Incentivo 12M</span>
+                <span style="color: #059669; font-weight: 800;">+Interés Compuesto</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Matriz de los 9 Gráficos Modernos Exactos a la Imagen 1 -->
+        <!-- 2 GRÁFICOS MAESTROS DE ALTO NIVEL (EJECUTIVOS Y CLAROS) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+          
+          <!-- Gráfico 1: TIPO (Presupuesto & Real) -->
+          <div class="chart-box" style="padding: 1.25rem;">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Presupuesto vs Realidad</span>
+              <span class="chart-legend-hint">Por Tipo de Flujo</span>
+            </div>
+            <div class="chart-canvas" id="chart-tipo-ppto-real" style="min-height: 280px;"></div>
+          </div>
+
+          <!-- Gráfico 4: TIPO (Mensual) -->
+          <div class="chart-box" style="padding: 1.25rem;">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Flujo y Tendencia Mensual</span>
+              <span class="chart-legend-hint">Curva Anual Ene - Dic</span>
+            </div>
+            <div class="chart-canvas" id="chart-tipo-mensual" style="min-height: 280px;"></div>
+          </div>
+
+        </div>
+
+        <!-- 📑 SELECTOR DE PESTAÑAS PARA DESGLOSE ANALÍTICO (SIN SOBRECARGA) -->
+        <div class="dashboard-tabs-bar">
+          <button class="dash-tab-btn active" id="tab-btn-cat" onclick="switchDashTab('cat')">Detalle por Categorías</button>
+          <button class="dash-tab-btn" id="tab-btn-sub" onclick="switchDashTab('sub')">Detalle por Subcategorías</button>
+          <button class="dash-tab-btn" id="tab-btn-acum" onclick="switchDashTab('acum')">Flujo Acumulado Anual</button>
+          <button class="dash-tab-btn" id="tab-btn-impacto" onclick="switchDashTab('impacto')" style="border-color: #02c076; color: #02c076;">Diferencial Económico (Antes vs Después)</button>
+        </div>
+
+        <!-- SECCIÓN 1: DETALLE POR CATEGORÍAS -->
+        <div id="dash-sec-categorias" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem;">
+          <div class="chart-box" style="grid-column: span 1;">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Comparativa por Categoría</span>
+              <span class="chart-legend-hint">Presupuesto vs Real</span>
+            </div>
+            <div class="chart-canvas" id="chart-cat-ppto-real"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Presupuesto Asignado</span>
+              <span class="chart-legend-hint">Por Categoría</span>
+            </div>
+            <div class="chart-canvas" id="chart-cat-presupuesto-donut"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Gasto Real Efectivo</span>
+              <span class="chart-legend-hint">Por Categoría</span>
+            </div>
+            <div class="chart-canvas" id="chart-cat-real-donut"></div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: DETALLE POR SUBCATEGORÍAS (OCULTO POR DEFECTO) -->
+        <div id="dash-sec-subcategorias" style="display: none; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem;">
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Subcategorías: Ppto vs Real</span>
+              <span class="chart-legend-hint">Ejecución detallada</span>
+            </div>
+            <div class="chart-canvas" id="chart-subcat-ppto-real"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Presupuesto por Subcategoría</span>
+              <span class="chart-legend-hint">Asignación proyectada</span>
+            </div>
+            <div class="chart-canvas" id="chart-subcat-presupuesto-donut"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Gasto Real por Subcategoría</span>
+              <span class="chart-legend-hint">Participación actual</span>
+            </div>
+            <div class="chart-canvas" id="chart-subcat-real-donut"></div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 3: ACUMULADO ANUAL (OCULTO POR DEFECTO) -->
+        <div id="dash-sec-acumulado" style="display: none; grid-template-columns: 1fr; gap: 1.25rem;">
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Curva Acumulada Anual (YTD)</span>
+              <span class="chart-legend-hint">Presupuesto Acumulado vs Real Acumulado</span>
+            </div>
+            <div class="chart-canvas" id="chart-tipo-acumulado" style="min-height: 320px;"></div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 4: AUDITORÍA DE IMPACTO ECONÓMICO ANTES VS DESPUÉS -->
+        <div id="dash-sec-impacto" style="display: none; grid-template-columns: 1fr; gap: 1.25rem;">
+          <div class="chart-box" style="padding: 1.25rem;">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Evolución de Pérdidas Evitadas vs Costo de Protocolo Manual</span>
+              <span class="chart-legend-hint">Trayectoria mes a mes Ene - Dic (Soles)</span>
+            </div>
+            <div class="chart-canvas" id="chart-trayectoria-comparativa" style="min-height: 320px;"></div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ════════════ 3. VISTA: REGISTRO - ESF ════════════ -->
+      <section class="view-panel" id="vista-registro-esf">
+        <div class="matrix-toolbar" style="border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;">
+          <div>
+            <h3 style="font-size: 1.05rem; color: #0f172a;">Historial de Balances Patrimoniales (ESF)</h3>
+            <p style="font-size: 0.78rem; color: #64748b;">Registro mensual de activos líquidos, invertidos y obligaciones de deuda — Modo Demostración (Solo Lectura)</p>
+          </div>
+        </div>
+        <div class="table-card" style="border-top-left-radius: 0; border-top-right-radius: 0;">
+          <div class="data-table-wrap">
+            <table class="clean-table" id="tablaESF">
+              <thead>
+                <tr>
+                  <th>Mes / Período</th>
+                  <th>Fecha Corte</th>
+                  <th>Activos Líquidos</th>
+                  <th>Activos Invertidos</th>
+                  <th>Activos No Corrientes</th>
+                  <th>Total Activos</th>
+                  <th>Pasivos Corto Plazo</th>
+                  <th>Pasivos Largo Plazo</th>
+                  <th>Total Pasivos</th>
+                  <th>Patrimonio Neto</th>
+                  <th>Solvencia</th>
+                  
+                </tr>
+              </thead>
+              <tbody id="tablaESFBody">
+                <!-- Llenado con app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════ 4. VISTA: ESTADO DE SITUACIÓN FINANCIERA (ESF) ════════════ -->
+      <section class="view-panel" id="vista-esf">
+        <div class="kpis-grid">
+          <div class="kpi-card kpi-green">
+            <div class="kpi-header">
+              <span class="kpi-label">Total Activos</span>
+              <span class="kpi-icon-pill" style="font-weight:700;font-size:0.75rem;color:#02c076;">ACT</span>
+            </div>
+            <div class="kpi-value" id="esf-kpi-activos">S/ 0</div>
+            <div class="kpi-submeta">Patrimonio en bienes y derechos</div>
+          </div>
+          <div class="kpi-card kpi-red">
+            <div class="kpi-header">
+              <span class="kpi-label">Total Pasivos</span>
+              <span class="kpi-icon-pill" style="font-weight:700;font-size:0.75rem;color:#f6465d;">PAS</span>
+            </div>
+            <div class="kpi-value" id="esf-kpi-pasivos">S/ 0</div>
+            <div class="kpi-submeta">Obligaciones y deudas vigentes</div>
+          </div>
+          <div class="kpi-card kpi-purple">
+            <div class="kpi-header">
+              <span class="kpi-label">Patrimonio Neto</span>
+              <span class="kpi-icon-pill">⭐</span>
+            </div>
+            <div class="kpi-value" id="esf-kpi-patrimonio">S/ 0</div>
+            <div class="kpi-submeta">Activo Neto real consolidado</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-label">Ratio de Solvencia</span>
+              <span class="kpi-icon-pill" style="font-weight:700;font-size:0.75rem;color:#2563eb;">SOLV</span>
+            </div>
+            <div class="kpi-value" id="esf-kpi-solvencia">0.0x</div>
+            <div class="kpi-submeta">Activos sobre Pasivos totales</div>
+          </div>
+        </div>
+
+        <!-- BANNER DE PROYECCIÓN DE FUTURO EN PATRIMONIO -->
+        <div class="projection-incentive-box">
+          <div class="pib-text">
+            
+            <span><strong>Auditoría Patrimonial:</strong> Gracias al control continuo de FinControl y la eliminación de fugas protocolarias, tu patrimonio en Agosto es de <strong>S/. 178,008</strong>, superando en <strong>+S/. 10,276 (+6.1%)</strong> la trayectoria que tendrías con el método manual protocolario tradicional.</span>
+          </div>
+          <span class="pib-badge">Proyección Simulada Activa</span>
+        </div>
+
+        <div class="charts-matrix">
+          <div class="chart-box" style="grid-column: span 2;">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Evolución Histórica y Proyección a Futuro</span>
+              <span class="chart-legend-hint">Tendencia mensual</span>
+            </div>
+            <div class="chart-canvas" id="chart-esf-evolucion"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Composición del Activo</span>
+              <span class="chart-legend-hint">Distribución por liquidez</span>
+            </div>
+            <div class="chart-canvas" id="chart-esf-composicion"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════ 5. VISTA: OBJETIVOS ════════════ -->
+      <section class="view-panel" id="vista-objetivos">
+        
+        <div style="margin-bottom: 1.25rem;">
+          <h2 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0 0 0.35rem 0;">Metas Financieras & Objetivos</h2>
+          <p style="font-size: 0.8rem; color: #64748b; margin: 0;">Barras de progreso en tiempo real con efecto de carga activa hacia tus objetivos.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem;">
+          
+          <!-- Meta 1: Fondo de Emergencia -->
+          <div class="chart-box" style="padding: 1.4rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                
+                <strong style="font-size: 0.95rem; color: #0f172a;">Fondo de Emergencia</strong>
+              </div>
+              <span class="delta-badge positive">Meta: 6 meses</span>
+            </div>
+            <p style="font-size: 0.78rem; color: #64748b; margin-bottom: 0.85rem;">
+              Colchón de seguridad ante contingencias o desempleo sin acudir a deuda.
+            </p>
+            <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;" id="obj-fondo-val">S/ 12,500 / S/ 15,900</div>
+            
+            <!-- Barra de Carga Real con Animación y Shimmer -->
+            <div class="goal-loading-track">
+              <div class="goal-loading-fill flb-green" id="obj-fondo-bar" style="width: 78.6%;">78.6%</div>
+            </div>
+
+            <div style="font-size: 0.76rem; color: #64748b; display: flex; justify-content: space-between; font-weight: 600;">
+              <span>Avance: <strong style="color: #02c076;">78.6%</strong></span>
+              <span>Brecha restante: <strong style="color: #0f172a;">S/ 3,400</strong></span>
+            </div>
+          </div>
+
+          <!-- Meta 2: Techo de Gasto -->
+          <div class="chart-box" style="padding: 1.4rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                
+                <strong style="font-size: 0.95rem; color: #0f172a;">Techo de Gasto Mensual</strong>
+              </div>
+              <span class="delta-badge positive">Límite: ≤ 45%</span>
+            </div>
+            <p style="font-size: 0.78rem; color: #64748b; margin-bottom: 0.85rem;">
+              Porcentaje máximo de ingresos destinado a costos fijos y estilo de vida.
+            </p>
+            <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;">43.4%</div>
+            
+            <div class="goal-loading-track">
+              <div class="goal-loading-fill flb-blue" style="width: 43.4%;">43.4%</div>
+            </div>
+
+            <div style="font-size: 0.76rem; color: #64748b; display: flex; justify-content: space-between; font-weight: 600;">
+              <span>Estado: <strong style="color: #02c076;">Dentro del Límite</strong></span>
+              <span>Margen libre: <strong style="color: #0f172a;">1.6%</strong></span>
+            </div>
+          </div>
+
+          <!-- Meta 3: Tasa de Ahorro -->
+          <div class="chart-box" style="padding: 1.4rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                
+                <strong style="font-size: 0.95rem; color: #0f172a;">Tasa de Ahorro e Inversión</strong>
+              </div>
+              <span class="delta-badge positive">Meta: ≥ 20%</span>
+            </div>
+            <p style="font-size: 0.78rem; color: #64748b; margin-bottom: 0.85rem;">
+              Porcentaje mensual reservado para construir patrimonio e inversiones pasivas.
+            </p>
+            <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;">26.1%</div>
+            
+            <div class="goal-loading-track">
+              <div class="goal-loading-fill flb-green" style="width: 87%;">87% de Meta</div>
+            </div>
+
+            <div style="font-size: 0.76rem; color: #64748b; display: flex; justify-content: space-between; font-weight: 600;">
+              <span>Rendimiento: <strong style="color: #02c076;">Excelente</strong></span>
+              <span>Objetivo superado: <strong style="color: #0f172a;">+6.1%</strong></span>
+            </div>
+          </div>
+
+          <!-- Meta 4: Límite de Endeudamiento -->
+          <div class="chart-box" style="padding: 1.4rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                
+                <strong style="font-size: 0.95rem; color: #0f172a;">Límite de Endeudamiento</strong>
+              </div>
+              <span class="delta-badge negative">Techo: ≤ 25%</span>
+            </div>
+            <p style="font-size: 0.78rem; color: #64748b; margin-bottom: 0.85rem;">
+              Carga máxima de cuotas mensuales de deuda respecto a tus ingresos netos.
+            </p>
+            <div style="font-size: 1.35rem; font-weight: 800; color: #ef4444; margin-bottom: 0.5rem;">48.9%</div>
+            
+            <div class="goal-loading-track">
+              <div class="goal-loading-fill flb-red" style="width: 100%;">Sobrecargado</div>
+            </div>
+
+            <div style="font-size: 0.76rem; color: #64748b; display: flex; justify-content: space-between; font-weight: 600;">
+              <span>Alerta: <strong style="color: #ef4444;">Exceso de cuotas</strong></span>
+              <span>Meta segura: <strong style="color: #0f172a;">25.0%</strong></span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ════════════ 6. VISTA: PRESUPUESTO ════════════ -->
+      <section class="view-panel" id="vista-presupuesto">
+        
+        <!-- 4 TARJETAS EJECUTIVAS DE ASIGNACIÓN PRESUPUESTARIA ANUAL -->
+        <div class="kpis-grid" style="margin-bottom: 1.25rem;">
+          <div class="kpi-card kpi-green">
+            <div class="kpi-header">
+              <span class="kpi-label">Ingresos Planificados Anuales</span>
+              <span class="kpi-icon-pill" style="background: rgba(2,192,118,0.12); color: #02c076; font-weight:800; font-size:0.75rem;">ING</span>
+            </div>
+            <div class="kpi-value" id="ppto-card-ing">S/. 0</div>
+            <div class="kpi-submeta">100% Base de planificación anual</div>
+          </div>
+
+          <div class="kpi-card kpi-red">
+            <div class="kpi-header">
+              <span class="kpi-label">Techo de Gastos Operativos</span>
+              <span class="kpi-icon-pill" style="background: rgba(246,70,93,0.12); color: #f6465d; font-weight:800; font-size:0.75rem;">GAS</span>
+            </div>
+            <div class="kpi-value" id="ppto-card-gas">S/. 0</div>
+            <div class="kpi-submeta">Límite de costos de vida asignado</div>
+          </div>
+
+          <div class="kpi-card kpi-purple">
+            <div class="kpi-header">
+              <span class="kpi-label">Plan de Ahorro e Inversión</span>
+              <span class="kpi-icon-pill" style="background: rgba(37,99,235,0.12); color: #2563eb; font-weight:800; font-size:0.75rem;">AHO</span>
+            </div>
+            <div class="kpi-value" id="ppto-card-aho">S/. 0</div>
+            <div class="kpi-submeta">Acumulación de patrimonio proyectada</div>
+          </div>
+
+          <div class="kpi-card kpi-amber">
+            <div class="kpi-header">
+              <span class="kpi-label">Compromiso Anual de Deuda</span>
+              <span class="kpi-icon-pill" style="background: rgba(245,158,11,0.12); color: #f59e0b; font-weight:800; font-size:0.75rem;">DEU</span>
+            </div>
+            <div class="kpi-value" id="ppto-card-deu">S/. 0</div>
+            <div class="kpi-submeta">Servicio y amortización de pasivos</div>
+          </div>
+        </div>
+
+        <!-- BARRA DE FILTROS Y CONTROLES VISUALES -->
+        <div class="matrix-toolbar" style="border-radius: var(--border-radius-md) var(--border-radius-md) 0 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+          <div>
+            <h3 style="font-size: 1.05rem; color: #0f172a; margin: 0 0 0.2rem 0;">Hoja de Ruta Presupuestaria Anual</h3>
+            <p style="font-size: 0.78rem; color: #64748b; margin: 0;">Asignación mensual y anual estructurada con porcentaje de peso financiero</p>
+          </div>
+
+          <!-- Píldoras de filtro rápido por tipo -->
+          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+            <button class="ppto-filter-btn active dash-tab-btn" onclick="filtrarPresupuestoTipo('all', this)">Todos</button>
+            <button class="ppto-filter-btn dash-tab-btn" onclick="filtrarPresupuestoTipo('Ingreso', this)">Ingresos</button>
+            <button class="ppto-filter-btn dash-tab-btn" onclick="filtrarPresupuestoTipo('Gasto', this)">Gastos</button>
+            <button class="ppto-filter-btn dash-tab-btn" onclick="filtrarPresupuestoTipo('Ahorro e Inversión', this)">Ahorro/Inv.</button>
+            <button class="ppto-filter-btn dash-tab-btn" onclick="filtrarPresupuestoTipo('Deuda', this)">Deudas</button>
+          </div>
+        </div>
+
+        <div class="table-card" style="border-top-left-radius: 0; border-top-right-radius: 0;">
+          <div class="data-table-wrap">
+            <table class="clean-table" id="tablaPresupuesto">
+              <thead>
+                <tr>
+                  <th style="width: 130px;">Tipo</th>
+                  <th>Categoría</th>
+                  <th>Subcategoría</th>
+                  <th style="text-align: right; width: 180px;">Presupuesto Mensual</th>
+                  <th style="text-align: right; width: 170px;">Total Anual</th>
+                  <th style="text-align: right; width: 200px;">% Participación del Total</th>
+                </tr>
+              </thead>
+              <tbody id="tablaPresupuestoBody">
+                <!-- Se llena dinámicamente con barras interactivas -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════ 7. VISTA: REGISTRO - EFE ════════════ -->
+      <section class="view-panel" id="vista-registro-efe">
+        <div class="matrix-toolbar" style="border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;">
+                    <div style="display: flex; gap: 0.75rem; align-items: center; flex: 1;">
+            <span id="contadorEFE" style="font-size: 0.8rem; color: #64748b;">Cargando...</span>
+          </div>
+          
+        </div>
+        <div class="table-card" style="border-top-left-radius: 0; border-top-right-radius: 0;">
+          <div class="data-table-wrap" style="max-height: 550px; overflow-y: auto;">
+            <table class="clean-table" id="tablaEFE">
+              <thead style="position: sticky; top: 0; z-index: 10;">
+                <tr>
+                  <th>ID</th>
+                  <th>Fecha</th>
+                  <th>Mes</th>
+                  <th>Tipo</th>
+                  <th>Categoría</th>
+                  <th>Subcategoría</th>
+                  <th style="text-align: right;">Presupuesto</th>
+                  <th style="text-align: right;">Real (Actual)</th>
+                  <th style="text-align: right;">Variación</th>
+                  <th>Método Pago</th>
+                  <th>Estado</th>
+                  
+                </tr>
+              </thead>
+              <tbody id="tablaEFEBody">
+                <!-- Renderizado en app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════ 8. VISTA: ESTADO DE FLUJO DE EFECTIVO (EFE) ════════════ -->
+      <section class="view-panel" id="vista-efe">
+        <div class="kpis-grid">
+          <div class="kpi-card kpi-green">
+            <div class="kpi-header">
+              <span class="kpi-label">Flujo Operativo (FCO)</span>
+              <span class="kpi-icon-pill" style="font-weight:700;font-size:0.72rem;color:#02c076;">FCO</span>
+            </div>
+            <div class="kpi-value" id="efe-kpi-fco">S/ 0</div>
+            <div class="kpi-submeta">Ingresos netos - Gastos corrientes</div>
+          </div>
+          <div class="kpi-card kpi-purple">
+            <div class="kpi-header">
+              <span class="kpi-label">Flujo Inversión (FCI)</span>
+              <span class="kpi-icon-pill" style="font-weight:700;font-size:0.72rem;color:#2563eb;">FCI</span>
+            </div>
+            <div class="kpi-value" id="efe-kpi-fci">S/ 0</div>
+            <div class="kpi-submeta">Aportes a portafolio y ahorros</div>
+          </div>
+          <div class="kpi-card kpi-red">
+            <div class="kpi-header">
+              <span class="kpi-label">Flujo Financiamiento (FCF)</span>
+              <span class="kpi-icon-pill" style="font-weight:700;font-size:0.75rem;color:#02c076;">ACT</span>
+            </div>
+            <div class="kpi-value" id="efe-kpi-fcf">S/ 0</div>
+            <div class="kpi-submeta">Amortizaciones y servicio de deuda</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-label">Variación Neta de Caja</span>
+              <span class="kpi-icon-pill" style="font-weight:700;font-size:0.72rem;color:#06b6d4;">NETO</span>
+            </div>
+            <div class="kpi-value" id="efe-kpi-neto">S/ 0</div>
+            <div class="kpi-submeta">Excedente acumulado del mes</div>
+          </div>
+        </div>
+
+        <div class="charts-matrix">
+          <div class="chart-box" style="grid-column: span 2;">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Evolución Mensual del Flujo de Efectivo</span>
+              <span class="chart-legend-hint">Ingresos vs Gastos vs Ahorro</span>
+            </div>
+            <div class="chart-canvas" id="chart-efe-evolucion"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-badge-title">Distribución de Salidas de Caja</span>
+              <span class="chart-legend-hint">Porcentaje de asignación</span>
+            </div>
+            <div class="chart-canvas" id="chart-efe-distribucion"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════ 9. VISTA: PROGRESO (SCORE HISTÓRICO Y 4 PILARES) ════════════ -->
+      <section class="view-panel" id="vista-progreso">
+        
+        <!-- 1. GRÁFICA MAESTRA: EVOLUCIÓN HISTÓRICA DEL SCORE DE SALUD FINANCIERA (0-100 PTS) -->
+        <div class="audit-card" style="margin-bottom: 1.5rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                <span style="background: rgba(2,192,118,0.12); color: #047857; font-size: 0.75rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 9999px;">
+                  ÍNDICE BIOMÉTRICO FICO (0 A 100 PUNTOS)
+                </span>
+                <span style="color: #64748b; font-size: 0.8rem; font-weight: 600;">Enero – Diciembre 2026</span>
+              </div>
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0 0 0.25rem 0;">
+                Evolución de Salud Financiera Global
+              </h3>
+              <p style="font-size: 0.82rem; color: #64748b; margin: 0;">
+                Puntaje integral consolidado: mide la fortaleza de tu posición económica considerando liquidez, ahorro, deuda y gastos.
+              </p>
+            </div>
+
+            <!-- Badge del Score Actual -->
+            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 0.6rem 1.25rem; text-align: right;">
+              <span style="font-size: 0.72rem; color: #166534; font-weight: 700; text-transform: uppercase;">Score Actual (Agosto)</span>
+              <div style="display: flex; align-items: baseline; justify-content: flex-end; gap: 0.35rem; margin-top: 0.15rem;">
+                <strong style="font-size: 1.5rem; color: #15803d; font-weight: 900;">76</strong>
+                <span style="font-size: 0.85rem; color: #64748b; font-weight: 700;">/ 100 pts</span>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #16a34a; margin-left: 0.35rem;">▲ +8 pts</span>
+              </div>
+              <span style="font-size: 0.7rem; color: #15803d; font-weight: 700;">Rango: Saludable (En Control)</span>
+            </div>
+          </div>
+
+          <!-- Lienzo de la Gráfica de Score 0-100 -->
+          <div id="chart-health-score-history" style="min-height: 290px;"></div>
+
+          <!-- Guía visual de Rangos del Score -->
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; padding-top: 0.85rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+              <span style="width: 10px; height: 10px; border-radius: 3px; background: #02c076;"></span>
+              <strong style="color: #0f172a;">80 – 100 pts:</strong> <span style="color: #64748b;">Excelente / Grado Inversión</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+              <span style="width: 10px; height: 10px; border-radius: 3px; background: #3b82f6;"></span>
+              <strong style="color: #0f172a;">60 – 79 pts:</strong> <span style="color: #64748b;">Saludable / En Control (Tu Rango)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+              <span style="width: 10px; height: 10px; border-radius: 3px; background: #f59e0b;"></span>
+              <strong style="color: #0f172a;">40 – 59 pts:</strong> <span style="color: #64748b;">Precaución / Atención</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+              <span style="width: 10px; height: 10px; border-radius: 3px; background: #ef4444;"></span>
+              <strong style="color: #0f172a;">&lt; 40 pts:</strong> <span style="color: #64748b;">Vulnerabilidad Financiera</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. LOS 4 PILARES EN TARJETAS INDEPENDIENTES (CUADRÍCULA 2x2 LIMPIA Y CLARA) -->
+        <div style="margin-bottom: 0.85rem;">
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin: 0 0 0.25rem 0;">
+            Los 4 Pilares de Solidez Financiera
+          </h3>
+          <p style="font-size: 0.8rem; color: #64748b; margin: 0;">
+            Seguimiento de cada variable económica de forma independiente, con su propia meta y escala sin confusiones.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem;">
+          
+          <!-- Pilar 1: Fondo de Reserva y Liquidez -->
+          <div class="table-card" style="padding: 1.25rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <div>
+                <span style="font-size: 0.72rem; font-weight: 700; color: #2563eb; text-transform: uppercase;">Pilar 1</span>
+                <h4 style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin: 0.15rem 0 0 0;">Fondo de Emergencia</h4>
+              </div>
+              <span style="font-size: 0.72rem; font-weight: 800; background: rgba(37,99,235,0.1); color: #2563eb; padding: 0.2rem 0.55rem; border-radius: 6px;">
+                Protegido
+              </span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.75rem;">
+              <div>
+                <strong style="font-size: 1.45rem; color: #0f172a; font-weight: 900;">8.0 Meses</strong>
+                <span style="font-size: 0.75rem; color: #64748b; margin-left: 0.35rem;">de gastos cubiertos</span>
+              </div>
+              <small style="font-size: 0.72rem; color: #2563eb; font-weight: 700;">Piso Mínimo: 6.0 Meses</small>
+            </div>
+            <div id="chart-spark-liq" style="height: 140px;"></div>
+            <div style="font-size: 0.72rem; color: #64748b; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #f1f5f9;">
+              <strong>Diagnóstico:</strong> Tienes S/. 25,908 en cuentas de libre disponibilidad. Puedes cubrir 8 meses sin generar ingresos.
+            </div>
+          </div>
+
+          <!-- Pilar 2: Control del Techo de Gastos -->
+          <div class="table-card" style="padding: 1.25rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <div>
+                <span style="font-size: 0.72rem; font-weight: 700; color: #ef4444; text-transform: uppercase;">Pilar 2</span>
+                <h4 style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin: 0.15rem 0 0 0;">Control de Gastos</h4>
+              </div>
+              <span style="font-size: 0.72rem; font-weight: 800; background: rgba(2,192,118,0.1); color: #047857; padding: 0.2rem 0.55rem; border-radius: 6px;">
+                En Rango
+              </span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.75rem;">
+              <div>
+                <strong style="font-size: 1.45rem; color: #0f172a; font-weight: 900;">63.6%</strong>
+                <span style="font-size: 0.75rem; color: #64748b; margin-left: 0.35rem;">de tus ingresos</span>
+              </div>
+              <small style="font-size: 0.72rem; color: #ef4444; font-weight: 700;">Tope Máximo: 65.0%</small>
+            </div>
+            <div id="chart-spark-gas" style="height: 140px;"></div>
+            <div style="font-size: 0.72rem; color: #64748b; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #f1f5f9;">
+              <strong>Diagnóstico:</strong> Gastas S/. 3,260 al mes (fijos y variables). Te encuentras 1.4% por debajo del límite máximo seguro.
+            </div>
+          </div>
+
+          <!-- Pilar 3: Tasa de Ahorro e Inversión -->
+          <div class="table-card" style="padding: 1.25rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <div>
+                <span style="font-size: 0.72rem; font-weight: 700; color: #10b981; text-transform: uppercase;">Pilar 3</span>
+                <h4 style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin: 0.15rem 0 0 0;">Capacidad de Ahorro</h4>
+              </div>
+              <span style="font-size: 0.72rem; font-weight: 800; background: rgba(16,185,129,0.1); color: #047857; padding: 0.2rem 0.55rem; border-radius: 6px;">
+                En Meta
+              </span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.75rem;">
+              <div>
+                <strong style="font-size: 1.45rem; color: #0f172a; font-weight: 900;">19.5%</strong>
+                <span style="font-size: 0.75rem; color: #64748b; margin-left: 0.35rem;">asignado</span>
+              </div>
+              <small style="font-size: 0.72rem; color: #10b981; font-weight: 700;">Meta: 20.0%</small>
+            </div>
+            <div id="chart-spark-aho" style="height: 140px;"></div>
+            <div style="font-size: 0.72rem; color: #64748b; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #f1f5f9;">
+              <strong>Diagnóstico:</strong> Destinas S/. 1,000 mensuales (S/. 750 ahorro + S/. 250 inversión). Construyes patrimonio continuo.
+            </div>
+          </div>
+
+          <!-- Pilar 4: Carga de Servicio de Deuda -->
+          <div class="table-card" style="padding: 1.25rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <div>
+                <span style="font-size: 0.72rem; font-weight: 700; color: #f59e0b; text-transform: uppercase;">Pilar 4</span>
+                <h4 style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin: 0.15rem 0 0 0;">Carga de Endeudamiento</h4>
+              </div>
+              <span style="font-size: 0.72rem; font-weight: 800; background: rgba(2,192,118,0.1); color: #047857; padding: 0.2rem 0.55rem; border-radius: 6px;">
+                Solvente
+              </span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.75rem;">
+              <div>
+                <strong style="font-size: 1.45rem; color: #0f172a; font-weight: 900;">16.6%</strong>
+                <span style="font-size: 0.75rem; color: #64748b; margin-left: 0.35rem;">de tus ingresos</span>
+              </div>
+              <small style="font-size: 0.72rem; color: #f59e0b; font-weight: 700;">Tope Máximo Seguro: 25.0%</small>
+            </div>
+            <div id="chart-spark-deu" style="height: 140px;"></div>
+            <div style="font-size: 0.72rem; color: #64748b; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #f1f5f9;">
+              <strong>Diagnóstico:</strong> Tus cuotas suman S/. 850 al mes (préstamo y tarjeta). Estás 8.4% por debajo de la zona de riesgo bancario.
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ════════════ 10. VISTA: PLANES DE ACCIÓN & MATRIZ (IMAGEN 3) ════════════ -->
+      <section class="view-panel" id="vista-planes">
+        
+        <div class="matrix-container">
+          <div class="matrix-toolbar">
+            <div>
+              <h3 style="font-size: 1.1rem; color: #0f172a;">Matriz Financiera Jerárquica P&L</h3>
+              <p style="font-size: 0.78rem; color: #64748b;">Desglose estructurado de Ingresos, Gastos, Ahorros y Deudas con variaciones</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-outline btn-sm" onclick="expandAllTree()">+ Expandir Todo</button>
+              <button class="btn btn-outline btn-sm" onclick="collapseAllTree()">- Colapsar Todo</button>
+            </div>
+          </div>
+
+          <div class="data-table-wrap">
+            <table class="matrix-table" id="hierarchicalMatrix">
+              <thead>
+                <tr>
+                  <th style="width: 34%;">Etiquetas de fila</th>
+                  <th style="width: 12%;">Presupuesto</th>
+                  <th style="width: 12%;">Actual</th>
+                  <th style="width: 11%;">Var. Abs</th>
+                  <th style="width: 10%;">Var. %</th>
+                  <th style="width: 10%;">% Presupuesto</th>
+                  <th style="width: 11%;">% Actual</th>
+                </tr>
+              </thead>
+              <tbody id="hierarchicalMatrixBody">
+                <!-- Se llena con app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+          <h3 style="font-size: 1.15rem; color: #0f172a;">Planes de Acción y Recomendaciones</h3>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem;" id="planesAccionContainer">
+          <!-- Renderizado en app.js -->
+        </div>
+
+      </section>
+
+      <!-- ════════════ 11. VISTA: CONFIGURACIÓN (AL FINAL) ════════════ -->
+      <section class="view-panel" id="vista-configuracion">
+        <div style="max-width: 950px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;">
+          
+          <!-- Card 1: Perfiles de Usuario Profesionales (Admin / Usuario) -->
+          <div class="table-card" style="padding: 1.75rem;">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+              <div>
+                <h3 style="font-size: 1.2rem; color: #0f172a; margin-bottom: 0.25rem;">Perfiles de Usuarios</h3>
+                <p style="font-size: 0.82rem; color: #64748b;">Gestión de accesos y roles: Administrador (control total) y Usuario (operación/lectura)</p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="openUserModal()">+ Crear Perfil</button>
+            </div>
+
+            <!-- Selector de Perfil Activo -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <strong style="font-size: 0.85rem; color: #0f172a;">Seleccionar Perfil Activo para esta sesión:</strong>
+                <p style="font-size: 0.75rem; color: #64748b;">Alterna rápidamente entre los roles de Administrador y Usuario para operar o auditar el sistema</p>
+              </div>
+              <select id="selectPerfilActivo" style="padding: 0.45rem 0.85rem; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: 600;" onchange="handleSwitchActiveUser(this.value)">
+                <!-- Llenado dinámico -->
+              </select>
+            </div>
+
+            <!-- Tabla de Usuarios Registrados -->
+            <div class="data-table-wrap">
+              <table class="clean-table" id="tablaUsuarios">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Estado</th>
+                    <th>Último Acceso</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaUsuariosBody">
+                  <!-- Llenado dinámico -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Card 2: Parámetros Generales -->
+          <div class="table-card" style="padding: 1.75rem;">
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem; color: #0f172a;">Parámetros Generales</h3>
+            <p style="font-size: 0.82rem; color: #64748b; margin-bottom: 1.25rem;">Configura la moneda y el nombre del titular o empresa que se muestra en el sistema</p>
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label>Símbolo de Moneda</label>
+                <select id="cfg-moneda">
+                  <option value="S/.">S/. (Soles)</option>
+                  <option value="$">$ (Dólares USD)</option>
+                  <option value="€">€ (Euros)</option>
+                  <option value="MXN$">MXN$ (Pesos)</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>Nombre de la Entidad o Titular</label>
+                <input type="text" id="cfg-entidad" placeholder="Ej: Finanzas Personales y de Negocio">
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="saveGeneralConfig()">Guardar Parámetros</button>
+          </div>
+
+          <!-- Card 3: Exportación de Reportes -->
+          <div class="table-card" style="padding: 1.75rem;">
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem; color: #0f172a;">Exportación de Reportes</h3>
+            <p style="font-size: 0.82rem; color: #64748b; margin-bottom: 1.25rem;">
+              Descarga el informe financiero consolidado en una plantilla Excel multihoja oficial (EFE, Balance ESF, Ratios y Metas).
+            </p>
+            <div>
+              <button class="btn btn-primary" onclick="downloadFinancialExcel()">Descargar Reporte Excel (.xlsx)</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div><!-- /view-content -->
+  </main>
+</div><!-- /app-layout -->
+
+<!-- ═══════════════════════ MODAL: PERFIL DE USUARIO ═══════════════════════ -->
+<div class="modal-backdrop" id="modalUsuario" onclick="closeUserModal(event)">
+  <div class="modal-window">
+    <div class="modal-header">
+      <h3 id="modalUsuarioTitle">Crear Perfil de Usuario</h3>
+      <button class="modal-close-btn" onclick="closeUserModal(null)">&times;</button>
+    </div>
+    <form id="formUsuario" onsubmit="saveUserRecord(event)">
+      <div class="modal-body">
+        <input type="hidden" id="usr-id">
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Nombre Completo</label>
+            <input type="text" id="usr-nombre" placeholder="Ej: Administrador Principal" required>
+          </div>
+          <div class="form-field">
+            <label>Nombre de Usuario / Alias</label>
+            <input type="text" id="usr-usuario" placeholder="Ej: admin" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Correo Electrónico</label>
+            <input type="email" id="usr-email" placeholder="admin@empresa.com" required>
+          </div>
+          <div class="form-field">
+            <label>Rol de Usuario</label>
+            <select id="usr-rol" required>
+              <option value="Administrador">Administrador (Control Total y Configuración)</option>
+              <option value="Usuario">Usuario (Operador / Consulta y Registro)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeUserModal(null)">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar Perfil</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════════════════ MODAL: NUEVO REGISTRO EFE ═══════════════════════ -->
+<div class="modal-backdrop" id="modalEFE" onclick="closeModalEFE(event)">
+  <div class="modal-window">
+    <div class="modal-header">
+      <h3 id="modalEFETitle">Agregar Movimiento</h3>
+      <button class="modal-close-btn" onclick="closeModalEFE(null)">&times;</button>
+    </div>
+    <form id="formEFE" onsubmit="saveRecordEFE(event)">
+      <div class="modal-body">
+        <input type="hidden" id="efe-id">
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>¿Qué tipo de movimiento fue?</label>
+            <select id="efe-tipo" required onchange="handleTipoChange(this.value)">
+              <option value="Ingreso">Ingreso</option>
+              <option value="Gasto" selected>Gasto</option>
+              <option value="Ahorro e Inversión">Ahorro e Inversión</option>
+              <option value="Deuda">Deuda</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Mes</label>
+            <select id="efe-mes" required>
+              <option value="1">1 - Enero</option>
+              <option value="2">2 - Febrero</option>
+              <option value="3">3 - Marzo</option>
+              <option value="4">4 - Abril</option>
+              <option value="5">5 - Mayo</option>
+              <option value="6">6 - Junio</option>
+              <option value="7">7 - Julio</option>
+              <option value="8" selected>8 - Agosto</option>
+              <option value="9">9 - Septiembre</option>
+              <option value="10">10 - Octubre</option>
+              <option value="11">11 - Noviembre</option>
+              <option value="12">12 - Diciembre</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Categoría</label>
+            <select id="efe-categoria" required onchange="handleCategoriaChange(this.value)">
+              <!-- Llenado dinámico -->
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Subcategoría</label>
+            <input type="text" id="efe-subcategoria" placeholder="Ej: Supermercado o Restaurante" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Monto que tenías planeado (S/.)</label>
+            <input type="number" id="efe-ppto" step="0.01" min="0" placeholder="0.00" required>
+          </div>
+          <div class="form-field">
+            <label>Monto real que ingresaste o gastaste (S/.)</label>
+            <input type="number" id="efe-act" step="0.01" min="0" placeholder="0.00" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Fecha</label>
+            <input type="date" id="efe-fecha" required>
+          </div>
+          <div class="form-field">
+            <label>Método de Pago</label>
+            <select id="efe-metodo">
+              <option>Transferencia Bancaria</option>
+              <option>Tarjeta de Débito</option>
+              <option>Tarjeta de Crédito</option>
+              <option>Efectivo</option>
+              <option>Débito Automático</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>¿En qué se usó? (descripción breve)</label>
+          <input type="text" id="efe-detalle" placeholder="Ej: Compra de despensa para la semana" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModalEFE(null)">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar Transacción</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════════════════ MODAL: REGISTRO ESF (BALANCE) ═══════════════════════ -->
+<div class="modal-backdrop" id="modalESF" onclick="closeModalESF(event)">
+  <div class="modal-window">
+    <div class="modal-header">
+      <h3 id="modalESFTitle">Actualizar Estado de Situación Financiera</h3>
+      <button class="modal-close-btn" onclick="closeModalESF(null)">&times;</button>
+    </div>
+    <form id="formESF" onsubmit="saveRecordESF(event)">
+      <div class="modal-body">
+        <input type="hidden" id="esf-id">
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Mes de Cierre</label>
+            <select id="esf-mes" required>
+              <option value="1">1 - Enero</option>
+              <option value="2">2 - Febrero</option>
+              <option value="3">3 - Marzo</option>
+              <option value="4">4 - Abril</option>
+              <option value="5">5 - Mayo</option>
+              <option value="6">6 - Junio</option>
+              <option value="7">7 - Julio</option>
+              <option value="8" selected>8 - Agosto</option>
+              <option value="9">9 - Septiembre</option>
+              <option value="10">10 - Octubre</option>
+              <option value="11">11 - Noviembre</option>
+              <option value="12">12 - Diciembre</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Fecha de Corte</label>
+            <input type="date" id="esf-fecha" required>
+          </div>
+        </div>
+
+        <h4 style="font-size: 0.9rem; color: #1e3a8a; margin: 0.75rem 0 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.25rem;">Activos</h4>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Activos Líquidos (Cuentas/Fondo Emergencia)</label>
+            <input type="number" id="esf-act-liq" step="10" min="0" required>
+          </div>
+          <div class="form-field">
+            <label>Activos Invertidos (Fondos/Acciones)</label>
+            <input type="number" id="esf-act-inv" step="10" min="0" required>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Activos No Corrientes (Inmuebles/Vehículos)</label>
+          <input type="number" id="esf-act-fijo" step="100" min="0" required>
+        </div>
+
+        <h4 style="font-size: 0.9rem; color: #b91c1c; margin: 0.75rem 0 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.25rem;">Pasivos (Obligaciones)</h4>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Pasivos Corto Plazo (Tarjetas/Créditos)</label>
+            <input type="number" id="esf-pas-corto" step="10" min="0" required>
+          </div>
+          <div class="form-field">
+            <label>Pasivos Largo Plazo (Hipotecas/Préstamos)</label>
+            <input type="number" id="esf-pas-largo" step="50" min="0" required>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModalESF(null)">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar Balance</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

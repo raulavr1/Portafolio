@@ -4,6 +4,14 @@ node_modules/
 PredicciondeEventos/node_modules/
 AreadeVentas/node_modules/
 DashboardClinico/node_modules/
+Finanzas/node_modules/
+
+# Binarios y túneles pesados
+*.exe
+ngrok.exe
+Finanzas/ngrok.exe
+Finanzas/ngrok.yml
+Finanzas/iniciar_tunel.bat
 
 # Archivos multimedia pesados (no necesarios para ejecucion web)
 *.mp4

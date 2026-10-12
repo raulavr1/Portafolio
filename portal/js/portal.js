@@ -84,6 +84,33 @@ const PROJECTS = {
       'Registro instantáneo de movimientos y salidas vinculados al área médica de destino (UCI, Quirófano, Consultorios) y responsable de turno.',
       'Auditoría y cierre de relevo de guardia sistematizado para un traspaso de turno transparente y sin discrepancias en stock.'
     ]
+  },
+  finanzas: {
+    id: 'finanzas',
+    title: 'FinControl — Dashboard Financiero Profesional & Gestión Patrimonial',
+    shortName: 'FinControl Finanzas',
+    category: 'Finanzas & Analítica Patrimonial',
+    icon: 'ph-currency-dollar',
+    badge: '100% Autónomo',
+    directUrl: 'Finanzas/index.html',
+    serverUrl: 'http://localhost:6520',
+    currentMode: 'direct',
+    port: 6520,
+    requiresServer: false,
+    description: 'Sistema integral de analítica financiera y control patrimonial con cálculo automático del Estado de Situación Financiera (ESF), Estado de Flujo de Efectivo (EFE), 9 indicadores ejecutivos en tiempo real, matriz de presupuesto vs. real con semáforos, 6 ratios de salud financiera y exportación oficial a Excel multihoja.',
+    techStack: ['Visualizaciones dinámicas ApexCharts', 'Exportación oficial multihoja a Excel', 'Balances ESF (Activos vs. Pasivos)', 'Flujo de Efectivo EFE transaccional', '6 Ratios de salud financiera', 'Matriz presupuestaria con semáforos de variación'],
+    metrics: {
+      'Control Patrimonial': 'ESF & Valor Neto Real',
+      'Flujo de Caja': 'EFE Transaccional',
+      'Salud Financiera': '6 Ratios con Metas',
+      'Presupuesto': 'Variaciones vs. Real'
+    },
+    keyFeatures: [
+      'Consolida en tiempo real todo lo que posee vs. todo lo que debe, calculando automáticamente su valor neto patrimonial.',
+      'Registro y categorización ágil de cada ingreso y egreso con impacto inmediato en el Estado de Flujo de Efectivo.',
+      'Monitoreo gráfico de 6 ratios esenciales de liquidez, apalancamiento y ahorro con alertas automáticas de desviación.',
+      'Matriz desplegable [+] / [-] que compara presupuesto vs. ejecución real mensual para tomar decisiones correctivas oportunas.'
+    ]
   }
 };
 

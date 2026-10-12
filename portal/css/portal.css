@@ -379,7 +379,7 @@ body {
 
 .showcase-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
   gap: 1.75rem;
   width: 100%;
 }
@@ -442,6 +442,10 @@ body {
 
 .card-preview-banner.clinico {
   background: radial-gradient(circle at center, rgba(13, 148, 136, 0.5), #060b18);
+}
+
+.card-preview-banner.finanzas {
+  background: radial-gradient(circle at center, rgba(2, 132, 199, 0.5), #060b18);
 }
 
 .banner-badge {

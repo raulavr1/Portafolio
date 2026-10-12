@@ -525,6 +525,41 @@
         </div>
       </article>
 
+      <!-- TARJETA 4: FinControl Finanzas & Gestión Patrimonial -->
+      <article class="showcase-card" style="--card-accent:#0284c7; --card-accent-border:rgba(2,132,199,0.5); --card-accent-glow:rgba(2,132,199,0.2);">
+        <div class="card-preview-banner finanzas" style="background: linear-gradient(135deg, rgba(2, 132, 199, 0.25) 0%, rgba(15, 23, 42, 0.8) 100%);">
+          <span class="banner-badge live" style="background:rgba(2,132,199,0.25); border:1px solid rgba(2,132,199,0.4); color:#38bdf8;">
+            <span class="pulse-dot" style="background:#38bdf8;"></span> 100% Autónomo
+          </span>
+          <div class="banner-hero-icon" style="color: #38bdf8;">
+            <i class="ph-duotone ph-currency-dollar"></i>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-category">Finanzas &amp; Analítica Patrimonial</span>
+          <h4 class="card-title">FinControl &middot; Dashboard Financiero Profesional</h4>
+          <p class="card-desc">
+            Sistema integral de analítica financiera con balances patrimoniales ESF, flujo de caja EFE en tiempo real, 9 indicadores ejecutivos, matriz de presupuesto vs. real con semáforos, 6 ratios de salud financiera y exportación a Excel multihoja.
+          </p>
+
+          <div class="feature-chips">
+            <span class="chip"><i class="ph ph-bank"></i> Balance Patrimonial ESF</span>
+            <span class="chip"><i class="ph ph-arrows-down-up"></i> Flujo de Efectivo EFE</span>
+            <span class="chip"><i class="ph ph-chart-pie-slice"></i> 6 Ratios de Salud Financiera</span>
+            <span class="chip"><i class="ph ph-table"></i> Matriz Presupuesto vs. Real</span>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="window.open('Finanzas/index.html', '_blank')" title="Abrir dashboard en pantalla completa" style="background: linear-gradient(135deg, #0284c7, #0ea5e9); box-shadow: 0 4px 14px rgba(2,132,199,0.35);">
+              <i class="ph-bold ph-arrow-square-out"></i> Abrir Dashboard
+            </button>
+            <button class="btn btn-secondary" onclick="openTechModal('finanzas')" title="Ver Ficha Técnica">
+              <i class="ph ph-info"></i> Ficha
+            </button>
+          </div>
+        </div>
+      </article>
+
     </div>
   </section>
 
@@ -560,6 +595,10 @@
           <button class="tab-btn" data-project="clinico" onclick="selectProject('clinico', false)">
             <i class="ph ph-first-aid"></i>
             <span>Farmacia Clínica</span>
+          </button>
+          <button class="tab-btn" data-project="finanzas" onclick="selectProject('finanzas', false)">
+            <i class="ph ph-currency-dollar"></i>
+            <span>FinControl Finanzas</span>
           </button>
         </div>
 
