@@ -100,11 +100,12 @@
     console.info = noop;
   } catch (_) {}
 
-  // ─── 4. DETECCIÓN ACTIVA DE DEVTOOLS ───
+  // ─── 4. DETECCIÓN ACTIVA DE DEVTOOLS (EXCLUYE IFRAMES Y VISTAS RESPONSIVE) ───
   function checkDevTools() {
-    const widthDiff = window.outerWidth - window.innerWidth;
-    const heightDiff = window.outerHeight - window.innerHeight;
-    const isOpenGeometric = widthDiff > 160 || heightDiff > 160;
+    // Si se ejecuta dentro de un iframe (como el simulador Sandbox multi-pantalla), omitir chequeo
+    if (window.self !== window.top) {
+      return;
+    }
 
     let isOpenDebugger = false;
     const t0 = performance.now();
@@ -116,7 +117,7 @@
       isOpenDebugger = true;
     }
 
-    if (isOpenGeometric || isOpenDebugger) {
+    if (isOpenDebugger) {
       if (!devToolsDetected) {
         devToolsDetected = true;
         onDevToolsDetected();
