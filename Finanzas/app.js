@@ -197,8 +197,33 @@ function updateUserProfileBadges() {
   }
 }
 
+// --- CONTROL DEL MENÚ DESPLEGABLE (COLAPSABLE / OFF-CANVAS) ---
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  const isCompact = window.innerWidth <= 1024;
+
+  if (isCompact) {
+    if (sidebar) sidebar.classList.toggle('open');
+    if (backdrop) backdrop.classList.toggle('active', sidebar && sidebar.classList.contains('open'));
+  } else {
+    document.body.classList.toggle('sidebar-collapsed');
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 320);
+  }
+}
+
+function closeSidebarOnMobile() {
+  const sidebar = document.querySelector('.sidebar');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  if (sidebar) sidebar.classList.remove('open');
+  if (backdrop) backdrop.classList.remove('active');
+}
+
 // --- NAVEGACIÓN ENTRE LAS 11 VISTAS (SPA) ---
 function navigateTo(viewId) {
+  closeSidebarOnMobile();
   document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
   const target = document.getElementById(viewId);
   if (target) target.classList.add('active');

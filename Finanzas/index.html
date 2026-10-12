@@ -18,7 +18,10 @@
 
 <div class="app-layout">
 
-  <!-- ═══════════════════════ SIDEBAR REORGANIZADO (11 SECCIONES) ═══════════════════════ -->
+  <!-- Backdrop para modo desplegable en tablets/moviles -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+  <!-- ═══════════════════════ SIDEBAR DESPLEGABLE (11 SECCIONES) ═══════════════════════ -->
   <aside class="sidebar">
     <div class="sidebar-brand">
       <div class="brand-wrapper">
@@ -26,6 +29,9 @@
           <h2 id="brandTitle">Dashboard de Finanzas</h2>
           <p id="brandSubtitle">Finanzas & Control</p>
         </div>
+        <button class="sidebar-close-btn" onclick="toggleSidebar()" title="Ocultar Menú">
+          <svg class="fin-svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
       </div>
     </div>
 
@@ -102,11 +108,17 @@
   <!-- ═══════════════════════ MAIN WRAPPER ═══════════════════════ -->
   <main class="main-wrapper">
 
-    <!-- TOPBAR LIMPIO (SIN BOTONES SOBRECARGADOS) -->
+    <!-- TOPBAR CON ACCESO AL MENÚ DESPLEGABLE -->
     <header class="topbar">
-      <div class="view-heading">
-        <h1 id="pageTitle">Inicio</h1>
-        <p id="pageSubtitle">Tu resumen financiero personal — simple y claro</p>
+      <div class="topbar-left">
+        <button class="menu-toggle-btn" id="sidebarToggle" onclick="toggleSidebar()" title="Mostrar / Ocultar Menú">
+          <svg class="fin-svg-icon" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          <span class="toggle-text">Menú</span>
+        </button>
+        <div class="view-heading">
+          <h1 id="pageTitle">Inicio</h1>
+          <p id="pageSubtitle">Tu resumen financiero personal — simple y claro</p>
+        </div>
       </div>
 
       <div class="topbar-actions">
