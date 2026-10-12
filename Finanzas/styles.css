@@ -3109,6 +3109,16 @@ body.sidebar-collapsed .sidebar {
   .kpis-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
+  .cockpit-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.cockpit-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Soporte para Smartphones y Pantallas Pequeñas (< 768px) */
@@ -3123,11 +3133,26 @@ body.sidebar-collapsed .sidebar {
     width: 100%;
     justify-content: space-between;
   }
+  .cockpit-grid,
   .audit-kpi-grid,
   .kpis-grid,
   .form-grid-2,
-  .ratios-container-grid {
+  .ratios-container-grid,
+  .autoeval-vs-grid,
+  .missions-grid,
+  .expense-nature-grid,
+  #dash-sec-categorias,
+  #dash-sec-subcategorias,
+  #planesAccionContainer {
     grid-template-columns: 1fr !important;
+  }
+  .autoeval-card {
+    padding: 1rem !important;
+  }
+  .autoeval-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
   }
   .audit-table-wrap,
   .data-table-wrap {
@@ -3145,14 +3170,10 @@ body.sidebar-collapsed .sidebar {
     align-items: flex-start;
     gap: 0.75rem;
   }
-  .missions-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .expense-nature-grid {
-    grid-template-columns: 1fr !important;
-  }
   .chart-box {
     padding: 1rem !important;
+    min-width: 0 !important;
+    overflow: hidden;
   }
 }
 
