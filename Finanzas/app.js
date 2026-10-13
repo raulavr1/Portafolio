@@ -73,14 +73,35 @@ let dbData = {
 
 let currentView = 'vista-dashboard';
 let activeCharts = {};
-let filterMonth = '8'; // Por defecto Agosto (mes 8) para coincidir con las imágenes de referencia
-let filterType = 'all';
-let filterCategory = 'all';
-
 const MESES_NOMBRES = [
   "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
 ];
+
+// ══════════════════════════════════════════════════════════════════════════
+// ⏱️ SIMULADOR DE LÍNEA TEMPORAL REALISTA (HASTA LA FECHA ACTUAL)
+// ══════════════════════════════════════════════════════════════════════════
+const _realNow = new Date();
+const CURRENT_YEAR = _realNow.getFullYear(); // ej. 2026
+const CURRENT_MONTH = _realNow.getMonth() + 1; // 1-12 (ej. 10 para Octubre)
+
+// filterMonth inicializa en el mes actual del sistema
+let filterMonth = CURRENT_MONTH.toString();
+let filterType = 'all';
+let filterCategory = 'all';
+
+// Función para comprobar si un mes es futuro (después de la fecha actual)
+function isFutureMonth(mesNum) {
+  const m = parseInt(mesNum, 10);
+  return !isNaN(m) && m > CURRENT_MONTH;
+}
+
+// Devuelve los meses cerrados y transcurridos hasta la fecha actual [1 .. CURRENT_MONTH]
+function getElapsedMonths() {
+  const arr = [];
+  for (let m = 1; m <= CURRENT_MONTH; m++) arr.push(m);
+  return arr;
+}
 
 // Reorganizado: Dashboard bajo el cómo usar, Configuración al final
 const VIEW_TITLES = {
@@ -102,8 +123,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadFinancialData();
   updateUserProfileBadges();
   populateCategoryDropdown();
+  updateDynamicSimulationDates();
+  syncMonthPillsUI();
   navigateTo('vista-inicio');
 });
+
+// Actualiza textos de años e indicadores dinámicos en el DOM para la simulación
+function updateDynamicSimulationDates() {
+  // Badge de estado en el header
+  const cyberStatus = document.querySelector('.cyber-status-text');
+  if (cyberStatus) cyberStatus.textContent = `PANEL FINANCIERO ${CURRENT_YEAR}`;
+
+  // Actualizar cualquier subtítulo o etiqueta de año
+  document.querySelectorAll('.sim-year-label').forEach(el => {
+    el.textContent = CURRENT_YEAR;
+  });
+}
 
 // Variable de modo de almacenamiento: 'server' o 'autonomous'
 let dataStorageMode = 'server';
@@ -304,11 +339,67 @@ function destroyAllCharts() {
 
 // --- FILTROS DE DASHBOARD (MES, TIPO, CATEGORÍA) ---
 function selectMonthFilter(mes) {
-  filterMonth = mes.toString();
-  document.querySelectorAll('#monthPills .month-pill').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-mes') === filterMonth);
-  });
+  const mStr = mes.toString();
+  if (mStr !== 'all' && isFutureMonth(parseInt(mStr, 10))) {
+    // Si el usuario intenta seleccionar un mes futuro
+    alert(`📅 Simulación en Tiempo Real: El mes de ${MESES_NOMBRES[parseInt(mStr, 10) - 1]} aún no ha transcurrido en el año ${CURRENT_YEAR}. El sistema te muestra con total realismo hasta el mes actual (${MESES_NOMBRES[CURRENT_MONTH - 1]}) y los cierres de meses anteriores.`);
+    return;
+  }
+  filterMonth = mStr;
+  syncMonthPillsUI();
+
+  // Sincronizar el select de Inicio si existe
+  const inicioSel = document.getElementById('inicio-mes-sel');
+  if (inicioSel && mStr !== 'all') {
+    inicioSel.value = mStr;
+  }
+
   refreshActiveView();
+}
+
+function cambiarMesInicio(mes) {
+  selectMonthFilter(mes);
+}
+
+function syncMonthPillsUI() {
+  document.querySelectorAll('#monthPills .month-pill').forEach(btn => {
+    const btnMes = btn.getAttribute('data-mes');
+    if (btnMes !== 'all') {
+      const mNum = parseInt(btnMes, 10);
+      const isFut = isFutureMonth(mNum);
+      const isCurr = mNum === CURRENT_MONTH;
+
+      btn.disabled = isFut;
+      btn.classList.toggle('disabled', isFut);
+      btn.classList.toggle('current-month-indicator', isCurr);
+      if (isFut) {
+        btn.title = `Mes futuro (${MESES_NOMBRES[mNum - 1]} ${CURRENT_YEAR}) - Aún no iniciado`;
+      } else if (isCurr) {
+        btn.title = `Mes Actual en Curso (${MESES_NOMBRES[mNum - 1]} ${CURRENT_YEAR})`;
+      } else {
+        btn.title = `Mes Cerrado Auditado (${MESES_NOMBRES[mNum - 1]} ${CURRENT_YEAR})`;
+      }
+    }
+    btn.classList.toggle('active', btnMes === filterMonth);
+  });
+
+  // También sincronizar opciones del select en Inicio
+  const inicioSel = document.getElementById('inicio-mes-sel');
+  if (inicioSel) {
+    Array.from(inicioSel.options).forEach(opt => {
+      const mNum = parseInt(opt.value, 10);
+      const isFut = isFutureMonth(mNum);
+      opt.disabled = isFut;
+      if (isFut) {
+        opt.textContent = `${MESES_NOMBRES[mNum - 1]} (Por iniciar)`;
+      } else if (mNum === CURRENT_MONTH) {
+        opt.textContent = `${MESES_NOMBRES[mNum - 1]} (Mes Actual)`;
+      } else {
+        opt.textContent = `${MESES_NOMBRES[mNum - 1]} (Cerrado)`;
+      }
+    });
+    inicioSel.value = filterMonth !== 'all' ? filterMonth : CURRENT_MONTH.toString();
+  }
 }
 
 function selectTypeFilter(tipo) {
@@ -325,13 +416,11 @@ function applyCategoryFilter(cat) {
 }
 
 function resetAllFilters() {
-  filterMonth = '8';
+  filterMonth = CURRENT_MONTH.toString();
   filterType = 'all';
   filterCategory = 'all';
 
-  document.querySelectorAll('#monthPills .month-pill').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-mes') === '8');
-  });
+  syncMonthPillsUI();
   document.querySelectorAll('#typePills .type-pill').forEach(btn => {
     btn.classList.toggle('active', btn.getAttribute('data-tipo') === 'all');
   });
@@ -343,8 +432,14 @@ function resetAllFilters() {
 
 function refreshActiveView() {
   if (currentView === 'vista-dashboard') renderDashboardView();
-  else if (currentView === 'vista-planes') renderHierarchicalMatrix();
+  else if (currentView === 'vista-inicio') renderHomeView();
+  else if (currentView === 'vista-planes') { renderHierarchicalMatrix(); renderPlanesAccionCards(); }
   else if (currentView === 'vista-progreso') renderProgresoRatiosView();
+  else if (currentView === 'vista-esf') renderESFView();
+  else if (currentView === 'vista-efe') renderEFEView();
+  else if (currentView === 'vista-registro-efe') renderTablaEFE();
+  else if (currentView === 'vista-registro-esf') renderTablaESF();
+  else if (currentView === 'vista-presupuesto') renderTablaPresupuesto();
 }
 
 function populateCategoryDropdown() {
@@ -643,6 +738,7 @@ function renderDashboardView() {
       .reduce((acc, x) => acc + (x.Presupuesto || 0), 0);
   });
   const actMensual = mesesArr.map(m => {
+    if (isFutureMonth(m)) return null; // Meses futuros aún no transcurridos no tienen ejecución real
     return (dbData.registro_efe || [])
       .filter(r => r.Mes === m && (filterType === 'all' ? true : r.Tipo === filterType))
       .reduce((acc, x) => acc + (x.Actual || 0), 0);
@@ -834,8 +930,13 @@ function renderDashboardView() {
 
   // Gráfico 7: TIPO ACUMULADO (Mensual) — Flujo Acumulado con Gradiente Volumétrico
   let acumPpto = 0, acumAct = 0;
-  const pptoAcumArr = pptoMensual.map(v => acumPpto += v);
-  const actAcumArr = actMensual.map(v => acumAct += v);
+  const pptoAcumArr = pptoMensual.map(v => acumPpto += (v || 0));
+  const actAcumArr = actMensual.map((v, idx) => {
+    const m = mesesArr[idx];
+    if (isFutureMonth(m)) return null;
+    acumAct += (v || 0);
+    return acumAct;
+  });
 
   activeCharts['chart-tipo-acumulado'] = new ApexCharts(document.getElementById('chart-tipo-acumulado'), {
     chart: { type: 'area', height: 260, toolbar: { show: false } },
@@ -1014,8 +1115,9 @@ function renderProgresoRatiosView() {
   const efeData = db.registro_efe || [];
   const esfData = db.registro_esf || [];
 
-  // Datos mensuales reales
+  // Datos mensuales reales (null para meses futuros no transcurridos)
   const dataGasto = mesesArr.map(m => {
+    if (isFutureMonth(m)) return null;
     const rows = efeData.filter(r => r.Mes === m);
     const ing = rows.filter(r => r.Tipo === 'Ingreso').reduce((a, r) => a + (r.Actual || 0), 0);
     const gas = rows.filter(r => r.Tipo === 'Gasto').reduce((a, r) => a + (r.Actual || 0), 0);
@@ -1023,6 +1125,7 @@ function renderProgresoRatiosView() {
   });
 
   const dataAhorro = mesesArr.map(m => {
+    if (isFutureMonth(m)) return null;
     const rows = efeData.filter(r => r.Mes === m);
     const ing = rows.filter(r => r.Tipo === 'Ingreso').reduce((a, r) => a + (r.Actual || 0), 0);
     const aho = rows.filter(r => r.Tipo === 'Ahorro e Inversión').reduce((a, r) => a + (r.Actual || 0), 0);
@@ -1030,6 +1133,7 @@ function renderProgresoRatiosView() {
   });
 
   const dataDeuda = mesesArr.map(m => {
+    if (isFutureMonth(m)) return null;
     const rows = efeData.filter(r => r.Mes === m);
     const ing = rows.filter(r => r.Tipo === 'Ingreso').reduce((a, r) => a + (r.Actual || 0), 0);
     const deu = rows.filter(r => r.Tipo === 'Deuda').reduce((a, r) => a + (r.Actual || 0), 0);
@@ -1037,6 +1141,7 @@ function renderProgresoRatiosView() {
   });
 
   const dataLiquidez = mesesArr.map(m => {
+    if (isFutureMonth(m)) return null;
     const rows = efeData.filter(r => r.Mes === m);
     const gas = rows.filter(r => r.Tipo === 'Gasto').reduce((a, r) => a + (r.Actual || 0), 0);
     const esf = esfData.find(e => e.Mes === m);
@@ -1046,6 +1151,7 @@ function renderProgresoRatiosView() {
 
   // Cálculo del Score de Salud Financiera (0 a 100 pts) mes a mes
   const scoreHistory = mesesArr.map(m => {
+    if (isFutureMonth(m)) return null; // sin dato para meses futuros
     const g = dataGasto[m - 1];
     const a = dataAhorro[m - 1];
     const d = dataDeuda[m - 1];
@@ -1373,10 +1479,11 @@ function renderESFView() {
     toolbar: { show: false }
   };
 
-  const mesesCat = esfList.map(e => e.Mes_Nombre.slice(0, 3));
-  const seriesPatrimonio = esfList.map(e => e.Patrimonio_Neto);
-  const seriesActivos = esfList.map(e => e.Activos_Totales);
-  const seriesPasivos = esfList.map(e => e.Pasivos_Totales);
+  const esfListVisible = esfList.filter(e => !isFutureMonth(e.Mes));
+  const mesesCat = esfListVisible.map(e => e.Mes_Nombre.slice(0, 3));
+  const seriesPatrimonio = esfListVisible.map(e => e.Patrimonio_Neto);
+  const seriesActivos = esfListVisible.map(e => e.Activos_Totales);
+  const seriesPasivos = esfListVisible.map(e => e.Pasivos_Totales);
 
   // Categorías históricas extendidas con Proyección a Futuro (+6M y +12M)
   const mesesCatExtendidos = [...mesesCat, 'Proy +6M', 'Proy +12M'];
@@ -1513,6 +1620,7 @@ function renderEFEView() {
 
   const mesesArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const efeEvolucion = mesesArr.map(m => {
+    if (isFutureMonth(m)) return { ing: null, gas: null, neto: null };
     const mRows = (dbData.registro_efe || []).filter(r => r.Mes === m);
     let ing = 0, gas = 0;
     mRows.forEach(r => {
@@ -1761,7 +1869,8 @@ function renderTablaESF() {
   const tbody = document.getElementById('tablaESFBody');
   if (!tbody) return;
 
-  const list = dbData.registro_esf || [];
+  const rawList = dbData.registro_esf || [];
+  const list = rawList.filter(e => !isFutureMonth(e.Mes));
   tbody.innerHTML = list.map((e, idx) => {
     const solv = e.Pasivos_Totales > 0 ? (e.Activos_Totales / e.Pasivos_Totales).toFixed(2) : '-';
     const prev = list[idx - 1];
@@ -2035,7 +2144,7 @@ async function saveRecordESF(e) {
     ID: id || undefined,
     Mes: parseInt(document.getElementById('esf-mes').value, 10),
     Mes_Nombre: MESES_NOMBRES[parseInt(document.getElementById('esf-mes').value, 10) - 1],
-    Periodo: `2026-${document.getElementById('esf-mes').value.padStart(2, '0')}`,
+    Periodo: `${CURRENT_YEAR}-${document.getElementById('esf-mes').value.padStart(2, '0')}`,
     Fecha_Corte: document.getElementById('esf-fecha').value,
     Activos_Liquidos: parseFloat(document.getElementById('esf-act-liq').value || 0),
     Activos_Invertidos: parseFloat(document.getElementById('esf-act-inv').value || 0),
@@ -2567,7 +2676,7 @@ function renderSemaforoSalud(d) {
 
 function renderResumenMes(d) {
   const mesNombreEl = document.getElementById('inicio-mes-nombre');
-  if (mesNombreEl) mesNombreEl.textContent = d.mesNombre + ' 2026';
+  if (mesNombreEl) mesNombreEl.textContent = d.mesNombre + ' ' + CURRENT_YEAR;
 
   function setCard(idVal, idMeta, idPct, act, ppto, isIngreso) {
     const valEl  = document.getElementById(idVal);

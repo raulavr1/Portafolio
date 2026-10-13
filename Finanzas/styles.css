@@ -507,6 +507,31 @@ body.sidebar-collapsed .sidebar {
   box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
 }
 
+.month-pill:disabled,
+.month-pill.disabled {
+  opacity: 0.38;
+  cursor: not-allowed !important;
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #94a3b8 !important;
+  box-shadow: none !important;
+}
+
+.month-pill.current-month-indicator {
+  border-color: #10b981;
+  font-weight: 700;
+  position: relative;
+}
+
+.month-pill.current-month-indicator::after {
+  content: "•";
+  color: #10b981;
+  font-size: 14px;
+  position: absolute;
+  top: -6px;
+  right: 2px;
+}
+
 /* Filtros rápidos de Tipo */
 .type-pills-wrap {
   display: flex;
