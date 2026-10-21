@@ -184,19 +184,27 @@ async function loadFinancialData() {
       }
     }
 
-    // Si aún no hay datos en localStorage, cargar database.json inicial
+    // Si aún no hay datos en localStorage, inicializar desde datos precompilados seguros
     if (!loaded) {
-      try {
-        const jsonRes = await fetch('database.json');
-        if (jsonRes.ok) {
-          dbData = await jsonRes.json();
-          loaded = true;
-          try {
-            localStorage.setItem('FINCONTROL_DB_V1', JSON.stringify(dbData));
-          } catch (_) {}
+      if (typeof INITIAL_FINCONTROL_DATA !== 'undefined' && INITIAL_FINCONTROL_DATA) {
+        dbData = JSON.parse(JSON.stringify(INITIAL_FINCONTROL_DATA));
+        loaded = true;
+        try {
+          localStorage.setItem('FINCONTROL_DB_V1', JSON.stringify(dbData));
+        } catch (_) {}
+      } else {
+        try {
+          const jsonRes = await fetch('database.json');
+          if (jsonRes.ok) {
+            dbData = await jsonRes.json();
+            loaded = true;
+            try {
+              localStorage.setItem('FINCONTROL_DB_V1', JSON.stringify(dbData));
+            } catch (_) {}
+          }
+        } catch (err) {
+          console.warn('[FinControl] No se pudo cargar datos iniciales:', err);
         }
-      } catch (err) {
-        console.warn('[FinControl] No se pudo cargar database.json:', err);
       }
     }
   }
