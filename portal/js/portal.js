@@ -413,66 +413,63 @@ function openCotizacionModal(selectedScope = 'Consultoría y Diagnóstico de Flu
 
   modalContent.innerHTML = `
     <div class="modal-header">
-      <div class="modal-badge">Desarrollo Profesional &amp; Consultoría</div>
-      <h2 class="modal-title">Solicitar Diagnóstico de Datos y Cotización a Medida</h2>
+      <div class="modal-badge"><i class="ph-bold ph-chats-circle"></i> Diagnóstico &amp; Cotización</div>
+      <h2 class="modal-title">Cuéntenos sobre su Proyecto</h2>
     </div>
 
-    <p style="color:var(--text-secondary); margin-bottom:1.5rem; line-height:1.6;">
-      Inicie la optimización de sus operaciones con total claridad técnica. Evaluamos sus flujos de trabajo actuales, planillas Excel o Google Sheets, identificamos cuántas horas semanales puede ahorrar su equipo y le entregamos una propuesta personalizada.
+    <p style="color:var(--text-secondary); margin-bottom:1.5rem; line-height:1.6; font-size:0.92rem;">
+      Indíquenos brevemente cómo maneja sus datos hoy y qué área le gustaría visualizar. Le responderemos directamente con una propuesta técnica clara y su cotización a medida.
     </p>
-
-    <div class="guarantee-strip" style="margin-top:0; margin-bottom:1.5rem;">
-      <i class="ph-bold ph-shield-check guarantee-icon"></i>
-      <div class="guarantee-text">
-        <strong>Datos 100% Temporales &amp; Confidenciales:</strong> La información ingresada en este formulario no se almacena en ningún servidor, cookie ni base de datos de esta web. Se procesa de forma efímera en su navegador y se transfiere de inmediato a su conversación privada de WhatsApp.
-      </div>
-    </div>
 
     <form class="proto-form" id="cotiForm" autocomplete="off" onsubmit="submitCotizacionForm(event)">
       <div class="form-group">
-        <label>Nombre de su Empresa o Negocio</label>
-        <input type="text" id="cotiEmpresa" class="form-control" placeholder="Ej. Inversiones &amp; Retail del Norte SAC" autocomplete="off" spellcheck="false" required />
+        <label>Su Nombre o Negocio</label>
+        <input type="text" id="cotiNombre" class="form-control" placeholder="Ej. Carlos M. / Mi Negocio" autocomplete="off" spellcheck="false" required />
       </div>
 
       <div class="form-group">
-        <label>Tipo de Solución / Modalidad de Despliegue</label>
+        <label>Modalidad de Dashboard de Interés</label>
         <select id="cotiAlcance" class="form-control">
-          <option value="Dashboard Versión Local (PC / Red Interna con Instalador)" ${selectedScope.includes('Local') ? 'selected' : ''}>Dashboard Versión Local (PC / Red Interna con Instalador)</option>
-          <option value="Dashboard Versión Empresarial en la Nube (Servidor 24/7)" ${selectedScope.includes('Nube') || selectedScope.includes('Empresarial') || selectedScope.includes('Servidor') ? 'selected' : ''}>Dashboard Versión Empresarial en la Nube (Servidor 24/7 &amp; Base de Datos)</option>
-          <option value="Diagnóstico Inicial y Asesoría Personalizada" ${selectedScope.includes('Diagnóstico') || selectedScope.includes('Asesoría') ? 'selected' : ''}>Diagnóstico Inicial y Asesoría Personalizada</option>
+          <option value="Dashboard Versión Nube (Servidor 24/7 &amp; Base de Datos)" ${selectedScope.includes('Nube') || selectedScope.includes('Empresarial') || selectedScope.includes('Servidor') ? 'selected' : ''}>Dashboard Versión Nube (Servidor 24/7 &amp; Base de Datos)</option>
+          <option value="Dashboard Versión Local (PC / Red Interna con Instalador)" ${selectedScope.includes('Local') ? 'selected' : ''}>Dashboard Versión Local (PC con Instalador)</option>
+          <option value="Deseo orientación sobre cuál modalidad me conviene" ${selectedScope.includes('Diagnóstico') || selectedScope.includes('Estratégico') ? 'selected' : ''}>Deseo orientación sobre cuál modalidad me conviene</option>
         </select>
       </div>
 
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
         <div class="form-group">
-          <label>Herramientas que usan hoy</label>
-          <select id="cotiHerramientas" class="form-control">
-            <option value="Excel manual / Hojas de cálculo">Excel manual / Hojas de cálculo</option>
+          <label>¿Cómo maneja sus datos hoy?</label>
+          <select id="cotiDatos" class="form-control">
+            <option value="Planillas en Excel o archivos CSV">Planillas en Excel o CSV</option>
             <option value="Google Sheets compartido">Google Sheets compartido</option>
-            <option value="ERP básico / Sistema cerrado">ERP básico / Sistema cerrado</option>
-            <option value="Cuadernos / Múltiples formatos">Múltiples formatos dispersos</option>
+            <option value="Inicio desde cero (organizar nuevo sistema)">Inicio desde cero (organizar datos)</option>
+            <option value="Base de datos propia">Base de datos propia</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label>Meta Principal</label>
-          <select id="cotiMeta" class="form-control">
-            <option value="Ahorrar horas de trabajo manual">Ahorrar horas de trabajo manual</option>
-            <option value="Evitar errores en stock y facturación">Evitar errores en stock y facturación</option>
-            <option value="Monitorear ventas y metas en tiempo real">Monitorear ventas y metas en tiempo real</option>
-            <option value="Reportes ejecutivos para gerencia">Reportes ejecutivos para gerencia</option>
+          <label>Área o Flujo a Supervisar</label>
+          <select id="cotiArea" class="form-control">
+            <option value="Ventas, Pedidos y Facturación">Ventas, Pedidos y Facturación</option>
+            <option value="Inventario y Control de Stock">Inventario y Control de Stock</option>
+            <option value="Finanzas, Caja y Cobranzas">Finanzas, Caja y Cobranzas</option>
+            <option value="Operaciones y Rendimiento del Negocio">Operaciones y Rendimiento</option>
+            <option value="Otro flujo / A definir en la asesoría">Otro flujo / A definir en la asesoría</option>
           </select>
         </div>
       </div>
 
       <div class="form-group">
-        <label>Teléfono / WhatsApp de Contacto</label>
+        <label>WhatsApp o Teléfono de Contacto</label>
         <input type="text" id="cotiTelefono" class="form-control" placeholder="Ej. +51 999 888 777" autocomplete="off" spellcheck="false" required />
+        <span style="font-size:0.75rem; color:#94a3b8; display:block; margin-top:0.35rem;">
+          <i class="ph-bold ph-shield-check" style="color:#34d399;"></i> Solo lo usaremos para responder a su consulta y coordinar la propuesta.
+        </span>
       </div>
 
       <div class="form-group">
-        <label>Correo Electrónico de Contacto</label>
-        <input type="email" id="cotiCorreo" class="form-control" placeholder="gerencia@empresa.com" autocomplete="off" spellcheck="false" required />
+        <label>Detalle o requerimiento especial (Opcional)</label>
+        <input type="text" id="cotiDetalle" class="form-control" placeholder="Ej. Requiero ver alertas de stock bajo y exportar a Excel semanalmente" autocomplete="off" spellcheck="false" />
       </div>
 
       <div style="margin-top:1.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
@@ -495,42 +492,44 @@ window.openCotizacionModal = openCotizacionModal;
 
 function submitCotizacionForm(e) {
   e.preventDefault();
-  const empresaInput = document.getElementById('cotiEmpresa');
+  const nombreInput = document.getElementById('cotiNombre');
   const alcanceInput = document.getElementById('cotiAlcance');
-  const herramientasInput = document.getElementById('cotiHerramientas');
-  const metaInput = document.getElementById('cotiMeta');
+  const datosInput = document.getElementById('cotiDatos');
+  const areaInput = document.getElementById('cotiArea');
   const telInput = document.getElementById('cotiTelefono');
-  const emailInput = document.getElementById('cotiCorreo');
+  const detalleInput = document.getElementById('cotiDetalle');
 
-  const empresa = empresaInput ? empresaInput.value.trim() : '';
+  const nombre = nombreInput ? nombreInput.value.trim() : 'Cliente';
   const alcance = alcanceInput ? alcanceInput.value : '';
-  const herramientas = herramientasInput ? herramientasInput.value : '';
-  const meta = metaInput ? metaInput.value : '';
+  const datos = datosInput ? datosInput.value : '';
+  const area = areaInput ? areaInput.value : '';
   const tel = telInput ? telInput.value.trim() : '';
-  const email = emailInput ? emailInput.value.trim() : '';
+  const detalle = detalleInput ? detalleInput.value.trim() : '';
 
   // Purga inmediata de campos del formulario en el DOM
   const form = document.getElementById('cotiForm');
   if (form) form.reset();
 
-  const msgText = `¡Hola! Deseo solicitar un Diagnóstico de Datos y Cotización para mi negocio:
-• Empresa: ${empresa}
-• Alcance de interés: ${alcance}
-• Sistema actual: ${herramientas}
-• Objetivo principal: ${meta}
-• Contacto: ${tel} | ${email}`;
+  let msgText = `¡Hola! Me comunico desde su portafolio para solicitar un Diagnóstico y Cotización:
+• Nombre / Negocio: ${nombre}
+• Modalidad de interés: ${alcance}
+• Origen de datos: ${datos}
+• Área a supervisar: ${area}`;
+
+  if (tel) msgText += `\n• WhatsApp / Teléfono: ${tel}`;
+  if (detalle) msgText += `\n• Requerimiento especial: ${detalle}`;
 
   const msg = encodeURIComponent(msgText);
-  const safeEmpresa = escapeHtml(empresa);
+  const safeNombre = escapeHtml(nombre);
   
   modalContent.innerHTML = `
     <div style="text-align:center; padding:2rem 1rem;">
       <div style="font-size:3.5rem; color:#34d399; margin-bottom:1rem;">
         <i class="ph-fill ph-check-circle"></i>
       </div>
-      <h2 style="font-size:1.6rem; font-weight:800; margin-bottom:0.75rem;">¡Solicitud de Diagnóstico Registrada!</h2>
-      <p style="color:var(--text-secondary); max-width:520px; margin:0 auto 1.5rem; line-height:1.6;">
-        Hemos preparado los datos de su consulta para <strong>${safeEmpresa}</strong>. Por motivos de seguridad y privacidad, <strong>ningún dato se guarda en esta web</strong>: presione el botón inferior para enviarlos directamente a su conversación en WhatsApp:
+      <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:0.75rem;">¡Listo, ${safeNombre}!</h2>
+      <p style="color:var(--text-secondary); max-width:520px; margin:0 auto 1.5rem; line-height:1.6; font-size:0.95rem;">
+        Hemos preparado el resumen de su solicitud. Haga clic en el botón inferior para abrir la conversación en WhatsApp y coordinar su propuesta:
       </p>
 
       <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
@@ -538,7 +537,7 @@ function submitCotizacionForm(e) {
           <i class="ph-bold ph-whatsapp-logo"></i> Abrir Chat en WhatsApp Ahora
         </a>
         <button class="btn btn-secondary" onclick="closeTechModal()">
-          Volver al Portal
+          Cerrar
         </button>
       </div>
     </div>
