@@ -177,7 +177,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Verificar estado del servidor de predicción
   checkPredictionServer();
+
+  // Inicializar ScrollSpy en barra de navegación
+  initNavScrollSpy();
 });
+
+// ScrollSpy e indicador activo en la barra de navegación
+function initNavScrollSpy() {
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  const sections = Array.from(navLinks).map(link => {
+    const id = link.getAttribute('href').substring(1);
+    return document.getElementById(id);
+  }).filter(Boolean);
+
+  function setActiveLink(targetId) {
+    navLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      const isMatch = href === '#' + targetId;
+      link.classList.toggle('active', isMatch);
+    });
+  }
+
+  // Clic suave y activación inmediata
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const targetId = link.getAttribute('href').substring(1);
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        e.preventDefault();
+        targetEl.scrollIntoView({ behavior: 'smooth' });
+        setActiveLink(targetId);
+      }
+    });
+  });
+
+  // Detección automática al desplazarse
+  function onScroll() {
+    const scrollPos = window.scrollY + 200;
+    let currentId = '';
+
+    for (let i = 0; i < sections.length; i++) {
+      const sec = sections[i];
+      const top = sec.offsetTop;
+      const height = sec.offsetHeight;
+      if (scrollPos >= top && scrollPos < top + height) {
+        currentId = sec.id;
+        break;
+      }
+    }
+
+    // Si el usuario llega al final de la página, activar el último elemento (Contacto)
+    if ((window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 80)) {
+      if (sections.length > 0) {
+        currentId = sections[sections.length - 1].id;
+      }
+    }
+
+    if (currentId) {
+      setActiveLink(currentId);
+    } else if (window.scrollY < 200) {
+      navLinks.forEach(link => link.classList.remove('active'));
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
 
 // Selección y cambio de proyecto
 function selectProject(projectId, scrollIntoView = true) {
@@ -370,12 +435,11 @@ function openCotizacionModal(selectedScope = 'Consultoría y Diagnóstico de Flu
       </div>
 
       <div class="form-group">
-        <label>Tipo de Solución / Alcance Estimado</label>
+        <label>Tipo de Solución / Modalidad de Despliegue</label>
         <select id="cotiAlcance" class="form-control">
-          <option value="Consultoría y Diagnóstico de Flujo de Datos" ${selectedScope.includes('Diagnóstico') || selectedScope.includes('Consultoría') ? 'selected' : ''}>Consultoría y Diagnóstico de Flujo de Datos</option>
-          <option value="Desarrollo de Dashboard Local" ${selectedScope.includes('Local') ? 'selected' : ''}>Desarrollo de Dashboard Operativo Local (Monousuario en PC)</option>
-          <option value="Suite Analítica para Red Interna" ${selectedScope.includes('Multiusuario') || selectedScope.includes('Red') || selectedScope.includes('Compartido') ? 'selected' : ''}>Suite Analítica para Red Interna (Equipos &amp; Sucursales)</option>
-          <option value="Desarrollo de Sistema Analítico a Medida" ${selectedScope.includes('Medida') || selectedScope.includes('Sistema') || selectedScope.includes('Profesional') ? 'selected' : ''}>Desarrollo de Sistema Analítico a Medida (Módulos &amp; Roles)</option>
+          <option value="Dashboard Versión Local (PC / Red Interna con Instalador)" ${selectedScope.includes('Local') ? 'selected' : ''}>Dashboard Versión Local (PC / Red Interna con Instalador)</option>
+          <option value="Dashboard Versión Empresarial en la Nube (Servidor 24/7)" ${selectedScope.includes('Nube') || selectedScope.includes('Empresarial') || selectedScope.includes('Servidor') ? 'selected' : ''}>Dashboard Versión Empresarial en la Nube (Servidor 24/7 &amp; Base de Datos)</option>
+          <option value="Diagnóstico Inicial y Asesoría (Sin Compromiso)" ${selectedScope.includes('Diagnóstico') || selectedScope.includes('Asesoría') ? 'selected' : ''}>Diagnóstico Inicial y Asesoría (Sin Compromiso)</option>
         </select>
       </div>
 
