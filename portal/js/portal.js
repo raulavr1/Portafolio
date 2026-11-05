@@ -578,8 +578,13 @@ function openTechModal(projectId) {
 
   modalContent.innerHTML = `
     <div class="modal-header">
-      <div class="modal-badge">${escapeHtml(project.category)}</div>
+      <div class="modal-badge">${escapeHtml(project.category)} &middot; Versión Demo de Prueba</div>
       <h2 class="modal-title">${escapeHtml(project.title)}</h2>
+    </div>
+
+    <div style="background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.25); border-radius:8px; padding:0.6rem 0.9rem; margin-bottom:1.25rem; font-size:0.85rem; color:#94a3b8; display:flex; align-items:center; gap:0.5rem;">
+      <i class="ph-bold ph-info" style="color:#38bdf8; font-size:1.1rem; flex-shrink:0;"></i>
+      <span><strong>Versión de Prueba:</strong> Al interactuar con este dashboard demo, estará operando una versión de prueba con datos simulados para auditar fluidez, diseño y filtros en tiempo real.</span>
     </div>
 
     <p style="color:var(--text-secondary); margin-bottom:1.5rem; line-height:1.6;">
