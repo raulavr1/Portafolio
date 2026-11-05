@@ -418,7 +418,7 @@ function openCotizacionModal(selectedScope = 'Consultoría y Diagnóstico de Flu
     </div>
 
     <p style="color:var(--text-secondary); margin-bottom:1.5rem; line-height:1.6;">
-      Inicie la optimización de sus operaciones sin compromiso financiero previo. Evaluamos sus flujos de trabajo actuales, planillas Excel o Google Sheets, identificamos cuántas horas semanales puede ahorrar su equipo y le entregamos una propuesta personalizada.
+      Inicie la optimización de sus operaciones con total claridad técnica. Evaluamos sus flujos de trabajo actuales, planillas Excel o Google Sheets, identificamos cuántas horas semanales puede ahorrar su equipo y le entregamos una propuesta personalizada.
     </p>
 
     <div class="guarantee-strip" style="margin-top:0; margin-bottom:1.5rem;">
@@ -439,7 +439,7 @@ function openCotizacionModal(selectedScope = 'Consultoría y Diagnóstico de Flu
         <select id="cotiAlcance" class="form-control">
           <option value="Dashboard Versión Local (PC / Red Interna con Instalador)" ${selectedScope.includes('Local') ? 'selected' : ''}>Dashboard Versión Local (PC / Red Interna con Instalador)</option>
           <option value="Dashboard Versión Empresarial en la Nube (Servidor 24/7)" ${selectedScope.includes('Nube') || selectedScope.includes('Empresarial') || selectedScope.includes('Servidor') ? 'selected' : ''}>Dashboard Versión Empresarial en la Nube (Servidor 24/7 &amp; Base de Datos)</option>
-          <option value="Diagnóstico Inicial y Asesoría (Sin Compromiso)" ${selectedScope.includes('Diagnóstico') || selectedScope.includes('Asesoría') ? 'selected' : ''}>Diagnóstico Inicial y Asesoría (Sin Compromiso)</option>
+          <option value="Diagnóstico Inicial y Asesoría Personalizada" ${selectedScope.includes('Diagnóstico') || selectedScope.includes('Asesoría') ? 'selected' : ''}>Diagnóstico Inicial y Asesoría Personalizada</option>
         </select>
       </div>
 
