@@ -86,7 +86,7 @@
       </div>
       <div style="text-align:center; margin-bottom:2rem;">
         <button onclick="openCotizacionModal('Diagnóstico Estratégico')" class="btn btn-secondary" style="padding:0.7rem 1.5rem; font-size:0.9rem; border-color:rgba(52,211,153,0.4); color:#34d399;">
-          <i class="ph-bold ph-calendar-check"></i> Solicitar Diagnóstico sin Compromiso
+          <i class="ph-bold ph-calendar-check"></i> Solicitar Diagnóstico
         </button>
       </div>
 
@@ -249,63 +249,148 @@
     <div class="section-header">
       <div class="section-title-wrap">
         <div class="section-badge">
-          <i class="ph-bold ph-scales"></i> Desarrollo a Medida vs. Herramientas Genéricas
+          <i class="ph-bold ph-scales"></i> Comparativa Estratégica &middot; Usos y Limitaciones
         </div>
         <h3 class="section-title">¿Por Qué No es lo Mismo que Usar Excel o Power BI?</h3>
         <p class="section-desc">
-          Herramientas como Excel, Power BI o Tableau son excelentes para lo que fueron diseñadas. 
-          Lo que desarrollamos aquí es diferente: un sistema propio, construido desde cero para su empresa, 
-          con su marca, sus procesos y sus reglas de negocio — no una plantilla adaptada.
+          Comprenda las diferencias reales, los usos recomendados y las limitaciones operativas de cada alternativa frente a un software analítico desarrollado a la medida de su empresa.
         </p>
       </div>
     </div>
 
-    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
-      
-      <!-- Factor 1: Entorno Visual -->
-      <div class="phase-card" style="--phase-accent:#34d399;">
-        <div class="phase-header">
-          <div class="phase-icon"><i class="ph-duotone ph-paint-brush-broad"></i></div>
+    <!-- TABLA / CARDS COMPARATIVAS: USOS Y LIMITACIONES -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.25rem; margin-top:2rem;">
+
+      <!-- COLUMNA 1: EXCEL / SHEETS -->
+      <div style="background:rgba(15,23,42,0.7); border:1px solid rgba(148,163,184,0.2); border-radius:12px; padding:1.5rem; display:flex; flex-direction:column;">
+        <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.75rem;">
+          <div style="width:36px; height:36px; border-radius:8px; background:rgba(34,197,94,0.15); display:flex; align-items:center; justify-content:center; color:#22c55e; font-size:1.2rem;">
+            <i class="ph-bold ph-file-xls"></i>
+          </div>
+          <div>
+            <h4 style="font-size:1.05rem; margin:0; color:#fff;">Excel / Hojas de Cálculo</h4>
+            <span style="font-size:0.75rem; color:#94a3b8; font-family:var(--font-mono);">Registros de oficina &middot; Cálculos individuales</span>
+          </div>
         </div>
-        <h4 class="phase-title">Entorno Visual Personalizado</h4>
-        <p class="phase-desc">Diseñado con la identidad visual, colores y lenguaje corporativo de su empresa. No hay dos proyectos iguales porque no existen dos negocios idénticos.</p>
+
+        <div style="margin:0.75rem 0; padding:0.6rem 0.8rem; background:rgba(255,255,255,0.03); border-radius:8px; font-size:0.83rem; color:#cbd5e1;">
+          <strong style="color:#f8fafc;">Uso Principal:</strong> Ideal para cálculos rápidos en una sola computadora, anotaciones diarias y borradores numéricos de un solo usuario.
+        </div>
+
+        <div style="margin-top:0.5rem; flex-grow:1;">
+          <div style="font-size:0.8rem; font-weight:700; color:#ef4444; text-transform:uppercase; margin-bottom:0.4rem; letter-spacing:0.04em;">
+            <i class="ph-bold ph-x-circle"></i> Limitaciones Clave:
+          </div>
+          <ul style="list-style:none; padding:0; margin:0; font-size:0.83rem; color:#94a3b8; display:flex; flex-direction:column; gap:0.45rem;">
+            <li>❌ <strong>Riesgo de error humano:</strong> Cualquier usuario puede borrar celdas o romper fórmulas por error.</li>
+            <li>❌ <strong>Desorden de versiones:</strong> Múltiples copias sueltas por correo ("ventas_v2_final.xlsx").</li>
+            <li>❌ <strong>Archivos lentos y pesados:</strong> A medida que crecen los datos, el archivo se congela o se corrompe.</li>
+            <li>❌ <strong>Cero seguridad de permisos:</strong> No se pueden ocultar márgenes o datos sensibles por empleado.</li>
+          </ul>
+        </div>
       </div>
 
-      <!-- Factor 2: Servidor y Base de Datos -->
-      <div class="phase-card" style="--phase-accent:#38bdf8;">
-        <div class="phase-header">
-          <div class="phase-icon"><i class="ph-duotone ph-cloud-check"></i></div>
+      <!-- COLUMNA 2: POWER BI / TABLEAU -->
+      <div style="background:rgba(15,23,42,0.7); border:1px solid rgba(245,158,11,0.25); border-radius:12px; padding:1.5rem; display:flex; flex-direction:column;">
+        <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.75rem;">
+          <div style="width:36px; height:36px; border-radius:8px; background:rgba(245,158,11,0.15); display:flex; align-items:center; justify-content:center; color:#f59e0b; font-size:1.2rem;">
+            <i class="ph-bold ph-chart-bar"></i>
+          </div>
+          <div>
+            <h4 style="font-size:1.05rem; margin:0; color:#fff;">Power BI / Tableau</h4>
+            <span style="font-size:0.75rem; color:#f59e0b; font-family:var(--font-mono);">Plataformas genéricas de Business Intelligence</span>
+          </div>
         </div>
-        <h4 class="phase-title">Servidor 24/7 + Base de Datos Incluidos</h4>
-        <p class="phase-desc">Su dashboard opera en la nube las 24 horas con servidor y base de datos propios (plan free sin costo extra), sin requerir licencias de usuario ni pagos recurrentes por software de terceros.</p>
+
+        <div style="margin:0.75rem 0; padding:0.6rem 0.8rem; background:rgba(255,255,255,0.03); border-radius:8px; font-size:0.83rem; color:#cbd5e1;">
+          <strong style="color:#f8fafc;">Uso Principal:</strong> Reportes gráficos para corporativos que ya pagan licencias mensuales por cada analista y usuario que consulta.
+        </div>
+
+        <div style="margin-top:0.5rem; flex-grow:1;">
+          <div style="font-size:0.8rem; font-weight:700; color:#ef4444; text-transform:uppercase; margin-bottom:0.4rem; letter-spacing:0.04em;">
+            <i class="ph-bold ph-x-circle"></i> Limitaciones Clave:
+          </div>
+          <ul style="list-style:none; padding:0; margin:0; font-size:0.83rem; color:#94a3b8; display:flex; flex-direction:column; gap:0.45rem;">
+            <li>❌ <strong>Cobro mensual recurrente por usuario:</strong> Debe pagar entre $10 y $25 USD al mes por cada persona que quiera ver los reportes.</li>
+            <li>❌ <strong>Dependencia de alquiler:</strong> Si deja de pagar la suscripción mensual, su empresa pierde el acceso a sus propios paneles.</li>
+            <li>❌ <strong>Curva de uso compleja:</strong> Interfaz técnica y rígida que complica el uso al personal operativo.</li>
+            <li>❌ <strong>No es un software operativo:</strong> Solo muestra gráficos de lectura, no permite flujos interactivos a medida.</li>
+          </ul>
+        </div>
       </div>
 
-      <!-- Factor 3: Migración o Estructuración -->
-      <div class="phase-card" style="--phase-accent:#a78bfa;">
-        <div class="phase-header">
-          <div class="phase-icon"><i class="ph-duotone ph-arrows-merge"></i></div>
+      <!-- COLUMNA 3: NUESTRO DESARROLLO A MEDIDA (RECOMENDADO) -->
+      <div style="background:linear-gradient(180deg, rgba(8,26,54,0.95) 0%, rgba(15,23,42,0.95) 100%); border:1px solid rgba(56,189,248,0.5); border-radius:12px; padding:1.5rem; display:flex; flex-direction:column; box-shadow:0 10px 30px rgba(56,189,248,0.15); position:relative;">
+        <span style="position:absolute; top:-11px; right:16px; background:#0284c7; color:#fff; font-size:0.7rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:999px; letter-spacing:0.05em; text-transform:uppercase;">Activo Propio</span>
+        
+        <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.75rem;">
+          <div style="width:36px; height:36px; border-radius:8px; background:rgba(56,189,248,0.2); display:flex; align-items:center; justify-content:center; color:#38bdf8; font-size:1.2rem;">
+            <i class="ph-bold ph-browsers"></i>
+          </div>
+          <div>
+            <h4 style="font-size:1.05rem; margin:0; color:#fff;">Desarrollo a Medida</h4>
+            <span style="font-size:0.75rem; color:#38bdf8; font-family:var(--font-mono);">Software exclusivo para su empresa</span>
+          </div>
         </div>
-        <h4 class="phase-title">Migración o Estructuración desde Cero</h4>
-        <p class="phase-desc">Si ya cuenta con registros en Excel, Google Sheets o CSV los migramos íntegramente sin perder nada. Y si no cuenta con datos previos o busca ordenar un área nueva, diseñamos toda la estructura lista para operar.</p>
-      </div>
 
-      <!-- Factor 4: Lógica Real -->
-      <div class="phase-card" style="--phase-accent:#f59e0b;">
-        <div class="phase-header">
-          <div class="phase-icon"><i class="ph-duotone ph-gear-six"></i></div>
+        <div style="margin:0.75rem 0; padding:0.6rem 0.8rem; background:rgba(56,189,248,0.1); border-radius:8px; font-size:0.83rem; color:#e0f2fe;">
+          <strong style="color:#38bdf8;">Uso Principal:</strong> Un sistema propio, interactivo y permanente que centraliza sus datos, automatiza cálculos y se adapta 100% a la operativa de su negocio.
         </div>
-        <h4 class="phase-title">Lógica de Negocio Real a Medida</h4>
-        <p class="phase-desc">Sus cálculos, fórmulas internas, alertas y flujos operativos se programan con exactitud. No forzamos a su negocio a encajar en una plantilla; adaptamos el software a su operativa diaria.</p>
+
+        <div style="margin-top:0.5rem; flex-grow:1;">
+          <div style="font-size:0.8rem; font-weight:700; color:#34d399; text-transform:uppercase; margin-bottom:0.4rem; letter-spacing:0.04em;">
+            <i class="ph-bold ph-check-circle"></i> Ventajas Frente a las Limitaciones:
+          </div>
+          <ul style="list-style:none; padding:0; margin:0; font-size:0.83rem; color:#cbd5e1; display:flex; flex-direction:column; gap:0.45rem;">
+            <li>✔️ <strong>Pago único sin mensualidades:</strong> El sistema le pertenece al 100%. No paga alquiler de licencias por usuario.</li>
+            <li>✔️ <strong>Seguridad por roles:</strong> Permisos y contraseñas (Admin, Ventas, Gerencia). Nadie altera fórmulas ni ve datos no autorizados.</li>
+            <li>✔️ <strong>Servidor 24/7 y base de datos incluidos:</strong> Datos centralizados y respaldados, disponibles siempre sin archivos corruptos.</li>
+            <li>✔️ <strong>100% con su marca e intuitivo:</strong> Diseñado con sus colores y lógica interna para que cualquier empleado lo use sin capacitación compleja.</li>
+          </ul>
+        </div>
       </div>
 
     </div>
 
-    <!-- Bloque de comparación honesta y profesional -->
-    <div style="margin-top:2rem; padding:1.25rem 1.5rem; background:rgba(56,189,248,0.05); border:1px solid rgba(56,189,248,0.15); border-radius:12px;">
-      <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.7; margin:0;">
-        <i class="ph-bold ph-info" style="color:#38bdf8; margin-right:0.4rem;"></i>
-        <strong style="color:var(--text-primary);">Una aclaración honesta y respetuosa:</strong> Si su empresa necesita reportes estándar o visualizaciones temporales con plantillas prefabricadas, herramientas como Power BI o Tableau son alternativas válidas. Nuestro servicio está concebido para empresas que requieren <strong>un sistema propio, interactivo, con servidor activo 24/7, base de datos integrada y la identidad corporativa de su organización</strong> — un activo tecnológico duradero que les pertenece al 100%.
-      </p>
+    <!-- 4 PILARES DE VALOR -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; margin-top:1.5rem;">
+      
+      <!-- Factor 1: Entorno Visual -->
+      <div class="phase-card" style="--phase-accent:#34d399; padding:1.25rem;">
+        <div class="phase-header" style="margin-bottom:0.5rem;">
+          <div class="phase-icon"><i class="ph-duotone ph-paint-brush-broad"></i></div>
+        </div>
+        <h4 class="phase-title" style="font-size:0.95rem;">Entorno Visual Personalizado</h4>
+        <p class="phase-desc" style="font-size:0.82rem;">Diseñado con la identidad visual, colores y temática de su negocio. No es una plantilla genérica que se parece a la de sus competidores.</p>
+      </div>
+
+      <!-- Factor 2: Servidor y Base de Datos -->
+      <div class="phase-card" style="--phase-accent:#38bdf8; padding:1.25rem;">
+        <div class="phase-header" style="margin-bottom:0.5rem;">
+          <div class="phase-icon"><i class="ph-duotone ph-cloud-check"></i></div>
+        </div>
+        <h4 class="phase-title" style="font-size:0.95rem;">Servidor 24/7 y Base de Datos</h4>
+        <p class="phase-desc" style="font-size:0.82rem;">Opera de forma continua en la nube (plan free incluido sin costo extra), resguardando su información y sincronizando datos en tiempo real.</p>
+      </div>
+
+      <!-- Factor 3: Migración o Estructuración -->
+      <div class="phase-card" style="--phase-accent:#a78bfa; padding:1.25rem;">
+        <div class="phase-header" style="margin-bottom:0.5rem;">
+          <div class="phase-icon"><i class="ph-duotone ph-arrows-merge"></i></div>
+        </div>
+        <h4 class="phase-title" style="font-size:0.95rem;">Migración o Inicio desde Cero</h4>
+        <p class="phase-desc" style="font-size:0.82rem;">Si tiene planillas previas las migramos íntegramente; y si inicia un proyecto nuevo, creamos la estructura limpia desde la raíz.</p>
+      </div>
+
+      <!-- Factor 4: Lógica Real -->
+      <div class="phase-card" style="--phase-accent:#f59e0b; padding:1.25rem;">
+        <div class="phase-header" style="margin-bottom:0.5rem;">
+          <div class="phase-icon"><i class="ph-duotone ph-gear-six"></i></div>
+        </div>
+        <h4 class="phase-title" style="font-size:0.95rem;">Lógica de Negocio Adaptada</h4>
+        <p class="phase-desc" style="font-size:0.82rem;">Sus fórmulas, cálculos, aprobaciones y alertas se programan exactamente como opera su empresa, sin imponer procesos externos.</p>
+      </div>
+
     </div>
   </section>
 
@@ -470,11 +555,8 @@
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-primary" onclick="window.open('AreadeVentas/index.html', '_blank')" title="Probar versión demo en pantalla completa">
+            <button class="btn btn-primary" onclick="window.open('AreadeVentas/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center;">
               <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
-            </button>
-            <button class="btn btn-secondary" onclick="openTechModal('ventas')" title="Ver Ficha Técnica">
-              <i class="ph ph-info"></i> Ficha
             </button>
           </div>
         </div>
@@ -505,11 +587,8 @@
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-primary" onclick="window.open('PredicciondeEventos/public/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 4px 14px rgba(124,58,237,0.35);">
+            <button class="btn btn-primary" onclick="window.open('PredicciondeEventos/public/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center; background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 4px 14px rgba(124,58,237,0.35);">
               <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
-            </button>
-            <button class="btn btn-secondary" onclick="openTechModal('prediccion')" title="Ver Ficha Técnica">
-              <i class="ph ph-info"></i> Ficha
             </button>
           </div>
         </div>
@@ -540,11 +619,8 @@
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-primary" onclick="window.open('DashboardClinico/dist/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="background: linear-gradient(135deg, #0d9488, #14b8a6); box-shadow: 0 4px 14px rgba(13,148,136,0.35);">
+            <button class="btn btn-primary" onclick="window.open('DashboardClinico/dist/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center; background: linear-gradient(135deg, #0d9488, #14b8a6); box-shadow: 0 4px 14px rgba(13,148,136,0.35);">
               <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
-            </button>
-            <button class="btn btn-secondary" onclick="openTechModal('clinico')" title="Ver Ficha Técnica">
-              <i class="ph ph-info"></i> Ficha
             </button>
           </div>
         </div>
@@ -575,11 +651,8 @@
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-primary" onclick="window.open('Finanzas/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="background: linear-gradient(135deg, #0284c7, #0ea5e9); box-shadow: 0 4px 14px rgba(2,132,199,0.35);">
+            <button class="btn btn-primary" onclick="window.open('Finanzas/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center; background: linear-gradient(135deg, #0284c7, #0ea5e9); box-shadow: 0 4px 14px rgba(2,132,199,0.35);">
               <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
-            </button>
-            <button class="btn btn-secondary" onclick="openTechModal('finanzas')" title="Ver Ficha Técnica">
-              <i class="ph ph-info"></i> Ficha
             </button>
           </div>
         </div>
