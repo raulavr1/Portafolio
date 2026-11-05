@@ -610,7 +610,6 @@ body {
   background: linear-gradient(135deg, #2563eb, #0ea5e9);
   color: white;
   box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-  flex: 1;
 }
 
 .btn-primary:hover {
