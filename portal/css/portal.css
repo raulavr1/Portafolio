@@ -63,20 +63,6 @@ body {
   min-height: 100vh;
 }
 
-/* Todos los párrafos justificados */
-p,
-.section-desc,
-.hero-subtitle,
-.phase-desc,
-.card-desc,
-.plan-card p,
-.contact-card-desc,
-.hook-desc,
-.footer-text,
-.commitment-item p {
-  text-align: justify;
-}
-
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
