@@ -316,11 +316,13 @@
   /* Generar enlace seguro cifrado con clave dinámica al costado derecho después del dominio */
   window.shareGenerateLink = function () {
     const snap = generateSnapshot();
+    const now = Date.now();
     const compactData = {
       p: (snap.data.proformas || []).length,
       f: (snap.data.facturas || []).length,
       i: (snap.data.inventario || []).length,
-      t: Date.now()
+      t: now,
+      exp: now + (30 * 60 * 1000) // Válido solo por 30 minutos (One-Time / Short TTL)
     };
     const salt = 'sec_' + Math.random().toString(36).substring(2, 8);
     const dynamicKey = generateDynamicKey(salt);
@@ -342,7 +344,7 @@
           <span style="color:#94a3b8;">${base}</span><span style="color:var(--neon-cyan);font-weight:700;">?auth_key=${fullAuthKey}&ssl=1</span>
         </div>
         <div style="margin-top:6px;font-size:10.5px;color:var(--text-3);line-height:1.4;">
-          🔒 <strong>Clave dinámica:</strong> Ubicada estrictamente al costado derecho después del dominio (<code style="color:var(--neon-cyan);">?auth_key=...</code>). Protegida con token dinámico y verificación de integridad.
+          🔒 <strong>Protección Anti-Reenvío:</strong> Clave de 1 solo uso (One-Time Token, caduca en 30 min). Al abrirse, la clave se auto-elimina de la barra del navegador para evitar que sea compartida a terceros.
         </div>
         <div style="margin-top:10px;display:flex;gap:8px;">
           <button class="btn btn-primary btn-sm" onclick="navigator.clipboard.writeText('${link.replace(/'/g,"\\'")}')||showToast('✅ Enlace seguro copiado','success')">
@@ -439,14 +441,42 @@
       const params = new URLSearchParams(window.location.search);
       const authKey = params.get('auth_key');
       if (authKey) {
+        // 1. LIMPIEZA INMEDIATA DE LA URL (Evita que el usuario copie la URL activa con la clave)
+        if (window.history && window.history.replaceState) {
+          const cleanUrl = window.location.origin + window.location.pathname;
+          window.history.replaceState({}, document.title, cleanUrl);
+        }
+
         const parts = authKey.split('-');
         if (parts.length >= 3) {
+          const tokenId = parts[0];
           const receivedKey = parts[1];
           const hexPayload = parts[2];
+
+          // 2. CONTROL DE TOKEN DE UN SOLO USO (One-Time Token / Anti-Reenvío)
+          const usedKey = 'vp_used_' + tokenId;
+          if (sessionStorage.getItem(usedKey)) {
+            setTimeout(() => {
+              showToast('⚠️ Este enlace temporal ya fue utilizado y ha quedado invalidado.', 'error');
+            }, 600);
+            return;
+          }
+          sessionStorage.setItem(usedKey, '1');
+
+          // 3. DESCIFRADO Y CONTROL DE VENCIMIENTO (TTL)
           const decrypted = decryptToken(hexPayload, receivedKey);
-          JSON.parse(decrypted);
+          const data = JSON.parse(decrypted);
+
+          if (data.exp && Date.now() > data.exp) {
+            setTimeout(() => {
+              showToast('⚠️ El enlace temporal ha caducado (límite de 30 min superado).', 'error');
+            }, 600);
+            return;
+          }
+
+          // 4. ACCESO VALIDADO CORRECTAMENTE
           setTimeout(() => {
-            showToast('🛡️ Enlace seguro verificado: Clave dinámica descifrada y validada', 'success');
+            showToast('🛡️ Enlace seguro verificado: Clave dinámica consumida y desvinculada de la URL.', 'success');
           }, 800);
         }
       }
