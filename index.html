@@ -49,7 +49,6 @@
 
     <ul class="nav-links">
       <li><a href="#showcase"><i class="ph ph-squares-four"></i> Dashboards Demos</a></li>
-      <li><a href="#sandbox"><i class="ph ph-desktop"></i> Probar en Vivo</a></li>
       <li><a href="#metodologia"><i class="ph ph-tree-structure"></i> Metodología</a></li>
       <li><a href="#planes"><i class="ph ph-briefcase"></i> Soluciones &amp; Cotización</a></li>
       <li><a href="#contacto" class="nav-btn-contact"><i class="ph-bold ph-chat-circle-dots"></i> Contacto</a></li>
@@ -79,9 +78,6 @@
       <div style="display:flex; justify-content:center; align-items:center; gap:1rem; flex-wrap:wrap; margin-bottom:1.5rem;">
         <a href="#showcase" class="btn btn-primary" style="flex:none; width:auto; padding:0.75rem 1.4rem; font-size:0.95rem;">
           <i class="ph-bold ph-squares-four"></i> Ver Dashboards Demos
-        </a>
-        <a href="#sandbox" class="btn btn-secondary" style="flex:none; width:auto; padding:0.75rem 1.4rem; font-size:0.95rem; border-color:rgba(56,189,248,0.5); background:rgba(15,23,42,0.7);">
-          <i class="ph-bold ph-play"></i> Interactuar en Vivo Ahora
         </a>
       </div>
       <div style="text-align:center; margin-bottom:2rem;">
@@ -189,12 +185,9 @@
     </div>
 
     <!-- Llamado a la acción del riel -->
-    <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-top:2rem;">
-      <a href="#showcase" class="btn btn-primary" style="padding:0.75rem 1.6rem; font-size:0.95rem;">
+    <div style="text-align:center; margin-top:2rem;">
+      <a href="#showcase" class="btn btn-primary" style="display:inline-flex; width:auto; padding:0.85rem 2.2rem; font-size:1rem;">
         <i class="ph-bold ph-cursor-click"></i> Probar Dashboards Demos Abajo
-      </a>
-      <a href="#sandbox" class="btn btn-secondary" style="padding:0.75rem 1.6rem; font-size:0.95rem;">
-        <i class="ph-bold ph-desktop"></i> Ver Simulador en Vivo
       </a>
     </div>
   </section>
@@ -313,12 +306,13 @@
 
       <!-- TARJETA 4: FinControl Finanzas & Gestión Patrimonial -->
       <article class="showcase-card" style="--card-accent:#0284c7; --card-accent-border:rgba(2,132,199,0.5); --card-accent-glow:rgba(2,132,199,0.2);">
-        <div class="card-preview-banner finanzas" style="background: linear-gradient(135deg, rgba(2, 132, 199, 0.25) 0%, rgba(15, 23, 42, 0.8) 100%);">
-          <span class="banner-badge live" style="background:rgba(2,132,199,0.25); border:1px solid rgba(2,132,199,0.4); color:#38bdf8;">
-            <span class="pulse-dot" style="background:#38bdf8;"></span> Versión Demo de Prueba
-          </span>
-          <div class="banner-hero-icon" style="color: #38bdf8;">
-            <i class="ph-duotone ph-currency-dollar"></i>
+        <div class="card-preview-banner finanzas card-img-banner">
+          <img src="portal/img/preview-finanzas.jpg" alt="FinControl Dashboard Preview" class="banner-preview-img" loading="lazy" />
+          <div class="banner-img-overlay">
+            <span class="banner-badge live" style="background:rgba(2,132,199,0.25); border:1px solid rgba(2,132,199,0.4); color:#38bdf8;">
+              <span class="pulse-dot" style="background:#38bdf8;"></span> Demo Interactivo
+            </span>
+            <span class="banner-interact-hint"><i class="ph-bold ph-cursor-click"></i> Clic para probar en vivo</span>
           </div>
         </div>
         <div class="card-body">
@@ -365,135 +359,6 @@
   </section>
 
 
-
-<!-- =========================================================================
-       LIVE SANDBOX INTERACTIVE VIEWER (SIMULADOR RESPONSIVE MULTI-DISPOSITIVO)
-       ========================================================================= -->
-  <section class="sandbox-section" id="sandbox">
-    <div class="section-header" style="margin-bottom:1.25rem;">
-      <div class="section-title-wrap">
-        <div class="section-badge">
-          <i class="ph-bold ph-desktop"></i> Simulador Multi-pantalla &amp; Sandbox
-        </div>
-        <h3 class="section-title">Comprobación de Calidad &amp; Responsividad en Vivo</h3>
-        <p class="section-desc">
-          Interactúe directamente con cada <strong>dashboard demo en su versión de prueba</strong> y verifique en tiempo real cómo se adapta en <strong>Escritorio, Laptop, Tablet y Móvil</strong>. Cada sistema opera con datos de muestra para que audite libremente sus vistas, gráficos y rendimiento.
-        </p>
-      </div>
-    </div>
-
-    <div class="sandbox-container" id="sandboxContainer">
-      <!-- Topbar de Control -->
-      <div class="sandbox-topbar">
-        <!-- Selector de Dashboard -->
-        <div class="sandbox-tabs">
-          <button class="tab-btn active" data-project="ventas" onclick="selectProject('ventas', false)">
-            <i class="ph ph-chart-line-up"></i>
-            <span>VentasPro Suite</span>
-          </button>
-          <button class="tab-btn" data-project="prediccion" onclick="selectProject('prediccion', false)">
-            <i class="ph ph-shield-warning"></i>
-            <span>ACTG Predicción Táctica</span>
-          </button>
-          <button class="tab-btn" data-project="clinico" onclick="selectProject('clinico', false)">
-            <i class="ph ph-first-aid"></i>
-            <span>Farmacia Clínica</span>
-          </button>
-          <button class="tab-btn" data-project="finanzas" onclick="selectProject('finanzas', false)">
-            <i class="ph ph-currency-dollar"></i>
-            <span>FinControl Finanzas</span>
-          </button>
-        </div>
-
-        <!-- Meta e Inspección de URL -->
-        <div class="sandbox-meta">
-          <div class="url-bar">
-            <i class="ph ph-lock-key"></i>
-            <span id="urlDisplay"><span style="color:#cbd5e1;">https://portafoliodev-alpha.vercel.app/AreadeVentas/index.html</span><span style="color:#38bdf8;font-weight:600;">?auth_key=sec_19d45_ventas&amp;ssl=1</span></span>
-          </div>
-
-          <span id="resolutionBadge" class="resolution-badge">100% (Fluido)</span>
-
-          <!-- Selector de Modo de Dispositivo -->
-          <div class="device-selectors">
-            <button class="device-btn active" data-device="desktop" onclick="setDeviceMode('desktop')" title="Escritorio (100%)">
-              <i class="ph ph-monitor"></i>
-            </button>
-            <button class="device-btn" data-device="laptop" onclick="setDeviceMode('laptop')" title="Laptop (1280px)">
-              <i class="ph ph-laptop"></i>
-            </button>
-            <button class="device-btn" data-device="tablet" onclick="setDeviceMode('tablet')" title="Tablet (768px)">
-              <i class="ph ph-device-tablet"></i>
-            </button>
-            <button class="device-btn" data-device="mobile" onclick="setDeviceMode('mobile')" title="Móvil (390px)">
-              <i class="ph ph-device-mobile"></i>
-            </button>
-            <button class="device-btn" onclick="toggleOrientation()" title="Rotar Orientación">
-              <i class="ph ph-arrows-clockwise"></i>
-            </button>
-          </div>
-
-          <!-- Acciones Rápidas -->
-          <div class="sandbox-quick-actions">
-            <button class="btn btn-secondary btn-icon-only" onclick="reloadSandbox()" title="Recargar Dashboard">
-              <i class="ph ph-arrows-clockwise"></i>
-            </button>
-            <button class="btn btn-secondary btn-icon-only" onclick="openInNewTab()" title="Abrir en ventana independiente">
-              <i class="ph ph-arrow-square-out"></i>
-            </button>
-            <button class="btn btn-secondary btn-icon-only" onclick="toggleFullscreen()" title="Pantalla Completa">
-              <i class="ph ph-corners-out"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Barra de Estado / Telemetría -->
-      <div class="sandbox-status-bar">
-        <div class="status-left">
-          <span class="server-alert" id="serverAlert">
-            <span id="serverAlertText">Cargando estado del sistema...</span>
-          </span>
-        </div>
-        <div class="status-right" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">
-          RESPONSIVE TESTED &middot; CALIDAD GRADO CORPORATIVO
-        </div>
-      </div>
-
-      <!-- Viewport Frame -->
-      <div class="sandbox-viewport-wrapper" id="sandboxWrapper">
-        <div class="loading-indicator" id="loadingIndicator">
-          <div class="spinner"></div>
-          <span style="font-size:0.85rem; font-weight:600;">Inicializando Dashboard Interactivo...</span>
-        </div>
-        <iframe id="sandboxFrame" class="sandbox-iframe" src="AreadeVentas/index.html" title="Visor de Dashboard"></iframe>
-      </div>
-
-      <!-- BANNER GANCHO POST-DEMOSTRACIÓN (CONVERSIÓN DE ALTO IMPACTO) -->
-      <div class="sandbox-hook-banner">
-        <div class="hook-glow"></div>
-        <div class="hook-content-wrap">
-          <div class="hook-badge">
-            <i class="ph-bold ph-lightning"></i> De la Demostración a su Empresa Real
-          </div>
-          <h4 class="hook-title">Lo que acaba de probar puede ser suyo — con sus datos, su marca y su lógica de negocio.</h4>
-          <p class="hook-desc">
-            Estos dashboards son funcionales e interactivos, pero son modelos de muestra. El desarrollo para su empresa se construye con sus propias métricas, sus colores corporativos, sus reglas internas y la conexión a sus datos actuales (sin perder el historial que ya tiene registrado). Incluye servidor en la nube activo 24/7 y base de datos resguardada — mediante un pago único por el desarrollo, sin costos recurrentes de licencias ni sorpresas técnicas, con garantía de funcionamiento desde el primer día.
-          </p>
-          <div class="hook-actions">
-            <button class="btn btn-primary" onclick="openCotizacionModal('Post-Demo Sandbox')" style="padding:0.85rem 1.8rem; font-size:0.95rem;">
-              <i class="ph-bold ph-calendar-check"></i> Solicitar Diagnóstico de Datos &amp; Cotización
-            </button>
-            <a href="https://api.whatsapp.com/send?text=Hola%2C%20estuve%20probando%20los%20dashboards%20interactivos%20en%20su%20web%20y%20me%20gustar%C3%ADa%20una%20cotizaci%C3%B3n%20para%20los%20datos%20de%20mi%20empresa." target="_blank" class="btn btn-whatsapp" style="padding:0.85rem 1.8rem; font-size:0.95rem;">
-              <i class="ph-bold ph-whatsapp-logo"></i> Consultar por WhatsApp
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  
 
 <!-- =========================================================================
        METODOLOGÍA EN 4 FASES (IMAGEN 1)

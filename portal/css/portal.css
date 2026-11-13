@@ -1834,9 +1834,13 @@ body {
 .rail-track {
   display: flex;
   gap: 1.25rem;
-  animation: railScroll 32s linear infinite;
+  animation: railScroll 38s linear infinite;
   width: max-content;
-  padding: 1rem 0 1.5rem;
+  padding: 0.75rem 0 1.25rem;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 .rail-track:hover {
@@ -1969,5 +1973,24 @@ body {
   .dashboard-rail-section {
     padding: 3rem 0 2.5rem;
   }
+}
+
+/* Smooth scroll & GPU containment optimizations */
+html {
+  scroll-behavior: smooth;
+}
+
+.dashboard-rail-section {
+  contain: content;
+}
+
+.rail-item {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.showcase-card {
+  contain: content;
+  transform: translateZ(0);
 }
 

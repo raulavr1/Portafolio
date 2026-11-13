@@ -158,8 +158,10 @@ function showLoading() {
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
-  // Inicializar en VentasPro
-  selectProject('ventas', false);
+  // Inicializar en VentasPro si existe el visor sandbox
+  if (iframe) {
+    selectProject('ventas', false);
+  }
 
   // Escuchar fin de carga de iframe
   if (iframe) {
