@@ -269,9 +269,14 @@ function selectProject(projectId, scrollIntoView = true) {
     iframe.src = targetUrl;
   }
 
-  // Actualizar display de URL
+  // Actualizar display de URL con protocolo seguro, dominio y clave dinámica al costado derecho
   if (urlDisplay) {
-    urlDisplay.textContent = targetUrl;
+    const origin = (window.location.origin && window.location.origin !== 'null' && !window.location.origin.startsWith('file'))
+      ? window.location.origin
+      : 'https://portafoliodev-alpha.vercel.app';
+    const hashSeed = (projectId.length * 7919 + 104729).toString(16);
+    const dynamicKey = `sec_${hashSeed}_${projectId}`;
+    urlDisplay.innerHTML = `<span style="color:#cbd5e1;">${origin}/${targetUrl}</span><span style="color:#38bdf8;font-weight:600;">?auth_key=${dynamicKey}&amp;ssl=1</span>`;
   }
 
   // Ajustar alerta de servidor
