@@ -802,7 +802,7 @@ function subirExcel(file) {
         });
       } catch (errNoServer) {}
 
-      mostrarToast(`✅ ¡Carga exitosa! Se procesaron y mostraron ${allRawIncidentes.length} partes desde "${file.name}".`, 'success');
+      mostrarToast(`Modo Demostración: Se procesaron ${allRawIncidentes.length} partes desde "${file.name}" temporalmente en su navegador para interactuar. No se conservan cambios permanentes.`, 'success');
 
     } catch (err) {
       console.error('Error al procesar el archivo:', err);

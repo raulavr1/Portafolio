@@ -1775,3 +1775,199 @@ body {
 }
 
 
+/* =========================================================================
+   DASHBOARD RAIL SECTION — Riel automático de capturas de dashboard
+   ========================================================================= */
+
+.dashboard-rail-section {
+  padding: 4rem 1.5rem 3.5rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(6, 11, 24, 0) 0%, rgba(10, 20, 50, 0.6) 50%, rgba(6, 11, 24, 0) 100%);
+}
+
+.rail-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rail-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  color: #38bdf8;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  margin-bottom: 1.1rem;
+  letter-spacing: 0.03em;
+}
+
+.rail-title {
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+
+.rail-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.rail-track-wrapper {
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.rail-track {
+  display: flex;
+  gap: 1.25rem;
+  animation: railScroll 32s linear infinite;
+  width: max-content;
+  padding: 1rem 0 1.5rem;
+}
+
+.rail-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes railScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.rail-item {
+  flex-shrink: 0;
+  width: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  background: rgba(10, 20, 45, 0.9);
+  cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.rail-item:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 16px 40px rgba(56, 189, 248, 0.15), 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.rail-item img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.rail-item:hover img {
+  transform: scale(1.03);
+}
+
+.rail-item-label {
+  padding: 0.65rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(10, 20, 45, 0.95);
+  border-top: 1px solid rgba(56, 189, 248, 0.1);
+}
+
+.rail-item-label i {
+  color: #38bdf8;
+}
+
+/* =========================================================================
+   SHOWCASE CARDS — Preview image banners (reemplaza iconos genéricos)
+   ========================================================================= */
+
+.card-preview-banner.card-img-banner {
+  height: 210px;
+  padding: 0;
+}
+
+.card-preview-banner.card-img-banner .banner-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease, filter 0.4s ease;
+  filter: brightness(0.85) saturate(1.1);
+}
+
+.card-preview-banner.card-img-banner .banner-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(5, 10, 30, 0.35) 0%, rgba(5, 10, 30, 0.1) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1rem;
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+.showcase-card:hover .card-preview-banner.card-img-banner .banner-preview-img {
+  transform: scale(1.05);
+  filter: brightness(0.75) saturate(1.2);
+}
+
+.showcase-card:hover .card-preview-banner.card-img-banner .banner-img-overlay {
+  background: linear-gradient(135deg, rgba(5, 10, 30, 0.6) 0%, rgba(5, 10, 30, 0.2) 100%);
+}
+
+.banner-interact-hint {
+  align-self: center;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.showcase-card:hover .banner-interact-hint {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================================
+   RESPONSIVE adjustments for rail
+   ========================================================================= */
+@media (max-width: 768px) {
+  .rail-item {
+    width: 300px;
+  }
+  .rail-item img {
+    height: 165px;
+  }
+  .dashboard-rail-section {
+    padding: 3rem 0 2.5rem;
+  }
+}
+

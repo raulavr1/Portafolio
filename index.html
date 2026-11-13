@@ -48,10 +48,10 @@
     </a>
 
     <ul class="nav-links">
-      <li><a href="#metodologia"><i class="ph ph-tree-structure"></i> Metodología</a></li>
-      <li><a href="#planes"><i class="ph ph-briefcase"></i> Soluciones &amp; Cotización</a></li>
       <li><a href="#showcase"><i class="ph ph-squares-four"></i> Dashboards Demos</a></li>
       <li><a href="#sandbox"><i class="ph ph-desktop"></i> Probar en Vivo</a></li>
+      <li><a href="#metodologia"><i class="ph ph-tree-structure"></i> Metodología</a></li>
+      <li><a href="#planes"><i class="ph ph-briefcase"></i> Soluciones &amp; Cotización</a></li>
       <li><a href="#contacto" class="nav-btn-contact"><i class="ph-bold ph-chat-circle-dots"></i> Contacto</a></li>
     </ul>
   </header>
@@ -135,7 +135,367 @@
     </section>
   </div>
 
-  <!-- =========================================================================
+    <!-- =========================================================================
+       RIEL DE CAPTURAS REALES DE DASHBOARDS (MARQUEE HORIZONTAL AUTOMÁTICO)
+       ========================================================================= -->
+  <section class="dashboard-rail-section" id="galeria-demos">
+    <div class="rail-header">
+      <div class="rail-badge">
+        <i class="ph-bold ph-sparkle"></i> Sistemas Reales Desarrollados · Interactúe y Evalúe la Fluidez
+      </div>
+      <h3 class="rail-title">Cada desarrollo puede adaptarse 100% a la medida de su empresa</h3>
+      <p class="rail-subtitle">
+        Explore a continuación las capturas de sistemas ya operativos. Lo que ve no son maquetas estáticas: son dashboards funcionales que pueden ser adaptados para su negocio con solo contactarnos.
+      </p>
+    </div>
+
+    <div class="rail-track-wrapper" aria-label="Riel interactivo de dashboards">
+      <div class="rail-track" id="railTrack">
+        <!-- Set 1 -->
+        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="VentasPro · Business Intelligence Comercial">
+          <img src="portal/img/preview-ventas.jpg" alt="VentasPro Dashboard de Ventas" loading="lazy" />
+          <div class="rail-item-label"><i class="ph-bold ph-chart-line-up"></i> VentasPro · Ventas &amp; Gestión Comercial</div>
+        </div>
+        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="ACTG · Sistema Táctico de Predicción">
+          <img src="portal/img/preview-actg.jpg" alt="ACTG Dashboard Táctico de Predicción" loading="lazy" />
+          <div class="rail-item-label"><i class="ph-bold ph-shield-warning"></i> ACTG · Geo-Analítica &amp; Predicción</div>
+        </div>
+        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="Farmacia Clínica · Control Hospitalario">
+          <img src="portal/img/preview-clinico.jpg" alt="Farmacia Clínica Dashboard Hospitalario" loading="lazy" />
+          <div class="rail-item-label"><i class="ph-bold ph-first-aid"></i> Farmacia Clínica · Control &amp; Lotes</div>
+        </div>
+        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="FinControl · Gestión Patrimonial">
+          <img src="portal/img/preview-finanzas.jpg" alt="FinControl Dashboard Financiero" loading="lazy" />
+          <div class="rail-item-label"><i class="ph-bold ph-currency-dollar"></i> FinControl · Gestión Financiera</div>
+        </div>
+        <!-- Set 2 (duplicado idéntico para desplazamiento continuo infinito) -->
+        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="VentasPro · Business Intelligence Comercial">
+          <img src="portal/img/preview-ventas.jpg" alt="VentasPro Dashboard de Ventas" loading="lazy" />
+          <div class="rail-item-label"><i class="ph-bold ph-chart-line-up"></i> VentasPro · Ventas &amp; Gestión Comercial</div>
+        </div>
+        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="ACTG · Sistema Táctico de Predicción">
+          <img src="portal/img/preview-actg.jpg" alt="ACTG Dashboard Táctico de Predicción" loading="lazy" />
+          <div class="rail-item-label"><i class="ph-bold ph-shield-warning"></i> ACTG · Geo-Analítica &amp; Predicción</div>
+        </div>
+        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="Farmacia Clínica · Control Hospitalario">
+          <img src="portal/img/preview-clinico.jpg" alt="Farmacia Clínica Dashboard Hospitalario" loading="lazy" />
+          <div class="rail-item-label"><i class="ph-bold ph-first-aid"></i> Farmacia Clínica · Control &amp; Lotes</div>
+        </div>
+        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="FinControl · Gestión Patrimonial">
+          <img src="portal/img/preview-finanzas.jpg" alt="FinControl Dashboard Financiero" loading="lazy" />
+          <div class="rail-item-label"><i class="ph-bold ph-currency-dollar"></i> FinControl · Gestión Financiera</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Llamado a la acción del riel -->
+    <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-top:2rem;">
+      <a href="#showcase" class="btn btn-primary" style="padding:0.75rem 1.6rem; font-size:0.95rem;">
+        <i class="ph-bold ph-cursor-click"></i> Probar Dashboards Demos Abajo
+      </a>
+      <a href="#sandbox" class="btn btn-secondary" style="padding:0.75rem 1.6rem; font-size:0.95rem;">
+        <i class="ph-bold ph-desktop"></i> Ver Simulador en Vivo
+      </a>
+    </div>
+  </section>
+
+
+<!-- =========================================================================
+       SHOWCASE SECTION (DASHBOARDS DEMOS INTERACTIVOS)
+       ========================================================================= -->
+  <section class="section-container" id="showcase">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <div class="section-badge">
+          <i class="ph-bold ph-play-circle"></i> Versiones de Prueba Interactivas
+        </div>
+        <h3 class="section-title">Dashboards Demos: Pruebe e Interactúe con los Sistemas</h3>
+        <p class="section-desc">
+          Al ingresar a cualquiera de estos sistemas estará visualizando e interactuando exclusivamente con una <strong>versión demo de prueba</strong> con datos ficticios para que pueda comprobar en vivo la navegación, velocidad, filtros y diseño. El desarrollo para su empresa se adaptará con sus propias métricas y reglas de negocio.
+        </p>
+      </div>
+    </div>
+
+    <div class="showcase-grid">
+
+      <!-- TARJETA 1: VentasPro -->
+      <article class="showcase-card" style="--card-accent:#2563eb; --card-accent-border:rgba(37,99,235,0.5); --card-accent-glow:rgba(37,99,235,0.2);">
+        <div class="card-preview-banner ventas card-img-banner">
+          <img src="portal/img/preview-ventas.jpg" alt="VentasPro Dashboard Preview" class="banner-preview-img" loading="lazy" />
+          <div class="banner-img-overlay">
+            <span class="banner-badge live"><span class="pulse-dot"></span> Demo Interactivo</span>
+            <span class="banner-interact-hint"><i class="ph-bold ph-cursor-click"></i> Clic para probar en vivo</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-category">Business Intelligence Comercial</span>
+          <h4 class="card-title">VentasPro &middot; Dashboard de Ventas &amp; Gestión Comercial</h4>
+          <p class="card-desc">
+            Versión demo de prueba interactiva para gestión comercial. Podrá simular pedidos, consultar stock con alertas automáticas y generar cotizaciones/facturas con datos ficticios para evaluar el diseño y velocidad de respuesta.
+          </p>
+
+          <div class="feature-chips">
+            <span class="chip"><i class="ph ph-chart-line-up"></i> Gráficas en tiempo real (datos de prueba)</span>
+            <span class="chip"><i class="ph ph-cube"></i> Control de stock simulado</span>
+            <span class="chip"><i class="ph ph-file-text"></i> Facturas y cotizaciones listas para exportar</span>
+            <span class="chip"><i class="ph ph-users"></i> Acceso por roles con perfiles personalizados</span>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="window.open('AreadeVentas/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center;">
+              <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- TARJETA 2: Predicción de Eventos ACTG -->
+      <article class="showcase-card" style="--card-accent:#7c3aed; --card-accent-border:rgba(124,58,237,0.5); --card-accent-glow:rgba(124,58,237,0.2);">
+        <div class="card-preview-banner prediccion card-img-banner">
+          <img src="portal/img/preview-actg.jpg" alt="ACTG Dashboard Preview" class="banner-preview-img" loading="lazy" />
+          <div class="banner-img-overlay">
+            <span class="banner-badge pro"><i class="ph-bold ph-crosshair"></i> Demo Interactivo</span>
+            <span class="banner-interact-hint"><i class="ph-bold ph-cursor-click"></i> Clic para probar en vivo</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-category">Seguridad Pública &amp; Algorítmica Geoespacial</span>
+          <h4 class="card-title">ACTG &middot; Sistema Táctico de Predicción de Incidentes</h4>
+          <p class="card-desc">
+            Versión demo de prueba interactiva de geo-analítica táctica. Podrá explorar el mapa de calor Leaflet, filtrar incidentes simulados por cuadrante y franja horaria para auditar la fluidez de los algoritmos con datos de prueba.
+          </p>
+
+          <div class="feature-chips">
+            <span class="chip"><i class="ph ph-map-pin"></i> Mapas de calor interactivos por zona</span>
+            <span class="chip"><i class="ph ph-warning-circle"></i> Alertas predictivas con datos de prueba</span>
+            <span class="chip"><i class="ph ph-clock"></i> Análisis por franjas horarias simuladas</span>
+            <span class="chip"><i class="ph ph-crosshair"></i> Planificación táctica en tiempo real</span>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="window.open('PredicciondeEventos/public/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center; background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 4px 14px rgba(124,58,237,0.35);">
+              <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- TARJETA 3: Farmacia Clínica Hospitalaria -->
+      <article class="showcase-card" style="--card-accent:#0d9488; --card-accent-border:rgba(13,148,136,0.5); --card-accent-glow:rgba(13,148,136,0.2);">
+        <div class="card-preview-banner clinico card-img-banner">
+          <img src="portal/img/preview-clinico.jpg" alt="Farmacia Clínica Dashboard Preview" class="banner-preview-img" loading="lazy" />
+          <div class="banner-img-overlay">
+            <span class="banner-badge live" style="background:rgba(13,148,136,0.25); border:1px solid rgba(13,148,136,0.4); color:#2dd4bf;"><span class="pulse-dot" style="background:#2dd4bf;"></span> Demo Interactivo</span>
+            <span class="banner-interact-hint"><i class="ph-bold ph-cursor-click"></i> Clic para probar en vivo</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-category">Salud &amp; Gestión Hospitalaria</span>
+          <h4 class="card-title">Farmacia Clínica &middot; Dashboard de Control &amp; Abastecimiento</h4>
+          <p class="card-desc">
+            Versión demo de prueba interactiva para control farmacéutico hospitalario. Podrá interactuar con el semáforo de vencimiento de lotes simulados, verificar stock crítico y registrar salidas médicas de demostración.
+          </p>
+
+          <div class="feature-chips">
+            <span class="chip"><i class="ph ph-shield-check"></i> Alertas de stock crítico simuladas</span>
+            <span class="chip"><i class="ph ph-calendar-check"></i> Semáforo de vencimiento de lotes demo</span>
+            <span class="chip"><i class="ph ph-arrows-left-right"></i> Salidas a UCI y Quirófano de prueba</span>
+            <span class="chip"><i class="ph ph-clipboard-text"></i> Auditorías de cambio de guardia</span>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="window.open('DashboardClinico/dist/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center; background: linear-gradient(135deg, #0d9488, #14b8a6); box-shadow: 0 4px 14px rgba(13,148,136,0.35);">
+              <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- TARJETA 4: FinControl Finanzas & Gestión Patrimonial -->
+      <article class="showcase-card" style="--card-accent:#0284c7; --card-accent-border:rgba(2,132,199,0.5); --card-accent-glow:rgba(2,132,199,0.2);">
+        <div class="card-preview-banner finanzas" style="background: linear-gradient(135deg, rgba(2, 132, 199, 0.25) 0%, rgba(15, 23, 42, 0.8) 100%);">
+          <span class="banner-badge live" style="background:rgba(2,132,199,0.25); border:1px solid rgba(2,132,199,0.4); color:#38bdf8;">
+            <span class="pulse-dot" style="background:#38bdf8;"></span> Versión Demo de Prueba
+          </span>
+          <div class="banner-hero-icon" style="color: #38bdf8;">
+            <i class="ph-duotone ph-currency-dollar"></i>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-category">Finanzas &amp; Analítica Patrimonial</span>
+          <h4 class="card-title">FinControl &middot; Dashboard Financiero Profesional</h4>
+          <p class="card-desc">
+            Versión demo de prueba interactiva para analítica financiera y patrimonio. Podrá interactuar con balances patrimoniales ESF simulados, flujo de caja EFE, matriz presupuestaria y exportación a Excel multihoja.
+          </p>
+
+          <div class="feature-chips">
+            <span class="chip"><i class="ph ph-bank"></i> Balance Patrimonial ESF (Demo)</span>
+            <span class="chip"><i class="ph ph-arrows-down-up"></i> Flujo de Efectivo EFE Transaccional</span>
+            <span class="chip"><i class="ph ph-chart-pie-slice"></i> 6 Ratios de Salud Financiera</span>
+            <span class="chip"><i class="ph ph-table"></i> Matriz Presupuesto vs. Real</span>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="window.open('Finanzas/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center; background: linear-gradient(135deg, #0284c7, #0ea5e9); box-shadow: 0 4px 14px rgba(2,132,199,0.35);">
+              <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
+            </button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  
+    <!-- CALLOUT DE ALTO IMPACTO COMERCIAL -->
+    <div style="margin-top:2.5rem; padding:1.8rem 2rem; background:linear-gradient(135deg, rgba(37,99,235,0.15) 0%, rgba(124,58,237,0.12) 100%); border:1px solid rgba(56,189,248,0.3); border-radius:16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1.5rem; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+      <div style="max-width:680px;">
+        <div style="display:inline-flex; align-items:center; gap:0.5rem; font-size:0.78rem; font-weight:700; color:#38bdf8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.4rem;">
+          <i class="ph-bold ph-sparkle"></i> ¿Le interesó alguna de estas soluciones?
+        </div>
+        <h4 style="font-size:1.25rem; font-weight:800; color:#f8fafc; margin:0 0 0.4rem 0;">Uno de estos dashboards puede ser suyo, adaptado 100% a su negocio</h4>
+        <p style="font-size:0.88rem; color:#cbd5e1; margin:0; line-height:1.55;">
+          No necesita alterar su operativa: migramos sus planillas Excel o Sheets actuales, o creamos todo desde cero con datos listos para operar. Pago único por el desarrollo con servidor 24/7 y base de datos incluidos.
+        </p>
+      </div>
+      <div style="display:flex; gap:0.8rem; flex-wrap:wrap;">
+        <button onclick="openCotizacionModal('Diagnóstico Personalizado')" class="btn btn-primary" style="padding:0.75rem 1.5rem; font-size:0.92rem;">
+          <i class="ph-bold ph-chat-circle-dots"></i> Solicitar Desarrollo a Medida
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+
+<!-- =========================================================================
+       LIVE SANDBOX INTERACTIVE VIEWER (SIMULADOR RESPONSIVE MULTI-DISPOSITIVO)
+       ========================================================================= -->
+  <section class="sandbox-section" id="sandbox">
+    <div class="section-header" style="margin-bottom:1.25rem;">
+      <div class="section-title-wrap">
+        <div class="section-badge">
+          <i class="ph-bold ph-desktop"></i> Simulador Multi-pantalla &amp; Sandbox
+        </div>
+        <h3 class="section-title">Comprobación de Calidad &amp; Responsividad en Vivo</h3>
+        <p class="section-desc">
+          Interactúe directamente con cada <strong>dashboard demo en su versión de prueba</strong> y verifique en tiempo real cómo se adapta en <strong>Escritorio, Laptop, Tablet y Móvil</strong>. Cada sistema opera con datos de muestra para que audite libremente sus vistas, gráficos y rendimiento.
+        </p>
+      </div>
+    </div>
+
+    <div class="sandbox-container" id="sandboxContainer">
+      <!-- Topbar de Control -->
+      <div class="sandbox-topbar">
+        <!-- Selector de Dashboard -->
+        <div class="sandbox-tabs">
+          <button class="tab-btn active" data-project="ventas" onclick="selectProject('ventas', false)">
+            <i class="ph ph-chart-line-up"></i>
+            <span>VentasPro Suite</span>
+          </button>
+          <button class="tab-btn" data-project="prediccion" onclick="selectProject('prediccion', false)">
+            <i class="ph ph-shield-warning"></i>
+            <span>ACTG Predicción Táctica</span>
+          </button>
+          <button class="tab-btn" data-project="clinico" onclick="selectProject('clinico', false)">
+            <i class="ph ph-first-aid"></i>
+            <span>Farmacia Clínica</span>
+          </button>
+          <button class="tab-btn" data-project="finanzas" onclick="selectProject('finanzas', false)">
+            <i class="ph ph-currency-dollar"></i>
+            <span>FinControl Finanzas</span>
+          </button>
+        </div>
+
+        <!-- Meta e Inspección de URL -->
+        <div class="sandbox-meta">
+          <div class="url-bar">
+            <i class="ph ph-lock-key"></i>
+            <span id="urlDisplay"><span style="color:#cbd5e1;">https://portafoliodev-alpha.vercel.app/AreadeVentas/index.html</span><span style="color:#38bdf8;font-weight:600;">?auth_key=sec_19d45_ventas&amp;ssl=1</span></span>
+          </div>
+
+          <span id="resolutionBadge" class="resolution-badge">100% (Fluido)</span>
+
+          <!-- Selector de Modo de Dispositivo -->
+          <div class="device-selectors">
+            <button class="device-btn active" data-device="desktop" onclick="setDeviceMode('desktop')" title="Escritorio (100%)">
+              <i class="ph ph-monitor"></i>
+            </button>
+            <button class="device-btn" data-device="laptop" onclick="setDeviceMode('laptop')" title="Laptop (1280px)">
+              <i class="ph ph-laptop"></i>
+            </button>
+            <button class="device-btn" data-device="tablet" onclick="setDeviceMode('tablet')" title="Tablet (768px)">
+              <i class="ph ph-device-tablet"></i>
+            </button>
+            <button class="device-btn" data-device="mobile" onclick="setDeviceMode('mobile')" title="Móvil (390px)">
+              <i class="ph ph-device-mobile"></i>
+            </button>
+            <button class="device-btn" onclick="toggleOrientation()" title="Rotar Orientación">
+              <i class="ph ph-arrows-clockwise"></i>
+            </button>
+          </div>
+
+          <!-- Acciones Rápidas -->
+          <div class="sandbox-quick-actions">
+            <button class="btn btn-secondary btn-icon-only" onclick="reloadSandbox()" title="Recargar Dashboard">
+              <i class="ph ph-arrows-clockwise"></i>
+            </button>
+            <button class="btn btn-secondary btn-icon-only" onclick="openInNewTab()" title="Abrir en ventana independiente">
+              <i class="ph ph-arrow-square-out"></i>
+            </button>
+            <button class="btn btn-secondary btn-icon-only" onclick="toggleFullscreen()" title="Pantalla Completa">
+              <i class="ph ph-corners-out"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Estado / Telemetría -->
+      <div class="sandbox-status-bar">
+        <div class="status-left">
+          <span class="server-alert" id="serverAlert">
+            <span id="serverAlertText">Cargando estado del sistema...</span>
+          </span>
+        </div>
+        <div class="status-right" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">
+          RESPONSIVE TESTED &middot; CALIDAD GRADO CORPORATIVO
+        </div>
+      </div>
+
+      <!-- Viewport Frame -->
+      <div class="sandbox-viewport-wrapper" id="sandboxWrapper">
+        <div class="loading-indicator" id="loadingIndicator">
+          <div class="spinner"></div>
+          <span style="font-size:0.85rem; font-weight:600;">Inicializando Dashboard Interactivo...</span>
+        </div>
+        <iframe id="sandboxFrame" class="sandbox-iframe" src="AreadeVentas/index.html" title="Visor de Dashboard"></iframe>
+      </div>
+
+      <!-- BANNER GANCHO POST-DEMOSTRACIÓN (CONVERSIÓN DE ALTO IMPACTO) -->
+      <div class="sandbox-hook-banner">
+        <div class="hook-glow"></div>
+        <div class="hook-content-wrap">
+          <div class="hook-badge">
+            <i class="ph-bold ph-lightning"></i> De la Demostración a su Empresa Real
+          </div>
+          <h4 class="hook-title">Lo que acaba de probar puede ser suyo — con sus datos, su marca y su lógica de negocio.</h4>
+          <p class="hook-desc">
+            Estos dashboards son funcionales e interactivos, pero son modelos de muestra. El desarrollo para su empresa se construye con sus propias métricas, sus colores corporativos, sus reglas internas y la conexión a sus datos actuales (sin perder el historial que ya tiene registrado). Incluye servidor en la nube activo 24/7 y base de datos resguardada — mediante un pago único por el desarrollo, sin costos recurrentes de licencias ni sorpresas técnicas, con garantía de funcionamiento desde el primer día.
+          </p>
+          <div class="hook-actions">
+            <button class="btn btn-primary" onclick="openCotizacionModal('Post-Demo Sandbox')" style="padding:0.85rem 1.8rem; font-size:0.95rem;">
+              <i class="ph-bold ph-calendar-check"></i> Solicitar Diagnóstico de Datos &amp; Cotización
+            </button>
+            <a href="https://api.whatsapp.com/send?text=Hola%2C%20estuve%20probando%20los%20dashboards%20interactivos%20en%20su%20web%20y%20me%20gustar%C3%ADa%20una%20cotizaci%C3%B3n%20para%20los%20datos%20de%20mi%20empresa." target="_blank" class="btn btn-whatsapp" style="padding:0.85rem 1.8rem; font-size:0.95rem;">
+              <i class="ph-bold ph-whatsapp-logo"></i> Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+<!-- =========================================================================
        METODOLOGÍA EN 4 FASES (IMAGEN 1)
        ========================================================================= -->
   <section class="section-container" id="metodologia">
@@ -512,283 +872,9 @@
     </div>
   </section>
 
-  <!-- =========================================================================
-       SHOWCASE SECTION (DASHBOARDS DEMOS INTERACTIVOS)
-       ========================================================================= -->
-  <section class="section-container" id="showcase">
-    <div class="section-header">
-      <div class="section-title-wrap">
-        <div class="section-badge">
-          <i class="ph-bold ph-play-circle"></i> Versiones de Prueba Interactivas
-        </div>
-        <h3 class="section-title">Dashboards Demos: Pruebe e Interactúe con los Sistemas</h3>
-        <p class="section-desc">
-          Al ingresar a cualquiera de estos sistemas estará visualizando e interactuando exclusivamente con una <strong>versión demo de prueba</strong> con datos ficticios para que pueda comprobar en vivo la navegación, velocidad, filtros y diseño. El desarrollo para su empresa se adaptará con sus propias métricas y reglas de negocio.
-        </p>
-      </div>
-    </div>
+  
 
-    <div class="showcase-grid">
-
-      <!-- TARJETA 1: VentasPro -->
-      <article class="showcase-card" style="--card-accent:#2563eb; --card-accent-border:rgba(37,99,235,0.5); --card-accent-glow:rgba(37,99,235,0.2);">
-        <div class="card-preview-banner ventas">
-          <span class="banner-badge live">
-            <span class="pulse-dot"></span> Versión Demo de Prueba
-          </span>
-          <div class="banner-hero-icon" style="color: #60a5fa;">
-            <i class="ph-duotone ph-chart-line-up"></i>
-          </div>
-        </div>
-        <div class="card-body">
-          <span class="card-category">Business Intelligence Comercial</span>
-          <h4 class="card-title">VentasPro &middot; Dashboard de Ventas &amp; Gestión Comercial</h4>
-          <p class="card-desc">
-            Versión demo de prueba interactiva para gestión comercial. Podrá simular pedidos, consultar stock con alertas automáticas y generar cotizaciones/facturas con datos ficticios para evaluar el diseño y velocidad de respuesta.
-          </p>
-
-          <div class="feature-chips">
-            <span class="chip"><i class="ph ph-chart-line-up"></i> Gráficas en tiempo real (datos de prueba)</span>
-            <span class="chip"><i class="ph ph-cube"></i> Control de stock simulado</span>
-            <span class="chip"><i class="ph ph-file-text"></i> Facturas y cotizaciones listas para exportar</span>
-            <span class="chip"><i class="ph ph-users"></i> Acceso por roles con perfiles personalizados</span>
-          </div>
-
-          <div class="card-actions">
-            <button class="btn btn-primary" onclick="window.open('AreadeVentas/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center;">
-              <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- TARJETA 2: Predicción de Eventos ACTG -->
-      <article class="showcase-card" style="--card-accent:#7c3aed; --card-accent-border:rgba(124,58,237,0.5); --card-accent-glow:rgba(124,58,237,0.2);">
-        <div class="card-preview-banner prediccion">
-          <span class="banner-badge pro">
-            <i class="ph-bold ph-crosshair"></i> Versión Demo de Prueba
-          </span>
-          <div class="banner-hero-icon" style="color: #a78bfa;">
-            <i class="ph-duotone ph-shield-warning"></i>
-          </div>
-        </div>
-        <div class="card-body">
-          <span class="card-category">Seguridad Pública &amp; Algorítmica Geoespacial</span>
-          <h4 class="card-title">ACTG &middot; Sistema Táctico de Predicción de Incidentes</h4>
-          <p class="card-desc">
-            Versión demo de prueba interactiva de geo-analítica táctica. Podrá explorar el mapa de calor Leaflet, filtrar incidentes simulados por cuadrante y franja horaria para auditar la fluidez de los algoritmos con datos de prueba.
-          </p>
-
-          <div class="feature-chips">
-            <span class="chip"><i class="ph ph-map-pin"></i> Mapas de calor interactivos por zona</span>
-            <span class="chip"><i class="ph ph-warning-circle"></i> Alertas predictivas con datos de prueba</span>
-            <span class="chip"><i class="ph ph-clock"></i> Análisis por franjas horarias simuladas</span>
-            <span class="chip"><i class="ph ph-crosshair"></i> Planificación táctica en tiempo real</span>
-          </div>
-
-          <div class="card-actions">
-            <button class="btn btn-primary" onclick="window.open('PredicciondeEventos/public/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center; background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 4px 14px rgba(124,58,237,0.35);">
-              <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- TARJETA 3: Farmacia Clínica Hospitalaria -->
-      <article class="showcase-card" style="--card-accent:#0d9488; --card-accent-border:rgba(13,148,136,0.5); --card-accent-glow:rgba(13,148,136,0.2);">
-        <div class="card-preview-banner clinico">
-          <span class="banner-badge live" style="background:rgba(13,148,136,0.25); border:1px solid rgba(13,148,136,0.4); color:#2dd4bf;">
-            <span class="pulse-dot" style="background:#2dd4bf;"></span> Versión Demo de Prueba
-          </span>
-          <div class="banner-hero-icon" style="color: #2dd4bf;">
-            <i class="ph-duotone ph-first-aid"></i>
-          </div>
-        </div>
-        <div class="card-body">
-          <span class="card-category">Salud &amp; Gestión Hospitalaria</span>
-          <h4 class="card-title">Farmacia Clínica &middot; Dashboard de Control &amp; Abastecimiento</h4>
-          <p class="card-desc">
-            Versión demo de prueba interactiva para control farmacéutico hospitalario. Podrá interactuar con el semáforo de vencimiento de lotes simulados, verificar stock crítico y registrar salidas médicas de demostración.
-          </p>
-
-          <div class="feature-chips">
-            <span class="chip"><i class="ph ph-shield-check"></i> Alertas de stock crítico simuladas</span>
-            <span class="chip"><i class="ph ph-calendar-check"></i> Semáforo de vencimiento de lotes demo</span>
-            <span class="chip"><i class="ph ph-arrows-left-right"></i> Salidas a UCI y Quirófano de prueba</span>
-            <span class="chip"><i class="ph ph-clipboard-text"></i> Auditorías de cambio de guardia</span>
-          </div>
-
-          <div class="card-actions">
-            <button class="btn btn-primary" onclick="window.open('DashboardClinico/dist/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center; background: linear-gradient(135deg, #0d9488, #14b8a6); box-shadow: 0 4px 14px rgba(13,148,136,0.35);">
-              <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- TARJETA 4: FinControl Finanzas & Gestión Patrimonial -->
-      <article class="showcase-card" style="--card-accent:#0284c7; --card-accent-border:rgba(2,132,199,0.5); --card-accent-glow:rgba(2,132,199,0.2);">
-        <div class="card-preview-banner finanzas" style="background: linear-gradient(135deg, rgba(2, 132, 199, 0.25) 0%, rgba(15, 23, 42, 0.8) 100%);">
-          <span class="banner-badge live" style="background:rgba(2,132,199,0.25); border:1px solid rgba(2,132,199,0.4); color:#38bdf8;">
-            <span class="pulse-dot" style="background:#38bdf8;"></span> Versión Demo de Prueba
-          </span>
-          <div class="banner-hero-icon" style="color: #38bdf8;">
-            <i class="ph-duotone ph-currency-dollar"></i>
-          </div>
-        </div>
-        <div class="card-body">
-          <span class="card-category">Finanzas &amp; Analítica Patrimonial</span>
-          <h4 class="card-title">FinControl &middot; Dashboard Financiero Profesional</h4>
-          <p class="card-desc">
-            Versión demo de prueba interactiva para analítica financiera y patrimonio. Podrá interactuar con balances patrimoniales ESF simulados, flujo de caja EFE, matriz presupuestaria y exportación a Excel multihoja.
-          </p>
-
-          <div class="feature-chips">
-            <span class="chip"><i class="ph ph-bank"></i> Balance Patrimonial ESF (Demo)</span>
-            <span class="chip"><i class="ph ph-arrows-down-up"></i> Flujo de Efectivo EFE Transaccional</span>
-            <span class="chip"><i class="ph ph-chart-pie-slice"></i> 6 Ratios de Salud Financiera</span>
-            <span class="chip"><i class="ph ph-table"></i> Matriz Presupuesto vs. Real</span>
-          </div>
-
-          <div class="card-actions">
-            <button class="btn btn-primary" onclick="window.open('Finanzas/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center; background: linear-gradient(135deg, #0284c7, #0ea5e9); box-shadow: 0 4px 14px rgba(2,132,199,0.35);">
-              <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
-            </button>
-          </div>
-        </div>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- =========================================================================
-       LIVE SANDBOX INTERACTIVE VIEWER (SIMULADOR RESPONSIVE MULTI-DISPOSITIVO)
-       ========================================================================= -->
-  <section class="sandbox-section" id="sandbox">
-    <div class="section-header" style="margin-bottom:1.25rem;">
-      <div class="section-title-wrap">
-        <div class="section-badge">
-          <i class="ph-bold ph-desktop"></i> Simulador Multi-pantalla &amp; Sandbox
-        </div>
-        <h3 class="section-title">Comprobación de Calidad &amp; Responsividad en Vivo</h3>
-        <p class="section-desc">
-          Interactúe directamente con cada <strong>dashboard demo en su versión de prueba</strong> y verifique en tiempo real cómo se adapta en <strong>Escritorio, Laptop, Tablet y Móvil</strong>. Cada sistema opera con datos de muestra para que audite libremente sus vistas, gráficos y rendimiento.
-        </p>
-      </div>
-    </div>
-
-    <div class="sandbox-container" id="sandboxContainer">
-      <!-- Topbar de Control -->
-      <div class="sandbox-topbar">
-        <!-- Selector de Dashboard -->
-        <div class="sandbox-tabs">
-          <button class="tab-btn active" data-project="ventas" onclick="selectProject('ventas', false)">
-            <i class="ph ph-chart-line-up"></i>
-            <span>VentasPro Suite</span>
-          </button>
-          <button class="tab-btn" data-project="prediccion" onclick="selectProject('prediccion', false)">
-            <i class="ph ph-shield-warning"></i>
-            <span>ACTG Predicción Táctica</span>
-          </button>
-          <button class="tab-btn" data-project="clinico" onclick="selectProject('clinico', false)">
-            <i class="ph ph-first-aid"></i>
-            <span>Farmacia Clínica</span>
-          </button>
-          <button class="tab-btn" data-project="finanzas" onclick="selectProject('finanzas', false)">
-            <i class="ph ph-currency-dollar"></i>
-            <span>FinControl Finanzas</span>
-          </button>
-        </div>
-
-        <!-- Meta e Inspección de URL -->
-        <div class="sandbox-meta">
-          <div class="url-bar">
-            <i class="ph ph-lock-key"></i>
-            <span id="urlDisplay"><span style="color:#cbd5e1;">https://portafoliodev-alpha.vercel.app/AreadeVentas/index.html</span><span style="color:#38bdf8;font-weight:600;">?auth_key=sec_19d45_ventas&amp;ssl=1</span></span>
-          </div>
-
-          <span id="resolutionBadge" class="resolution-badge">100% (Fluido)</span>
-
-          <!-- Selector de Modo de Dispositivo -->
-          <div class="device-selectors">
-            <button class="device-btn active" data-device="desktop" onclick="setDeviceMode('desktop')" title="Escritorio (100%)">
-              <i class="ph ph-monitor"></i>
-            </button>
-            <button class="device-btn" data-device="laptop" onclick="setDeviceMode('laptop')" title="Laptop (1280px)">
-              <i class="ph ph-laptop"></i>
-            </button>
-            <button class="device-btn" data-device="tablet" onclick="setDeviceMode('tablet')" title="Tablet (768px)">
-              <i class="ph ph-device-tablet"></i>
-            </button>
-            <button class="device-btn" data-device="mobile" onclick="setDeviceMode('mobile')" title="Móvil (390px)">
-              <i class="ph ph-device-mobile"></i>
-            </button>
-            <button class="device-btn" onclick="toggleOrientation()" title="Rotar Orientación">
-              <i class="ph ph-arrows-clockwise"></i>
-            </button>
-          </div>
-
-          <!-- Acciones Rápidas -->
-          <div class="sandbox-quick-actions">
-            <button class="btn btn-secondary btn-icon-only" onclick="reloadSandbox()" title="Recargar Dashboard">
-              <i class="ph ph-arrows-clockwise"></i>
-            </button>
-            <button class="btn btn-secondary btn-icon-only" onclick="openInNewTab()" title="Abrir en ventana independiente">
-              <i class="ph ph-arrow-square-out"></i>
-            </button>
-            <button class="btn btn-secondary btn-icon-only" onclick="toggleFullscreen()" title="Pantalla Completa">
-              <i class="ph ph-corners-out"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Barra de Estado / Telemetría -->
-      <div class="sandbox-status-bar">
-        <div class="status-left">
-          <span class="server-alert" id="serverAlert">
-            <span id="serverAlertText">Cargando estado del sistema...</span>
-          </span>
-        </div>
-        <div class="status-right" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">
-          RESPONSIVE TESTED &middot; CALIDAD GRADO CORPORATIVO
-        </div>
-      </div>
-
-      <!-- Viewport Frame -->
-      <div class="sandbox-viewport-wrapper" id="sandboxWrapper">
-        <div class="loading-indicator" id="loadingIndicator">
-          <div class="spinner"></div>
-          <span style="font-size:0.85rem; font-weight:600;">Inicializando Dashboard Interactivo...</span>
-        </div>
-        <iframe id="sandboxFrame" class="sandbox-iframe" src="AreadeVentas/index.html" title="Visor de Dashboard"></iframe>
-      </div>
-
-      <!-- BANNER GANCHO POST-DEMOSTRACIÓN (CONVERSIÓN DE ALTO IMPACTO) -->
-      <div class="sandbox-hook-banner">
-        <div class="hook-glow"></div>
-        <div class="hook-content-wrap">
-          <div class="hook-badge">
-            <i class="ph-bold ph-lightning"></i> De la Demostración a su Empresa Real
-          </div>
-          <h4 class="hook-title">Lo que acaba de probar puede ser suyo — con sus datos, su marca y su lógica de negocio.</h4>
-          <p class="hook-desc">
-            Estos dashboards son funcionales e interactivos, pero son modelos de muestra. El desarrollo para su empresa se construye con sus propias métricas, sus colores corporativos, sus reglas internas y la conexión a sus datos actuales (sin perder el historial que ya tiene registrado). Incluye servidor en la nube activo 24/7 y base de datos resguardada — mediante un pago único por el desarrollo, sin costos recurrentes de licencias ni sorpresas técnicas, con garantía de funcionamiento desde el primer día.
-          </p>
-          <div class="hook-actions">
-            <button class="btn btn-primary" onclick="openCotizacionModal('Post-Demo Sandbox')" style="padding:0.85rem 1.8rem; font-size:0.95rem;">
-              <i class="ph-bold ph-calendar-check"></i> Solicitar Diagnóstico de Datos &amp; Cotización
-            </button>
-            <a href="https://api.whatsapp.com/send?text=Hola%2C%20estuve%20probando%20los%20dashboards%20interactivos%20en%20su%20web%20y%20me%20gustar%C3%ADa%20una%20cotizaci%C3%B3n%20para%20los%20datos%20de%20mi%20empresa." target="_blank" class="btn btn-whatsapp" style="padding:0.85rem 1.8rem; font-size:0.95rem;">
-              <i class="ph-bold ph-whatsapp-logo"></i> Consultar por WhatsApp
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- =========================================================================
+<!-- =========================================================================
        SECCIÓN DE CONTACTO DIRECTO (POST-DEMOSTRACIONES)
        ========================================================================= -->
   <section class="section-container" id="contacto" style="padding-top:1.5rem; padding-bottom:3rem;">
@@ -851,3 +937,4 @@
   <script src="portal/js/portal.js"></script>
 </body>
 </html>
+

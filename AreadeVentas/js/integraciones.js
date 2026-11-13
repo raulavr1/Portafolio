@@ -32,6 +32,15 @@
 
 <!-- ══════ TAB: EXCEL ══════ -->
 <div class="tab-panel active" id="tab-excel">
+  <!-- Aclaratoria de Demostración -->
+  <div style="margin-bottom:18px; padding:12px 16px; background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.3); border-radius:10px; display:flex; align-items:flex-start; gap:12px; font-size:0.84rem; color:#cbd5e1; line-height:1.5;">
+    <i class="ph-bold ph-info" style="color:#38bdf8; font-size:1.3rem; flex-shrink:0; margin-top:2px;"></i>
+    <div>
+      <strong style="color:#38bdf8; display:block; margin-bottom:3px;">Modo Demostración Interactivo:</strong>
+      Este dashboard es exclusivamente para interactuar, auditar cálculos y evaluar diseño y velocidad. Puede cargar sus archivos Excel (.xlsx, .xls, .csv) para comprobar cómo el sistema procesa datos en tiempo real. <strong>No conserva ningún cambio ni datos ingresados de forma permanente</strong> (el procesamiento es 100% local en su navegador).
+    </div>
+  </div>
+
   <div class="grid-2" style="margin-bottom:20px;">
 
     <!-- Importar -->
