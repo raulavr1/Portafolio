@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía Rápida — InventarioMovil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --neutral: #64748b;
+    --bg: #f8fafc;
+    --white: #ffffff;
+    --text: #1e293b;
+    --text-light: #475569;
+    --border: #e2e8f0;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; font-size: 11px; }
+    .page { box-shadow: none !important; border-radius: 0 !important; max-width: 100% !important; margin: 0 !important; padding: 20px !important; }
+    .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .module-card, .step-box, .status-card, .cat-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 24px auto;
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 4px 32px rgba(37,99,235,0.10);
+    overflow: hidden;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 28px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .header-icon { font-size: 42px; }
+  .header-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+  .header-sub { font-size: 12px; opacity: 0.85; font-weight: 400; margin-top: 2px; }
+  .header-badge {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ── BODY CONTENT ── */
+  .content { padding: 28px 36px; display: flex; flex-direction: column; gap: 28px; }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--primary);
+    border-left: 3px solid var(--primary);
+    padding-left: 10px;
+    margin-bottom: 14px;
+  }
+
+  /* ── MODULES ── */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .module-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 10px;
+    text-align: center;
+    transition: box-shadow 0.2s;
+  }
+  .module-card:hover { box-shadow: 0 4px 16px rgba(37,99,235,0.12); }
+  .module-icon { font-size: 22px; margin-bottom: 6px; }
+  .module-name { font-size: 11px; font-weight: 700; color: var(--primary-dark); margin-bottom: 3px; }
+  .module-desc { font-size: 10px; color: var(--text-light); line-height: 1.4; }
+
+  /* ── WORKFLOW ── */
+  .workflow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .step-wrap {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+  .step-box {
+    flex: 1;
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    border: 1.5px solid #bfdbfe;
+    border-radius: 10px;
+    padding: 12px 10px;
+    text-align: center;
+    min-width: 100px;
+  }
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px; height: 24px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .step-icon { font-size: 18px; margin-bottom: 4px; }
+  .step-label { font-size: 10px; font-weight: 600; color: var(--primary-dark); line-height: 1.3; }
+  .arrow {
+    font-size: 18px;
+    color: var(--primary);
+    padding: 0 4px;
+    flex-shrink: 0;
+  }
+
+  /* ── ESTADOS ── */
+  .status-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .status-card {
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .status-card.green { background: #f0fdf4; border: 2px solid #bbf7d0; }
+  .status-card.blue  { background: #eff6ff; border: 2px solid #bfdbfe; }
+  .status-card.red   { background: #fff1f2; border: 2px solid #fecdd3; }
+  .status-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .green .status-dot { background: var(--success); box-shadow: 0 0 0 4px #bbf7d0; }
+  .blue  .status-dot { background: var(--primary); box-shadow: 0 0 0 4px #bfdbfe; }
+  .red   .status-dot { background: var(--danger);  box-shadow: 0 0 0 4px #fecdd3; }
+  .status-info {}
+  .status-name { font-size: 13px; font-weight: 700; }
+  .green .status-name { color: #15803d; }
+  .blue  .status-name { color: #1d4ed8; }
+  .red   .status-name { color: #b91c1c; }
+  .status-desc { font-size: 10px; color: var(--text-light); margin-top: 2px; }
+
+  /* ── CATEGORÍAS ── */
+  .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .cat-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cat-icon { font-size: 26px; }
+  .cat-name { font-size: 11px; font-weight: 700; color: var(--text); }
+  .cat-sub  { font-size: 10px; color: var(--text-light); margin-top: 2px; }
+
+  /* ── TIPS ── */
+  .tips-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .tip {
+    background: #f8fafc;
+    border-left: 3px solid var(--primary);
+    padding: 8px 12px;
+    border-radius: 0 8px 8px 0;
+    font-size: 11px;
+    color: var(--text-light);
+  }
+  .tip strong { color: var(--text); }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--text);
+    color: rgba(255,255,255,0.75);
+    text-align: center;
+    padding: 14px 24px;
+    font-size: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer strong { color: white; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="header-icon">📦</div>
+      <div>
+        <div class="header-title">InventarioMovil</div>
+        <div class="header-sub">Guía Rápida del Sistema — Referencia de escritorio</div>
+      </div>
+    </div>
+    <div class="header-badge">📄 v2.0 · 2026</div>
+  </div>
+
+  <div class="content">
+
+    <!-- 1. MÓDULOS -->
+    <section>
+      <div class="section-title">🧩 Módulos Principales del Sistema</div>
+      <div class="modules-grid">
+
+        <div class="module-card">
+          <div class="module-icon">📊</div>
+          <div class="module-name">Panel General</div>
+          <div class="module-desc">Dashboard con resumen, conteos y gráficos en tiempo real</div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-icon">🗄️</div>
+          <div class="module-name">Inventario</div>
+          <div class="module-desc">Listado completo de equipos con filtros avanzados y búsqueda</div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-icon">👤</div>
+          <div class="module-name">Asignación</div>
+          <div class="module-desc">Asignar equipos a colaboradores con nombre, DNI y área</div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-icon">↩️</div>
+          <div class="module-name">Devoluciones</div>
+          <div class="module-desc">Registrar devolución de equipos y cambiar estado a Stock</div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-icon">📷</div>
+          <div class="module-name">Escanear QR</div>
+          <div class="module-desc">Escanear etiqueta QR con cámara para ver detalle rápido</div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-icon">📂</div>
+          <div class="module-name">Cargar Excel</div>
+          <div class="module-desc">Importar archivo .xlsx / .csv para actualizar la base completa</div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-icon">🏷️</div>
+          <div class="module-name">Generar Etiquetas QR</div>
+          <div class="module-desc">Crear códigos QR individuales o masivos para imprimir</div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-icon">📤</div>
+          <div class="module-name">Exportar</div>
+          <div class="module-desc">Descargar reporte actualizado en Excel o PDF</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. FLUJO DE TRABAJO -->
+    <section>
+      <div class="section-title">🔄 Flujo de Trabajo Básico</div>
+      <div class="workflow">
+
+        <div class="step-wrap">
+          <div class="step-box">
+            <div class="step-num">1</div>
+            <div class="step-icon">📂</div>
+            <div class="step-label">Cargar<br>Archivo Excel</div>
+          </div>
+          <div class="arrow">→</div>
+        </div>
+
+        <div class="step-wrap">
+          <div class="step-box">
+            <div class="step-num">2</div>
+            <div class="step-icon">📋</div>
+            <div class="step-label">Importar<br>Hojas</div>
+          </div>
+          <div class="arrow">→</div>
+        </div>
+
+        <div class="step-wrap">
+          <div class="step-box">
+            <div class="step-num">3</div>
+            <div class="step-icon">📊</div>
+            <div class="step-label">Ver<br>Dashboard</div>
+          </div>
+          <div class="arrow">→</div>
+        </div>
+
+        <div class="step-wrap">
+          <div class="step-box">
+            <div class="step-num">4</div>
+            <div class="step-icon">👤</div>
+            <div class="step-label">Asignar<br>Equipo</div>
+          </div>
+          <div class="arrow">→</div>
+        </div>
+
+        <div class="step-wrap">
+          <div class="step-box">
+            <div class="step-num">5</div>
+            <div class="step-icon">🏷️</div>
+            <div class="step-label">Generar<br>Código QR</div>
+          </div>
+          <div class="arrow">→</div>
+        </div>
+
+        <div class="step-wrap">
+          <div class="step-box">
+            <div class="step-num">6</div>
+            <div class="step-icon">🖨️</div>
+            <div class="step-label">Imprimir<br>Etiquetas</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. ESTADOS -->
+    <section>
+      <div class="section-title">🔴🟢🔵 Estados de los Equipos</div>
+      <div class="status-row">
+
+        <div class="status-card green">
+          <div class="status-dot"></div>
+          <div class="status-info">
+            <div class="status-name">✅ Asignado</div>
+            <div class="status-desc">Equipo activo en uso por un colaborador con nombre y DNI registrado</div>
+          </div>
+        </div>
+
+        <div class="status-card blue">
+          <div class="status-dot"></div>
+          <div class="status-info">
+            <div class="status-name">📦 Stock</div>
+            <div class="status-desc">Equipo disponible en almacén, listo para ser asignado</div>
+          </div>
+        </div>
+
+        <div class="status-card red">
+          <div class="status-dot"></div>
+          <div class="status-info">
+            <div class="status-name">⛔ Broken / Baja</div>
+            <div class="status-desc">Equipo dañado, en taller o dado de baja definitiva</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. CATEGORÍAS -->
+    <section>
+      <div class="section-title">🗂️ Categorías de Equipos</div>
+      <div class="cat-grid">
+
+        <div class="cat-card">
+          <div class="cat-icon">💻</div>
+          <div>
+            <div class="cat-name">Computadoras / Laptops</div>
+            <div class="cat-sub">PC, All-in-One, Laptop, Monitor · Hoja: "PC LAPTOPS"</div>
+          </div>
+        </div>
+
+        <div class="cat-card">
+          <div class="cat-icon">📱</div>
+          <div>
+            <div class="cat-name">Teléfonos Corporativos</div>
+            <div class="cat-sub">Smartphones con IMEI · Hoja: "CORPORATIVOS"</div>
+          </div>
+        </div>
+
+        <div class="cat-card">
+          <div class="cat-icon">🏢</div>
+          <div>
+            <div class="cat-name">Electrodomésticos / Mobiliario</div>
+            <div class="cat-sub">Microondas, hervidores, muebles · Hoja: "ELECTRODOMESTICOS"</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. TIPS RÁPIDOS -->
+    <section>
+      <div class="section-title">💡 Tips Rápidos</div>
+      <div class="tips-grid">
+        <div class="tip"><strong>Importar nuevo Excel:</strong> Reemplaza toda la base anterior. No mezcla datos.</div>
+        <div class="tip"><strong>QR automático:</strong> Cada equipo tiene su QR único generado por el sistema.</div>
+        <div class="tip"><strong>Exportar primero:</strong> Descarga el Excel actualizado antes de importar uno nuevo.</div>
+        <div class="tip"><strong>Escaneo rápido:</strong> Usa la cámara del celular para ver el detalle del equipo al instante.</div>
+        <div class="tip"><strong>Hojas ignoradas:</strong> "TABLA DINAMICA" y "RESUMEN" se omiten automáticamente.</div>
+        <div class="tip"><strong>Sin CODIGO:</strong> Para teléfonos sin código, el sistema usa el IMEI 1 como ID.</div>
+      </div>
+    </section>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>📦 <strong>InventarioMovil</strong> — Sistema de Gestión de Inventario Corporativo</div>
+    <div><strong>Technology VR</strong> — Desarrollado por Ing. Raúl © 2026</div>
+  </div>
+
+</div><!-- /page -->
+
+</body>
+</html>

@@ -5,6 +5,13 @@ PredicciondeEventos/node_modules/
 AreadeVentas/node_modules/
 DashboardClinico/node_modules/
 Finanzas/node_modules/
+Control-Inventario/node_modules/
+Control-Inventario/node-v24.15.0-win-x64/
+Control-Inventario/Inventario_Movil_Lite_Portable/
+Control-Inventario/scratch/
+Control-Inventario/*.exe
+Control-Inventario/*.zip
+Control-Inventario/*.xlsx
 
 # Binarios y túneles pesados
 *.exe

@@ -503,6 +503,10 @@ body {
   background: radial-gradient(circle at center, rgba(2, 132, 199, 0.5), #060b18);
 }
 
+.card-preview-banner.inventario {
+  background: radial-gradient(circle at center, rgba(37, 99, 235, 0.5), #060b18);
+}
+
 .banner-badge {
   position: absolute;
   top: 1rem;

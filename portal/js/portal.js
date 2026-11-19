@@ -111,6 +111,33 @@ const PROJECTS = {
       'Monitoreo gráfico de 6 ratios esenciales de liquidez, apalancamiento y ahorro con alertas automáticas de desviación.',
       'Matriz desplegable [+] / [-] que compara presupuesto vs. ejecución real mensual para tomar decisiones correctivas oportunas.'
     ]
+  },
+  inventario: {
+    id: 'inventario',
+    title: 'Inventario Móvil — Control Corporativo de Activos & Equipos',
+    shortName: 'Inventario Móvil',
+    category: 'Logística & Control de Activos TI',
+    icon: 'ph-barcode',
+    badge: '100% Autónomo',
+    directUrl: 'Control-Inventario/inventory-dashboard/index.html',
+    serverUrl: 'http://localhost:3000',
+    currentMode: 'direct',
+    port: 3000,
+    requiresServer: false,
+    description: 'Sistema integral para control, auditoría y trazabilidad de hardware y equipos corporativos. Incluye desglose por oficinas y sedes, escáner en vivo de códigos de barras, QR e IMEI, emisión de actas de entrega/devolución en formato PDF foliado, generador masivo de etiquetas QR imprimibles y sincronización bidireccional con hojas de cálculo Excel.',
+    techStack: ['Escáner en vivo de QR, Barras e IMEI', 'Actas de Asignación y Devolución PDF', 'Generador masivo de Etiquetas QR', 'Importación y exportación Excel (.xlsx)', 'Trazabilidad por oficinas y responsables', 'Indicadores de salud operativa en tiempo real'],
+    metrics: {
+      'Trazabilidad': 'Equipos & Responsables',
+      'Auditoría': 'Actas foliadas en PDF',
+      'Escaneo en Vivo': 'QR, Barras e IMEI',
+      'Integración': 'Excel bidireccional'
+    },
+    keyFeatures: [
+      'Control centralizado de computadoras, celulares y activos con asignación precisa por colaborador y oficina.',
+      'Escaneo instantáneo mediante cámara de dispositivo o lector óptico con validación automática de duplicados.',
+      'Generación inmediata de actas de entrega y devolución en PDF con firma y foliación corporativa.',
+      'Descarga e importación fluida de planillas Excel sin pérdida de información histórica.'
+    ]
   }
 };
 

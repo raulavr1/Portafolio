@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curso Excel para Inventario — InventarioMovil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --primary-light: #eff6ff;
+    --success: #16a34a;
+    --success-light: #f0fdf4;
+    --danger: #dc2626;
+    --danger-light: #fff1f2;
+    --warning: #d97706;
+    --warning-light: #fffbeb;
+    --neutral: #64748b;
+    --bg: #f8fafc;
+    --white: #ffffff;
+    --text: #1e293b;
+    --text-light: #475569;
+    --text-muted: #94a3b8;
+    --border: #e2e8f0;
+    --sidebar-width: 260px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ═══════════════════════════════════════
+     TOP HEADER BAR
+  ═══════════════════════════════════════ */
+  .topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    z-index: 1000;
+    box-shadow: 0 2px 12px rgba(37,99,235,0.3);
+    gap: 16px;
+  }
+  .topbar-icon { font-size: 24px; }
+  .topbar-title { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; }
+  .topbar-subtitle { font-size: 11px; opacity: 0.8; margin-left: 2px; }
+  .topbar-badge {
+    margin-left: auto;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  /* ═══════════════════════════════════════
+     LAYOUT
+  ═══════════════════════════════════════ */
+  .layout {
+    display: flex;
+    padding-top: 56px;
+    min-height: 100vh;
+  }
+
+  /* ═══════════════════════════════════════
+     SIDEBAR
+  ═══════════════════════════════════════ */
+  .sidebar {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    bottom: 0;
+    background: var(--white);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 20px 0;
+    z-index: 900;
+  }
+
+  .sidebar-heading {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    padding: 0 20px 10px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: 12.5px;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+  .nav-item:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-left-color: var(--primary);
+  }
+  .nav-item.active {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-left-color: var(--primary);
+    font-weight: 700;
+  }
+  .nav-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; height: 20px;
+    background: var(--border);
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--neutral);
+    flex-shrink: 0;
+  }
+  .nav-item.active .nav-num, .nav-item:hover .nav-num {
+    background: var(--primary);
+    color: white;
+  }
+  .nav-label { flex: 1; line-height: 1.3; }
+
+  /* ═══════════════════════════════════════
+     MAIN CONTENT
+  ═══════════════════════════════════════ */
+  .main {
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    padding: 36px 40px 60px;
+    max-width: 900px;
+  }
+
+  /* Chapter section */
+  .chapter {
+    margin-bottom: 64px;
+    scroll-margin-top: 76px;
+  }
+
+  .chapter-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+  }
+  .chapter-num-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px; height: 44px;
+    background: var(--primary);
+    color: white;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .chapter-title { font-size: 20px; font-weight: 800; color: var(--text); line-height: 1.2; }
+  .chapter-desc { font-size: 13px; color: var(--text-light); margin-top: 4px; }
+
+  /* Cards */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Info box */
+  .info-box {
+    background: var(--primary-light);
+    border: 1px solid #bfdbfe;
+    border-left: 4px solid var(--primary);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: var(--primary-dark);
+  }
+  .info-box.success { background: var(--success-light); border-color: #bbf7d0; border-left-color: var(--success); color: #15803d; }
+  .info-box.warning { background: var(--warning-light); border-color: #fde68a; border-left-color: var(--warning); color: #92400e; }
+  .info-box.danger  { background: var(--danger-light);  border-color: #fecdd3; border-left-color: var(--danger);  color: #991b1b; }
+
+  /* Format pills */
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .pill {
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--primary);
+    color: white;
+  }
+  .pill.gray { background: #e2e8f0; color: var(--neutral); }
+
+  /* ── TABLES ── */
+  .table-wrap { overflow-x: auto; border-radius: 10px; box-shadow: 0 1px 8px rgba(0,0,0,0.07); margin-bottom: 16px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  thead th {
+    background: var(--primary);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  thead th:first-child { border-radius: 10px 0 0 0; }
+  thead th:last-child  { border-radius: 0 10px 0 0; }
+  tbody td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:nth-child(even) td { background: #f8fafc; }
+  tbody tr:hover td { background: var(--primary-light); }
+
+  .badge-req    { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; background: #dcfce7; color: #15803d; white-space: nowrap; }
+  .badge-rec    { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; background: #dbeafe; color: #1d4ed8; white-space: nowrap; }
+  .badge-opt    { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; background: #f1f5f9; color: var(--neutral); white-space: nowrap; }
+
+  /* ── STEP LIST ── */
+  .steps { display: flex; flex-direction: column; gap: 10px; }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .step-num-big {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; height: 32px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .step-content {}
+  .step-title { font-weight: 700; font-size: 13px; color: var(--text); }
+  .step-body  { font-size: 12px; color: var(--text-light); margin-top: 3px; }
+
+  /* ── SHEET NAME TABLE ── */
+  .sheet-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .sheet-table th { background: #1e293b; color: white; padding: 10px 14px; text-align: left; font-weight: 700; }
+  .sheet-table th:first-child { border-radius: 10px 0 0 0; }
+  .sheet-table th:last-child  { border-radius: 0 10px 0 0; }
+  .sheet-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .sheet-table tr:last-child td { border-bottom: none; }
+  .sheet-table tr:nth-child(even) td { background: #f8fafc; }
+  .sheet-name-code { font-family: monospace; background: #e2e8f0; padding: 2px 7px; border-radius: 4px; font-size: 11px; color: var(--text); }
+  .ignored { color: var(--danger); font-weight: 600; }
+
+  /* ── STATUS CARDS ── */
+  .status-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .sc {
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .sc.green { background: #f0fdf4; border: 1.5px solid #bbf7d0; }
+  .sc.blue  { background: #eff6ff; border: 1.5px solid #bfdbfe; }
+  .sc.red   { background: #fff1f2; border: 1.5px solid #fecdd3; }
+  .sc.gray  { background: #f8fafc; border: 1.5px solid #e2e8f0; }
+  .sc-icon { font-size: 22px; }
+  .sc-title { font-size: 13px; font-weight: 700; }
+  .green .sc-title { color: #15803d; }
+  .blue  .sc-title { color: #1d4ed8; }
+  .red   .sc-title { color: #b91c1c; }
+  .gray  .sc-title { color: var(--neutral); }
+  .sc-body { font-size: 11.5px; color: var(--text-light); margin-top: 3px; line-height: 1.4; }
+
+  /* ── EXCEL PREVIEW ── */
+  .excel-wrap {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #cbd5e1;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .excel-tab-bar {
+    background: #1f2937;
+    display: flex;
+    padding: 8px 12px 0;
+    gap: 4px;
+  }
+  .excel-tab {
+    padding: 6px 16px;
+    border-radius: 6px 6px 0 0;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    cursor: default;
+    background: rgba(255,255,255,0.08);
+  }
+  .excel-tab.active { background: white; color: var(--primary-dark); }
+  .excel-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+  .excel-table th {
+    background: #217346;
+    color: white;
+    padding: 7px 12px;
+    text-align: center;
+    font-weight: 700;
+    border-right: 1px solid #1a5c38;
+    white-space: nowrap;
+  }
+  .excel-table th.row-num { background: #166534; width: 32px; }
+  .excel-table td { padding: 6px 10px; border: 1px solid #d1fae5; color: var(--text); font-size: 11px; white-space: nowrap; }
+  .excel-table td.row-num { background: #f0fdf4; color: var(--neutral); text-align: center; font-weight: 600; border: 1px solid #d1fae5; }
+  .excel-table tr:nth-child(odd) td { background: #f9fafb; }
+  .excel-table tr:nth-child(even) td { background: white; }
+  .excel-table tr td.row-num { background: #f0fdf4; }
+
+  /* ── TIPS PRO ── */
+  .pro-tips { display: flex; flex-direction: column; gap: 10px; }
+  .pro-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--primary);
+  }
+  .pro-tip-icon { font-size: 20px; flex-shrink: 0; }
+  .pro-tip-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .pro-tip-text strong { color: var(--primary-dark); }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: #1e293b;
+    color: rgba(255,255,255,0.65);
+    text-align: center;
+    padding: 18px 24px;
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+  }
+  .footer strong { color: white; }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 999px;
+    margin: 10px 0 20px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 999px;
+    transition: width 0.3s;
+  }
+
+  code {
+    font-family: 'Courier New', monospace;
+    background: #e2e8f0;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 11.5px;
+    color: #1e40af;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+
+  ul.check-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  ul.check-list li { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: var(--text-light); }
+  ul.check-list li::before { content: "✅"; flex-shrink: 0; }
+
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-icon">📦</div>
+  <div>
+    <div class="topbar-title">InventarioMovil — Curso: Excel para el Sistema</div>
+    <div class="topbar-subtitle">Aprende a preparar tu archivo correctamente</div>
+  </div>
+  <div class="topbar-badge">📚 10 Capítulos</div>
+</div>
+
+<div class="layout">
+
+  <!-- ═════════════════ SIDEBAR ═════════════════ -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-heading">Contenido del Curso</div>
+
+    <a class="nav-item active" href="#cap1">
+      <span class="nav-num">1</span>
+      <span class="nav-label">Introducción</span>
+    </a>
+    <a class="nav-item" href="#cap2">
+      <span class="nav-num">2</span>
+      <span class="nav-label">Estructura del Archivo</span>
+    </a>
+    <a class="nav-item" href="#cap3">
+      <span class="nav-num">3</span>
+      <span class="nav-label">Columnas: Teléfonos</span>
+    </a>
+    <a class="nav-item" href="#cap4">
+      <span class="nav-num">4</span>
+      <span class="nav-label">Columnas: Computadoras</span>
+    </a>
+    <a class="nav-item" href="#cap5">
+      <span class="nav-num">5</span>
+      <span class="nav-label">Columnas: Electrodomésticos</span>
+    </a>
+    <a class="nav-item" href="#cap6">
+      <span class="nav-num">6</span>
+      <span class="nav-label">Estados Reconocidos</span>
+    </a>
+    <a class="nav-item" href="#cap7">
+      <span class="nav-num">7</span>
+      <span class="nav-label">Pasos para Importar</span>
+    </a>
+    <a class="nav-item" href="#cap8">
+      <span class="nav-num">8</span>
+      <span class="nav-label">Errores Comunes</span>
+    </a>
+    <a class="nav-item" href="#cap9">
+      <span class="nav-num">9</span>
+      <span class="nav-label">Plantilla Recomendada</span>
+    </a>
+    <a class="nav-item" href="#cap10">
+      <span class="nav-num">10</span>
+      <span class="nav-label">Consejos Pro</span>
+    </a>
+  </nav>
+
+  <!-- ═════════════════ MAIN ═════════════════ -->
+  <main class="main">
+
+    <!-- ══════════════════════════════════════
+         CAPÍTULO 1 — INTRODUCCIÓN
+    ══════════════════════════════════════ -->
+    <section class="chapter" id="cap1">
+      <div class="chapter-header">
+        <div class="chapter-num-badge">1</div>
+        <div>
+          <div class="chapter-title">📘 Introducción</div>
+          <div class="chapter-desc">Por qué y cómo usar Excel con el sistema InventarioMovil</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🎯 ¿Por qué usar Excel con el sistema?</div>
+        <p style="font-size:13px;color:var(--text-light);margin-bottom:12px;">InventarioMovil está diseñado para leer directamente tus archivos Excel existentes, sin necesidad de migrar datos ni aprender una nueva interfaz de entrada. Simplemente prepara tu archivo con el formato correcto y el sistema hace el resto.</p>
+        <ul class="check-list">
+          <li>Importa cientos o miles de equipos en segundos</li>
+          <li>Compatible con archivos Excel que ya usas en tu empresa</li>
+          <li>Detecta automáticamente el tipo de equipo por el nombre de la hoja</li>
+          <li>No necesitas configurar nada — el sistema aprende de tu estructura</li>
+          <li>Puedes exportar la base actualizada y usarla como nueva plantilla</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📄 Formatos de archivo soportados</div>
+        <div class="pill-row">
+          <span class="pill">.xlsx</span>
+          <span class="pill">.xls</span>
+          <span class="pill">.xlsm</span>
+          <span class="pill">.csv</span>
+          <span class="pill">.ods</span>
+        </div>
+        <p style="font-size:12px;color:var(--text-light);margin-top:12px;">💡 El formato recomendado es <strong>.xlsx</strong> (Excel moderno). Los archivos .csv solo tienen una hoja, por lo que se importan como una única categoría.</p>
+      </div>
+
+      <div class="info-box">
+        🔄 <strong>Importación automática:</strong> El sistema detecta y lista <em>todas las hojas</em> de tu archivo automáticamente. Puedes elegir cuáles importar antes de confirmar.
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         CAPÍTULO 2 — ESTRUCTURA
+    ══════════════════════════════════════ -->
+    <section class="chapter" id="cap2">
+      <div class="chapter-header">
+        <div class="chapter-num-badge">2</div>
+        <div>
+          <div class="chapter-title">🗂️ Estructura del Archivo Excel</div>
+          <div class="chapter-desc">Cómo nombrar tus hojas para que el sistema las reconozca</div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        📌 <strong>Regla clave:</strong> El sistema detecta el <em>tipo de equipo</em> por el <strong>nombre de la hoja</strong>, no por el contenido. Nombra tus hojas correctamente y la importación será automática.
+      </div>
+
+      <div class="table-wrap">
+        <table class="sheet-table">
+          <thead>
+            <tr>
+              <th>Nombre de la Hoja</th>
+              <th>Se importa como</th>
+              <th>Notas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="sheet-name-code">CORPORATIVOS</span>
+                <span class="sheet-name-code">TELEFONOS</span>
+                <span class="sheet-name-code">CELULARES</span>
+              </td>
+              <td>📱 <strong>Teléfonos Corporativos</strong></td>
+              <td style="color:var(--text-light);font-size:11.5px;">Busca columnas IMEI 1, IMEI 2, CODIGO, MARCA, MODELO</td>
+            </tr>
+            <tr>
+              <td>
+                <span class="sheet-name-code">PC LAPTOPS</span>
+                <span class="sheet-name-code">COMPUTADORES</span>
+                <span class="sheet-name-code">LAPTOPS</span>
+              </td>
+              <td>💻 <strong>Computadoras / Laptops</strong></td>
+              <td style="color:var(--text-light);font-size:11.5px;">Busca columnas SERIE, TIPO, MARCA, MODELO</td>
+            </tr>
+            <tr>
+              <td><span class="sheet-name-code">ELECTRODOMESTICOS</span></td>
+              <td>🔌 <strong>Electrodomésticos</strong></td>
+              <td style="color:var(--text-light);font-size:11.5px;">Busca columnas ARTICULO, MARCA, SERIE, OFICINA</td>
+            </tr>
+            <tr>
+              <td>
+                <span class="sheet-name-code">MOBILIARIO</span>
+                <span class="sheet-name-code">MUEBLES</span>
+              </td>
+              <td>🪑 <strong>Mobiliario</strong></td>
+              <td style="color:var(--text-light);font-size:11.5px;">Se trata como electrodomésticos con subtipo genérico</td>
+            </tr>
+            <tr>
+              <td><em style="color:var(--neutral);">Cualquier otro nombre</em></td>
+              <td>📦 <strong>Categoría genérica</strong></td>
+              <td style="color:var(--text-light);font-size:11.5px;">Se importa con categoría igual al nombre de la hoja</td>
+            </tr>
+            <tr>
+              <td>
+                <span class="sheet-name-code ignored">TABLA DINAMICA</span>
+                <span class="sheet-name-code ignored">RESUMEN</span>
+              </td>
+              <td class="ignored">🚫 SE IGNORAN</td>
+              <td style="color:var(--text-light);font-size:11.5px;">Estas hojas son saltadas automáticamente</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-box warning">
+        ⚠️ <strong>Mayúsculas/Minúsculas:</strong> El sistema reconoce los nombres de hojas en mayúsculas o minúsculas indistintamente. <code>CORPORATIVOS</code> = <code>Corporativos</code> = <code>corporativos</code>.
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         CAPÍTULO 3 — TELÉFONOS
+    ══════════════════════════════════════ -->
+    <section class="chapter" id="cap3">
+      <div class="chapter-header">
+        <div class="chapter-num-badge">3</div>
+        <div>
+          <div class="chapter-title">📱 Columnas para Teléfonos Corporativos</div>
+          <div class="chapter-desc">Hoja: CORPORATIVOS / TELEFONOS / CELULARES</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Columna en Excel</th>
+              <th>¿Qué contiene?</th>
+              <th>¿Obligatorio?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>CODIGO</code></td>
+              <td>Código único del teléfono (ej: CBZ-TLF-001)</td>
+              <td><span class="badge-req">✅ Sí (o IMEI 1)</span></td>
+            </tr>
+            <tr>
+              <td><code>MARCA</code></td>
+              <td>Marca del teléfono (SAMSUNG, REDMI, HONOR, MOTOROLA, etc.)</td>
+              <td><span class="badge-req">✅ Sí</span></td>
+            </tr>
+            <tr>
+              <td><code>MODELO</code></td>
+              <td>Modelo específico (REDMI 10, HONOR PLAY 6T, etc.)</td>
+              <td><span class="badge-rec">📌 Recomendado</span></td>
+            </tr>
+            <tr>
+              <td><code>COLOR</code></td>
+              <td>Color del equipo (Negro, Azul, Blanco...)</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>IMEI 1</code></td>
+              <td>Primer número IMEI de 15 dígitos</td>
+              <td><span class="badge-rec">📌 Recomendado</span></td>
+            </tr>
+            <tr>
+              <td><code>IMEI 2</code></td>
+              <td>Segundo IMEI (si el teléfono tiene doble SIM)</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>APELLIDOS Y NOMBRES</code></td>
+              <td>Nombre completo del colaborador asignado</td>
+              <td><span class="badge-rec">Para estado Asignado</span></td>
+            </tr>
+            <tr>
+              <td><code>DNI</code></td>
+              <td>Documento de identidad del responsable</td>
+              <td><span class="badge-rec">📌 Recomendado</span></td>
+            </tr>
+            <tr>
+              <td><code>AREA</code></td>
+              <td>Área o departamento del colaborador</td>
+              <td><span class="badge-rec">📌 Recomendado</span></td>
+            </tr>
+            <tr>
+              <td><code>OFICINA</code></td>
+              <td>Número de oficina (ej: 301, 111, 1603)</td>
+              <td><span class="badge-rec">📌 Recomendado</span></td>
+            </tr>
+            <tr>
+              <td><code>ESTADO</code></td>
+              <td>Estado del equipo (ACTIVO, BAJA, STOCK...)</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>FECHA DE COMPRA</code></td>
+              <td>Fecha de adquisición (DD/MM/AAAA)</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>CARGADOR</code></td>
+              <td>Si tiene cargador (SI / NO)</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>SUPERVISOR</code></td>
+              <td>Nombre del supervisor del área</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>COSTO</code></td>
+              <td>Precio de compra del equipo</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-box">
+        💡 <strong>Tip:</strong> Si no tienes un código propio (columna CODIGO), el sistema usará automáticamente el <strong>IMEI 1</strong> como identificador único.
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         CAPÍTULO 4 — COMPUTADORAS
+    ══════════════════════════════════════ -->
+    <section class="chapter" id="cap4">
+      <div class="chapter-header">
+        <div class="chapter-num-badge">4</div>
+        <div>
+          <div class="chapter-title">💻 Columnas para Computadoras / Laptops</div>
+          <div class="chapter-desc">Hoja: PC LAPTOPS / COMPUTADORES / LAPTOPS</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Columna en Excel</th>
+              <th>¿Qué contiene?</th>
+              <th>¿Obligatorio?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>SERIE</code></td>
+              <td>Número de serie único del equipo (impreso en la parte trasera)</td>
+              <td><span class="badge-req">✅ Sí</span></td>
+            </tr>
+            <tr>
+              <td><code>MARCA</code></td>
+              <td>Marca del equipo (LENOVO, HP, DELL, ASUS, ACER, etc.)</td>
+              <td><span class="badge-req">✅ Sí</span></td>
+            </tr>
+            <tr>
+              <td><code>MODELO</code></td>
+              <td>Modelo específico del equipo</td>
+              <td><span class="badge-rec">📌 Recomendado</span></td>
+            </tr>
+            <tr>
+              <td><code>TIPO</code></td>
+              <td>ALL IN ONE / LAPTOP / PC / MONITOR / BROKEN</td>
+              <td><span class="badge-rec">📌 Recomendado</span></td>
+            </tr>
+            <tr>
+              <td><code>APELLIDOS Y NOMBRES</code></td>
+              <td>Nombre completo del usuario asignado</td>
+              <td><span class="badge-rec">Para estado Asignado</span></td>
+            </tr>
+            <tr>
+              <td><code>DNI</code></td>
+              <td>DNI del responsable del equipo</td>
+              <td><span class="badge-rec">📌 Recomendado</span></td>
+            </tr>
+            <tr>
+              <td><code>AREA</code></td>
+              <td>Área de trabajo del colaborador</td>
+              <td><span class="badge-rec">📌 Recomendado</span></td>
+            </tr>
+            <tr>
+              <td><code>OFICINA</code></td>
+              <td>Número de oficina</td>
+              <td><span class="badge-rec">📌 Recomendado</span></td>
+            </tr>
+            <tr>
+              <td><code>ESTADO</code></td>
+              <td>Estado del equipo (ACTIVO, BAJA, STOCK)</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>FECHA DE COMPRA</code></td>
+              <td>Fecha de adquisición del equipo</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>OBSERVACION 1</code></td>
+              <td>Primera nota adicional sobre el equipo</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>OBSERVACION 2</code></td>
+              <td>Segunda nota adicional</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>OBSERVACION 3</code></td>
+              <td>Tercera nota adicional</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>SUPERVISOR</code></td>
+              <td>Supervisor del área responsable</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>COSTO</code></td>
+              <td>Precio de compra del equipo</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-box">
+        💡 El campo <code>TIPO</code> permite filtrar en el sistema entre PC de escritorio, laptops, monitores y equipos en taller (BROKEN).
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         CAPÍTULO 5 — ELECTRODOMÉSTICOS
+    ══════════════════════════════════════ -->
+    <section class="chapter" id="cap5">
+      <div class="chapter-header">
+        <div class="chapter-num-badge">5</div>
+        <div>
+          <div class="chapter-title">🔌 Columnas para Electrodomésticos</div>
+          <div class="chapter-desc">Hoja: ELECTRODOMESTICOS / MOBILIARIO / MUEBLES</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Columna en Excel</th>
+              <th>¿Qué contiene?</th>
+              <th>¿Obligatorio?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>ARTICULO</code></td>
+              <td>Nombre del artículo (MICROONDAS, HERVIDOR, CAFETERA, SILLA, etc.)</td>
+              <td><span class="badge-req">✅ Sí</span></td>
+            </tr>
+            <tr>
+              <td><code>MARCA</code></td>
+              <td>Marca del artículo</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>MODELO</code></td>
+              <td>Modelo del artículo</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>SERIE</code></td>
+              <td>Número de serie (si aplica)</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>OFICINA</code></td>
+              <td>Número de oficina donde se ubica el artículo</td>
+              <td><span class="badge-rec">📌 Recomendado</span></td>
+            </tr>
+            <tr>
+              <td><code>ESTADO</code></td>
+              <td>Estado del artículo (ACTIVO, BAJA, etc.)</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+            <tr>
+              <td><code>CANTIDAD</code></td>
+              <td>Número de unidades del artículo en esa ubicación</td>
+              <td><span class="badge-opt">Opcional</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤖 Detección automática de subtipo</div>
+        <p style="font-size:12.5px;color:var(--text-light);margin-bottom:12px;">El sistema reconoce el tipo de electrodoméstico por el texto en la columna <code>ARTICULO</code>:</p>
+        <div class="pill-row">
+          <span class="pill gray">🍲 MICROONDAS</span>
+          <span class="pill gray">☕ HERVIDOR</span>
+          <span class="pill gray">☕ CAFETERA</span>
+          <span class="pill gray">❄️ REFRIGERADOR</span>
+          <span class="pill gray">🌡️ AIRE ACONDICIONADO</span>
+          <span class="pill gray">💧 DISPENSADOR</span>
+          <span class="pill gray">🔌 (Genérico)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         CAPÍTULO 6 — ESTADOS
+    ══════════════════════════════════════ -->
+    <section class="chapter" id="cap6">
+      <div class="chapter-header">
+        <div class="chapter-num-badge">6</div>
+        <div>
+          <div class="chapter-title">🔵🟢🔴 Estados Reconocidos por el Sistema</div>
+          <div class="chapter-desc">Cómo el sistema determina el estado de cada equipo automáticamente</div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        🤖 <strong>Normalización automática:</strong> El sistema analiza la columna <code>ESTADO</code> y el nombre del colaborador para determinar el estado real de cada equipo. No necesitas usar exactamente el mismo texto.
+      </div>
+
+      <div class="status-cards">
+        <div class="sc green">
+          <div class="sc-icon">✅</div>
+          <div>
+            <div class="sc-title">Asignado</div>
+            <div class="sc-body">
+              Se asigna cuando hay <strong>nombre + DNI</strong> del colaborador en la fila.<br>
+              También cuando el nombre de la persona es válido y no hay indicador de stock.<br>
+              <code>ESTADO</code> puede decir: ACTIVO, ASIGNADO, o estar vacío.
+            </div>
+          </div>
+        </div>
+
+        <div class="sc blue">
+          <div class="sc-icon">📦</div>
+          <div>
+            <div class="sc-title">Stock</div>
+            <div class="sc-body">
+              Se asigna si <code>ESTADO</code> contiene alguna de estas palabras:<br>
+              <code>STOCK</code> · <code>ALMACEN</code> · <code>DISPONIBLE</code> · <code>LIBRE</code><br>
+              También cuando no hay nombre de responsable ni estado definido.
+            </div>
+          </div>
+        </div>
+
+        <div class="sc red">
+          <div class="sc-icon">⛔</div>
+          <div>
+            <div class="sc-title">Broken / Baja</div>
+            <div class="sc-body">
+              Se asigna si <code>ESTADO</code> contiene alguna de estas palabras:<br>
+              <code>BAJA</code> · <code>BROKEN</code> · <code>DAÑO</code> · <code>AVERIA</code> · <code>TALLER</code> · <code>REPARACION</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="sc gray">
+          <div class="sc-icon">❓</div>
+          <div>
+            <div class="sc-title">Stock (por defecto)</div>
+            <div class="sc-body">
+              Si no hay datos de responsable <strong>ni</strong> estado claro, el sistema asigna <strong>Stock</strong> como estado por defecto para evitar datos incorrectos.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="card">
+        <div class="card-title">📋 Valores aceptados en la columna ESTADO</div>
+        <table style="font-size:12px;width:100%;border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th style="background:var(--primary);color:white;padding:8px 12px;text-align:left;border-radius:8px 0 0 0;">Texto en Excel</th>
+              <th style="background:var(--primary);color:white;padding:8px 12px;text-align:left;">Estado resultante</th>
+              <th style="background:var(--primary);color:white;padding:8px 12px;text-align:left;border-radius:0 8px 0 0;">Color</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:7px 12px;border-bottom:1px solid var(--border);">ACTIVO, ASIGNADO, (vacío con nombre)</td>
+              <td style="padding:7px 12px;border-bottom:1px solid var(--border);">Asignado</td>
+              <td style="padding:7px 12px;border-bottom:1px solid var(--border);color:var(--success);font-weight:700;">Verde</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 12px;border-bottom:1px solid var(--border);">STOCK, ALMACEN, DISPONIBLE, LIBRE</td>
+              <td style="padding:7px 12px;border-bottom:1px solid var(--border);">Stock</td>
+              <td style="padding:7px 12px;border-bottom:1px solid var(--border);color:var(--primary);font-weight:700;">Azul</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 12px;">BAJA, BROKEN, DAÑO, AVERIA, TALLER, REPARACION</td>
+              <td style="padding:7px 12px;">Broken / Baja</td>
+              <td style="padding:7px 12px;color:var(--danger);font-weight:700;">Rojo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         CAPÍTULO 7 — PASOS PARA IMPORTAR
+    ══════════════════════════════════════ -->
+    <section class="chapter" id="cap7">
+      <div class="chapter-header">
+        <div class="chapter-num-badge">7</div>
+        <div>
+          <div class="chapter-title">🚀 Pasos para Importar tu Archivo</div>
+          <div class="chapter-desc">Guía paso a paso del proceso de importación</div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num-big">1</div>
+          <div class="step-content">
+            <div class="step-title">📂 Ir al módulo "Cargar Archivo de Inventario"</div>
+            <div class="step-body">Desde el menú lateral, selecciona la opción "Cargar Excel" o "Cargar Archivo de Inventario".</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num-big">2</div>
+          <div class="step-content">
+            <div class="step-title">🖱️ Arrastra tu archivo a la zona de carga</div>
+            <div class="step-body">Arrastra tu archivo <code>.xlsx</code> directamente a la zona marcada, o haz clic en "Seleccionar archivo" para buscarlo en tu computadora.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num-big">3</div>
+          <div class="step-content">
+            <div class="step-title">📋 El sistema lista todas las hojas detectadas</div>
+            <div class="step-body">Verás un listado con todas las hojas encontradas en el archivo, con el tipo de equipo que el sistema asignará a cada una.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num-big">4</div>
+          <div class="step-content">
+            <div class="step-title">☑️ Marca las hojas que deseas importar</div>
+            <div class="step-body">Por defecto todas las hojas válidas vienen marcadas. Desmarca las que no quieras importar (ej: hojas de respaldo o pruebas).</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num-big">5</div>
+          <div class="step-content">
+            <div class="step-title">✅ Haz clic en "Importar hojas seleccionadas"</div>
+            <div class="step-body">Confirma la importación. El sistema procesará cada hoja y normalizará los datos automáticamente.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num-big">6</div>
+          <div class="step-content">
+            <div class="step-title">📊 El sistema va al Dashboard con todos los datos</div>
+            <div class="step-body">Serás redirigido automáticamente al Panel General donde verás los conteos, gráficos y el inventario completo actualizado.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num-big">7</div>
+          <div class="step-content">
+            <div class="step-title">💾 Los datos se guardan automáticamente en el servidor</div>
+            <div class="step-body">No necesitas hacer nada más. Los datos quedan persistidos y disponibles desde cualquier dispositivo con acceso al sistema.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box warning" style="margin-top:16px;">
+        ⚠️ <strong>Importante:</strong> Importar un nuevo archivo <strong>reemplaza toda la base anterior</strong>. Asegúrate de exportar primero si deseas conservar asignaciones y cambios manuales previos.
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         CAPÍTULO 8 — ERRORES COMUNES
+    ══════════════════════════════════════ -->
+    <section class="chapter" id="cap8">
+      <div class="chapter-header">
+        <div class="chapter-num-badge">8</div>
+        <div>
+          <div class="chapter-title">🛠️ Errores Comunes y Soluciones</div>
+          <div class="chapter-desc">Problemas frecuentes al importar y cómo resolverlos</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Error / Síntoma</th>
+              <th>Causa probable</th>
+              <th>Solución</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>❌ <strong>"El archivo está vacío"</strong></td>
+              <td>Las hojas no tienen datos o están en blanco</td>
+              <td>Verifica que la fila 1 tenga cabeceras y la fila 2 en adelante tenga datos reales</td>
+            </tr>
+            <tr>
+              <td>🔵 Equipos aparecen como "Stock" cuando deberían estar "Asignados"</td>
+              <td>Falta la columna <code>APELLIDOS Y NOMBRES</code> o está vacía</td>
+              <td>Agrega la columna con el nombre completo del colaborador en cada fila</td>
+            </tr>
+            <tr>
+              <td>❓ No reconoce el tipo de hoja</td>
+              <td>El nombre de la hoja es muy distinto al esperado</td>
+              <td>Renombra la hoja a <code>CORPORATIVOS</code>, <code>PC LAPTOPS</code> o <code>ELECTRODOMESTICOS</code></td>
+            </tr>
+            <tr>
+              <td>📵 IMEIs no aparecen en el detalle del teléfono</td>
+              <td>La columna tiene un nombre diferente</td>
+              <td>Usa exactamente <code>IMEI 1</code> e <code>IMEI 2</code> como nombres de columna (con espacio)</td>
+            </tr>
+            <tr>
+              <td>🏷️ Teléfonos sin código identificador</td>
+              <td>Falta la columna <code>CODIGO</code></td>
+              <td>Agrega la columna <code>CODIGO</code> con valores únicos, ej: <code>CBZ-TLF-001</code></td>
+            </tr>
+            <tr>
+              <td>📅 "Fecha inválida" al importar</td>
+              <td>Formato de fecha incorrecto en la columna</td>
+              <td>Usar formato <code>DD/MM/AAAA</code> o <code>AAAA-MM-DD</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-box success">
+        ✅ <strong>Consejo:</strong> Si el sistema importa pero con datos incorrectos, abre el archivo en Excel, corrige los nombres de columnas usando los exactos de este curso, guarda y vuelve a importar.
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         CAPÍTULO 9 — PLANTILLA RECOMENDADA
+    ══════════════════════════════════════ -->
+    <section class="chapter" id="cap9">
+      <div class="chapter-header">
+        <div class="chapter-num-badge">9</div>
+        <div>
+          <div class="chapter-title">📋 Plantilla Recomendada (Vista)</div>
+          <div class="chapter-desc">Así se debe ver tu archivo Excel correctamente estructurado</div>
+        </div>
+      </div>
+
+      <!-- HOJA CORPORATIVOS -->
+      <div class="card">
+        <div class="card-title">📱 Hoja: CORPORATIVOS — Teléfonos Corporativos</div>
+      </div>
+      <div class="excel-wrap">
+        <div class="excel-tab-bar">
+          <div class="excel-tab active">CORPORATIVOS</div>
+          <div class="excel-tab">PC LAPTOPS</div>
+          <div class="excel-tab">ELECTRODOMESTICOS</div>
+          <div class="excel-tab" style="color:rgba(255,255,255,0.3);">TABLA DINAMICA</div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="excel-table">
+            <thead>
+              <tr>
+                <th class="row-num">#</th>
+                <th>CODIGO</th>
+                <th>MARCA</th>
+                <th>MODELO</th>
+                <th>COLOR</th>
+                <th>IMEI 1</th>
+                <th>IMEI 2</th>
+                <th>APELLIDOS Y NOMBRES</th>
+                <th>DNI</th>
+                <th>AREA</th>
+                <th>OFICINA</th>
+                <th>ESTADO</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="row-num">2</td>
+                <td>CBZ-TLF-001</td>
+                <td>SAMSUNG</td>
+                <td>GALAXY A54</td>
+                <td>Negro</td>
+                <td>354512098765432</td>
+                <td>354512098765433</td>
+                <td>GARCIA TORRES, MARIA ELENA</td>
+                <td>45123789</td>
+                <td>ADMINISTRACIÓN</td>
+                <td>301</td>
+                <td>ACTIVO</td>
+              </tr>
+              <tr>
+                <td class="row-num">3</td>
+                <td>CBZ-TLF-002</td>
+                <td>REDMI</td>
+                <td>REDMI 10</td>
+                <td>Azul</td>
+                <td>863512049876541</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>ALMACEN</td>
+                <td>STOCK</td>
+              </tr>
+              <tr>
+                <td class="row-num">4</td>
+                <td>CBZ-TLF-003</td>
+                <td>HONOR</td>
+                <td>HONOR PLAY 6T</td>
+                <td>Plata</td>
+                <td>864712034512876</td>
+                <td>864712034512877</td>
+                <td>LOPEZ RAMIREZ, JUAN CARLOS</td>
+                <td>72345610</td>
+                <td>LOGÍSTICA</td>
+                <td>111</td>
+                <td>ACTIVO</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- HOJA PC LAPTOPS -->
+      <div class="card" style="margin-top:16px;">
+        <div class="card-title">💻 Hoja: PC LAPTOPS — Computadoras y Laptops</div>
+      </div>
+      <div class="excel-wrap">
+        <div class="excel-tab-bar">
+          <div class="excel-tab">CORPORATIVOS</div>
+          <div class="excel-tab active">PC LAPTOPS</div>
+          <div class="excel-tab">ELECTRODOMESTICOS</div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="excel-table">
+            <thead>
+              <tr>
+                <th class="row-num">#</th>
+                <th>SERIE</th>
+                <th>MARCA</th>
+                <th>MODELO</th>
+                <th>TIPO</th>
+                <th>APELLIDOS Y NOMBRES</th>
+                <th>DNI</th>
+                <th>AREA</th>
+                <th>OFICINA</th>
+                <th>ESTADO</th>
+                <th>OBSERVACION 1</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="row-num">2</td>
+                <td>PF2KL9R342</td>
+                <td>LENOVO</td>
+                <td>THINKPAD E14</td>
+                <td>LAPTOP</td>
+                <td>VARGAS MENDEZ, CARLOS</td>
+                <td>42187654</td>
+                <td>SISTEMAS</td>
+                <td>201</td>
+                <td>ACTIVO</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="row-num">3</td>
+                <td>5CG1234XYZ</td>
+                <td>HP</td>
+                <td>ELITEDESK 800</td>
+                <td>ALL IN ONE</td>
+                <td>QUISPE FLORES, ANA LUCIA</td>
+                <td>71234567</td>
+                <td>CONTABILIDAD</td>
+                <td>101</td>
+                <td>ACTIVO</td>
+                <td>Pantalla rayada</td>
+              </tr>
+              <tr>
+                <td class="row-num">4</td>
+                <td>DELL9823ABC</td>
+                <td>DELL</td>
+                <td>OPTIPLEX 3080</td>
+                <td>PC</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>ALMACEN</td>
+                <td>STOCK</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="info-box" style="margin-top:16px;">
+        📥 <strong>Tip Pro:</strong> Usa el botón <strong>"Exportar Excel"</strong> del sistema para descargar la base actualizada y usarla como plantilla para próximas importaciones — ya vendrá con el formato correcto.
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         CAPÍTULO 10 — CONSEJOS PRO
+    ══════════════════════════════════════ -->
+    <section class="chapter" id="cap10">
+      <div class="chapter-header">
+        <div class="chapter-num-badge">10</div>
+        <div>
+          <div class="chapter-title">⭐ Consejos Pro</div>
+          <div class="chapter-desc">Mejores prácticas para sacarle el máximo al sistema</div>
+        </div>
+      </div>
+
+      <div class="pro-tips">
+        <div class="pro-tip">
+          <div class="pro-tip-icon">📤</div>
+          <div class="pro-tip-text">
+            <strong>Exporta antes de importar:</strong> Usa el botón "Exportar Excel" del sistema para descargar la base actualizada con asignaciones y cambios manuales, y úsala como punto de partida para tu nuevo archivo.
+          </div>
+        </div>
+        <div class="pro-tip">
+          <div class="pro-tip-icon">🔄</div>
+          <div class="pro-tip-text">
+            <strong>Importar reemplaza todo:</strong> Cuando importas un nuevo archivo, el sistema <em>reemplaza toda la base anterior</em>. No mezcla datos. Esto garantiza que siempre tengas una base limpia y sin duplicados.
+          </div>
+        </div>
+        <div class="pro-tip">
+          <div class="pro-tip-icon">🤖</div>
+          <div class="pro-tip-text">
+            <strong>Marcas nuevas = sin configuración:</strong> El sistema reconoce marcas nuevas automáticamente. No necesitas configurar ningún catálogo — simplemente escríbelas en la columna <code>MARCA</code>.
+          </div>
+        </div>
+        <div class="pro-tip">
+          <div class="pro-tip-icon">☑️</div>
+          <div class="pro-tip-text">
+            <strong>Hojas opcionales:</strong> Puedes tener hojas adicionales en tu archivo (respaldos, cálculos, etc.) que no quieras importar — simplemente desmárcalas en el selector de hojas antes de confirmar.
+          </div>
+        </div>
+        <div class="pro-tip">
+          <div class="pro-tip-icon">🏷️</div>
+          <div class="pro-tip-text">
+            <strong>CODIGO es el identificador de teléfonos:</strong> Para teléfonos corporativos, el <code>CODIGO</code> es el identificador principal para el QR. Si no tienes código propio, el sistema usará el <code>IMEI 1</code> automáticamente.
+          </div>
+        </div>
+        <div class="pro-tip">
+          <div class="pro-tip-icon">📏</div>
+          <div class="pro-tip-text">
+            <strong>Mantén la fila 1 como cabecera:</strong> La primera fila de cada hoja debe contener los nombres de las columnas (CODIGO, MARCA, MODELO...). Los datos empiezan desde la fila 2. No uses filas de título fusionadas sobre las cabeceras.
+          </div>
+        </div>
+        <div class="pro-tip">
+          <div class="pro-tip-icon">📅</div>
+          <div class="pro-tip-text">
+            <strong>Fechas consistentes:</strong> Usa siempre el mismo formato de fecha en todo el archivo: <code>DD/MM/AAAA</code> (ej: 15/03/2024) o <code>AAAA-MM-DD</code> (ej: 2024-03-15). Mezclar formatos puede causar errores de importación.
+          </div>
+        </div>
+        <div class="pro-tip">
+          <div class="pro-tip-icon">🔒</div>
+          <div class="pro-tip-text">
+            <strong>IMEIs como texto:</strong> En Excel, formatea la columna <code>IMEI 1</code> e <code>IMEI 2</code> como <em>Texto</em> antes de ingresar los números para evitar que Excel los redondee o muestre en notación científica.
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box success" style="margin-top:20px;">
+        🎉 <strong>¡Felicidades!</strong> Completaste el curso. Ahora tienes todos los conocimientos para preparar tu archivo Excel correctamente y sacarle el máximo provecho al sistema InventarioMovil.
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div>📦 <strong>InventarioMovil</strong> — Curso de Preparación de Archivos Excel</div>
+      <div><strong>Technology VR</strong> — Ing. Raúl © 2026</div>
+    </div>
+
+  </main>
+</div><!-- /layout -->
+
+<script>
+  // ── Smooth scroll & active nav tracking ──
+  const navItems = document.querySelectorAll('.nav-item');
+  const chapters = document.querySelectorAll('.chapter');
+
+  // Click: set active immediately
+  navItems.forEach(item => {
+    item.addEventListener('click', function() {
+      navItems.forEach(n => n.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // Scroll: highlight current chapter
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navItems.forEach(n => {
+          n.classList.toggle('active', n.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  chapters.forEach(ch => observer.observe(ch));
+</script>
+
+</body>
+</html>
