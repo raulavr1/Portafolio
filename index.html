@@ -148,44 +148,44 @@
     <div class="rail-track-wrapper" aria-label="Riel interactivo de dashboards">
       <div class="rail-track" id="railTrack">
         <!-- Set 1 -->
-        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="VentasPro · Business Intelligence Comercial">
+        <div class="rail-item" onclick="openDashboardModal('ventas')" title="VentasPro · Probar en ventana interactiva">
           <img src="portal/img/preview-ventas.jpg" alt="VentasPro Dashboard de Ventas" loading="lazy" />
           <div class="rail-item-label"><i class="ph-bold ph-chart-line-up"></i> VentasPro · Ventas &amp; Gestión Comercial</div>
         </div>
-        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="ACTG · Sistema Táctico de Predicción">
+        <div class="rail-item" onclick="openDashboardModal('prediccion')" title="ACTG · Probar en ventana interactiva">
           <img src="portal/img/preview-actg.jpg" alt="ACTG Dashboard Táctico de Predicción" loading="lazy" />
           <div class="rail-item-label"><i class="ph-bold ph-shield-warning"></i> ACTG · Geo-Analítica &amp; Predicción</div>
         </div>
-        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="Farmacia Clínica · Control Hospitalario">
+        <div class="rail-item" onclick="openDashboardModal('clinico')" title="Farmacia Clínica · Probar en ventana interactiva">
           <img src="portal/img/preview-clinico.jpg" alt="Farmacia Clínica Dashboard Hospitalario" loading="lazy" />
           <div class="rail-item-label"><i class="ph-bold ph-first-aid"></i> Farmacia Clínica · Control &amp; Lotes</div>
         </div>
-        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="FinControl · Gestión Patrimonial">
+        <div class="rail-item" onclick="openDashboardModal('finanzas')" title="FinControl · Probar en ventana interactiva">
           <img src="portal/img/preview-finanzas.jpg" alt="FinControl Dashboard Financiero" loading="lazy" />
           <div class="rail-item-label"><i class="ph-bold ph-currency-dollar"></i> FinControl · Gestión Financiera</div>
         </div>
-        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="Inventario Móvil · Control de Activos">
+        <div class="rail-item" onclick="openDashboardModal('inventario')" title="Inventario Móvil · Probar en ventana interactiva">
           <img src="portal/img/preview-inventario.jpg" alt="Inventario Móvil Control de Activos" loading="lazy" />
           <div class="rail-item-label"><i class="ph-bold ph-barcode"></i> Inventario Móvil · Control de Activos</div>
         </div>
         <!-- Set 2 (duplicado idéntico para desplazamiento continuo infinito) -->
-        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="VentasPro · Business Intelligence Comercial">
+        <div class="rail-item" onclick="openDashboardModal('ventas')" title="VentasPro · Probar en ventana interactiva">
           <img src="portal/img/preview-ventas.jpg" alt="VentasPro Dashboard de Ventas" loading="lazy" />
           <div class="rail-item-label"><i class="ph-bold ph-chart-line-up"></i> VentasPro · Ventas &amp; Gestión Comercial</div>
         </div>
-        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="ACTG · Sistema Táctico de Predicción">
+        <div class="rail-item" onclick="openDashboardModal('prediccion')" title="ACTG · Probar en ventana interactiva">
           <img src="portal/img/preview-actg.jpg" alt="ACTG Dashboard Táctico de Predicción" loading="lazy" />
           <div class="rail-item-label"><i class="ph-bold ph-shield-warning"></i> ACTG · Geo-Analítica &amp; Predicción</div>
         </div>
-        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="Farmacia Clínica · Control Hospitalario">
+        <div class="rail-item" onclick="openDashboardModal('clinico')" title="Farmacia Clínica · Probar en ventana interactiva">
           <img src="portal/img/preview-clinico.jpg" alt="Farmacia Clínica Dashboard Hospitalario" loading="lazy" />
           <div class="rail-item-label"><i class="ph-bold ph-first-aid"></i> Farmacia Clínica · Control &amp; Lotes</div>
         </div>
-        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="FinControl · Gestión Patrimonial">
+        <div class="rail-item" onclick="openDashboardModal('finanzas')" title="FinControl · Probar en ventana interactiva">
           <img src="portal/img/preview-finanzas.jpg" alt="FinControl Dashboard Financiero" loading="lazy" />
           <div class="rail-item-label"><i class="ph-bold ph-currency-dollar"></i> FinControl · Gestión Financiera</div>
         </div>
-        <div class="rail-item" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})" title="Inventario Móvil · Control de Activos">
+        <div class="rail-item" onclick="openDashboardModal('inventario')" title="Inventario Móvil · Probar en ventana interactiva">
           <img src="portal/img/preview-inventario.jpg" alt="Inventario Móvil Control de Activos" loading="lazy" />
           <div class="rail-item-label"><i class="ph-bold ph-barcode"></i> Inventario Móvil · Control de Activos</div>
         </div>
@@ -221,11 +221,11 @@
 
       <!-- TARJETA 1: VentasPro -->
       <article class="showcase-card" style="--card-accent:#2563eb; --card-accent-border:rgba(37,99,235,0.5); --card-accent-glow:rgba(37,99,235,0.2);">
-        <div class="card-preview-banner ventas card-img-banner">
+        <div class="card-preview-banner ventas card-img-banner" onclick="openDashboardModal('ventas')" style="cursor:pointer;" title="Clic para probar en ventana interactiva">
           <img src="portal/img/preview-ventas.jpg" alt="VentasPro Dashboard Preview" class="banner-preview-img" loading="lazy" />
           <div class="banner-img-overlay">
             <span class="banner-badge live"><span class="pulse-dot"></span> Demo Interactivo</span>
-            <span class="banner-interact-hint"><i class="ph-bold ph-cursor-click"></i> Clic para probar en vivo</span>
+            <span class="banner-interact-hint"><i class="ph-bold ph-browser"></i> Clic para probar en ventana</span>
           </div>
         </div>
         <div class="card-body">
@@ -243,8 +243,8 @@
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-primary" onclick="window.open('AreadeVentas/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center;">
-              <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
+            <button class="btn btn-primary" onclick="openDashboardModal('ventas')" title="Probar versión demo en ventana interactiva" style="width:100%; justify-content:center;">
+              <i class="ph-bold ph-browser"></i> Probar Dashboard Demo
             </button>
           </div>
         </div>
@@ -252,11 +252,11 @@
 
       <!-- TARJETA 2: Predicción de Eventos ACTG -->
       <article class="showcase-card" style="--card-accent:#7c3aed; --card-accent-border:rgba(124,58,237,0.5); --card-accent-glow:rgba(124,58,237,0.2);">
-        <div class="card-preview-banner prediccion card-img-banner">
+        <div class="card-preview-banner prediccion card-img-banner" onclick="openDashboardModal('prediccion')" style="cursor:pointer;" title="Clic para probar en ventana interactiva">
           <img src="portal/img/preview-actg.jpg" alt="ACTG Dashboard Preview" class="banner-preview-img" loading="lazy" />
           <div class="banner-img-overlay">
             <span class="banner-badge pro"><i class="ph-bold ph-crosshair"></i> Demo Interactivo</span>
-            <span class="banner-interact-hint"><i class="ph-bold ph-cursor-click"></i> Clic para probar en vivo</span>
+            <span class="banner-interact-hint"><i class="ph-bold ph-browser"></i> Clic para probar en ventana</span>
           </div>
         </div>
         <div class="card-body">
@@ -274,8 +274,8 @@
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-primary" onclick="window.open('PredicciondeEventos/public/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center; background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 4px 14px rgba(124,58,237,0.35);">
-              <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
+            <button class="btn btn-primary" onclick="openDashboardModal('prediccion')" title="Probar versión demo en ventana interactiva" style="width:100%; justify-content:center; background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 4px 14px rgba(124,58,237,0.35);">
+              <i class="ph-bold ph-browser"></i> Probar Dashboard Demo
             </button>
           </div>
         </div>
@@ -283,11 +283,11 @@
 
       <!-- TARJETA 3: Farmacia Clínica Hospitalaria -->
       <article class="showcase-card" style="--card-accent:#0d9488; --card-accent-border:rgba(13,148,136,0.5); --card-accent-glow:rgba(13,148,136,0.2);">
-        <div class="card-preview-banner clinico card-img-banner">
+        <div class="card-preview-banner clinico card-img-banner" onclick="openDashboardModal('clinico')" style="cursor:pointer;" title="Clic para probar en ventana interactiva">
           <img src="portal/img/preview-clinico.jpg" alt="Farmacia Clínica Dashboard Preview" class="banner-preview-img" loading="lazy" />
           <div class="banner-img-overlay">
             <span class="banner-badge live" style="background:rgba(13,148,136,0.25); border:1px solid rgba(13,148,136,0.4); color:#2dd4bf;"><span class="pulse-dot" style="background:#2dd4bf;"></span> Demo Interactivo</span>
-            <span class="banner-interact-hint"><i class="ph-bold ph-cursor-click"></i> Clic para probar en vivo</span>
+            <span class="banner-interact-hint"><i class="ph-bold ph-browser"></i> Clic para probar en ventana</span>
           </div>
         </div>
         <div class="card-body">
@@ -305,8 +305,8 @@
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-primary" onclick="window.open('DashboardClinico/dist/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center; background: linear-gradient(135deg, #0d9488, #14b8a6); box-shadow: 0 4px 14px rgba(13,148,136,0.35);">
-              <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
+            <button class="btn btn-primary" onclick="openDashboardModal('clinico')" title="Probar versión demo en ventana interactiva" style="width:100%; justify-content:center; background: linear-gradient(135deg, #0d9488, #14b8a6); box-shadow: 0 4px 14px rgba(13,148,136,0.35);">
+              <i class="ph-bold ph-browser"></i> Probar Dashboard Demo
             </button>
           </div>
         </div>
@@ -314,13 +314,13 @@
 
       <!-- TARJETA 4: FinControl Finanzas & Gestión Patrimonial -->
       <article class="showcase-card" style="--card-accent:#0284c7; --card-accent-border:rgba(2,132,199,0.5); --card-accent-glow:rgba(2,132,199,0.2);">
-        <div class="card-preview-banner finanzas card-img-banner">
+        <div class="card-preview-banner finanzas card-img-banner" onclick="openDashboardModal('finanzas')" style="cursor:pointer;" title="Clic para probar en ventana interactiva">
           <img src="portal/img/preview-finanzas.jpg" alt="FinControl Dashboard Preview" class="banner-preview-img" loading="lazy" />
           <div class="banner-img-overlay">
             <span class="banner-badge live" style="background:rgba(2,132,199,0.25); border:1px solid rgba(2,132,199,0.4); color:#38bdf8;">
               <span class="pulse-dot" style="background:#38bdf8;"></span> Demo Interactivo
             </span>
-            <span class="banner-interact-hint"><i class="ph-bold ph-cursor-click"></i> Clic para probar en vivo</span>
+            <span class="banner-interact-hint"><i class="ph-bold ph-browser"></i> Clic para probar en ventana</span>
           </div>
         </div>
         <div class="card-body">
@@ -338,8 +338,8 @@
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-primary" onclick="window.open('Finanzas/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center; background: linear-gradient(135deg, #0284c7, #0ea5e9); box-shadow: 0 4px 14px rgba(2,132,199,0.35);">
-              <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
+            <button class="btn btn-primary" onclick="openDashboardModal('finanzas')" title="Probar versión demo en ventana interactiva" style="width:100%; justify-content:center; background: linear-gradient(135deg, #0284c7, #0ea5e9); box-shadow: 0 4px 14px rgba(2,132,199,0.35);">
+              <i class="ph-bold ph-browser"></i> Probar Dashboard Demo
             </button>
           </div>
         </div>
@@ -347,13 +347,13 @@
 
       <!-- TARJETA 5: Inventario Móvil · Control Corporativo de Activos -->
       <article class="showcase-card" style="--card-accent:#2563eb; --card-accent-border:rgba(37,99,235,0.5); --card-accent-glow:rgba(37,99,235,0.2);">
-        <div class="card-preview-banner inventario card-img-banner">
+        <div class="card-preview-banner inventario card-img-banner" onclick="openDashboardModal('inventario')" style="cursor:pointer;" title="Clic para probar en ventana interactiva">
           <img src="portal/img/preview-inventario.jpg" alt="Inventario Móvil Dashboard Preview" class="banner-preview-img" loading="lazy" />
           <div class="banner-img-overlay">
             <span class="banner-badge live" style="background:rgba(37,99,235,0.25); border:1px solid rgba(37,99,235,0.4); color:#60a5fa;">
               <span class="pulse-dot" style="background:#60a5fa;"></span> Demo Interactivo
             </span>
-            <span class="banner-interact-hint"><i class="ph-bold ph-cursor-click"></i> Clic para probar en vivo</span>
+            <span class="banner-interact-hint"><i class="ph-bold ph-browser"></i> Clic para probar en ventana</span>
           </div>
         </div>
         <div class="card-body">
@@ -371,8 +371,8 @@
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-primary" onclick="window.open('Control-Inventario/inventory-dashboard/index.html', '_blank')" title="Probar versión demo en pantalla completa" style="width:100%; justify-content:center; background: linear-gradient(135deg, #1d4ed8, #2563eb); box-shadow: 0 4px 14px rgba(37,99,235,0.35);">
-              <i class="ph-bold ph-arrow-square-out"></i> Probar Dashboard Demo
+            <button class="btn btn-primary" onclick="openDashboardModal('inventario')" title="Probar versión demo en ventana interactiva" style="width:100%; justify-content:center; background: linear-gradient(135deg, #1d4ed8, #2563eb); box-shadow: 0 4px 14px rgba(37,99,235,0.35);">
+              <i class="ph-bold ph-browser"></i> Probar Dashboard Demo
             </button>
           </div>
         </div>
@@ -822,6 +822,88 @@
       <div id="modalDetails">
         <!-- Generado dinámicamente por portal.js -->
       </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       VENTANA EMERGENTE AISLADA PARA DASHBOARDS DEMO (MODAL INTERACTIVO)
+       ========================================================================= -->
+  <div class="demo-modal-overlay" id="dashboardDemoModal" style="display:none;" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="demo-modal-backdrop" id="demoModalBackdrop"></div>
+    <div class="demo-modal-window" id="demoModalWindow">
+      
+      <!-- Barra superior de la ventana -->
+      <div class="demo-modal-header">
+        <div class="demo-modal-info">
+          <div class="demo-modal-status">
+            <span class="pulse-dot"></span>
+            <span id="demoModalTag">Demo Interactivo</span>
+          </div>
+          <h3 class="demo-modal-title" id="demoModalTitle">Dashboard Demo</h3>
+          <span class="demo-modal-badge" id="demoModalCategory">Área Comercial</span>
+        </div>
+
+        <!-- Selector de Responsividad en Vivo -->
+        <div class="demo-modal-devices" role="group" aria-label="Selector de dispositivo">
+          <button type="button" class="demo-device-btn active" data-device="desktop" onclick="setDemoDevice('desktop')" title="Vista Escritorio (100% Fluido)">
+            <i class="ph-bold ph-desktop"></i>
+            <span class="device-label">Escritorio</span>
+          </button>
+          <button type="button" class="demo-device-btn" data-device="laptop" onclick="setDemoDevice('laptop')" title="Vista Laptop (1024px)">
+            <i class="ph-bold ph-laptop"></i>
+            <span class="device-label">Laptop</span>
+          </button>
+          <button type="button" class="demo-device-btn" data-device="tablet" onclick="setDemoDevice('tablet')" title="Vista Tablet (768px)">
+            <i class="ph-bold ph-device-tablet"></i>
+            <span class="device-label">Tablet</span>
+          </button>
+          <button type="button" class="demo-device-btn" data-device="mobile" onclick="setDemoDevice('mobile')" title="Vista Móvil (390px)">
+            <i class="ph-bold ph-device-mobile"></i>
+            <span class="device-label">Móvil</span>
+          </button>
+        </div>
+
+        <!-- Acciones de la Ventana -->
+        <div class="demo-modal-actions">
+          <button type="button" class="demo-action-btn" onclick="reloadDemoIframe()" title="Reiniciar demostración (restablecer datos)">
+            <i class="ph-bold ph-arrow-counter-clockwise"></i>
+            <span class="action-label">Reiniciar</span>
+          </button>
+          <button type="button" class="demo-action-btn" onclick="toggleDemoFullscreen()" title="Pantalla completa">
+            <i class="ph-bold ph-corners-out" id="demoFullscreenIcon"></i>
+          </button>
+          <a id="demoExternalLink" href="#" target="_blank" class="demo-action-btn" title="Abrir en pestaña independiente (respaldo)">
+            <i class="ph-bold ph-arrow-square-out"></i>
+          </a>
+          <!-- BOTÓN CERRAR (X) PRINCIPAL -->
+          <button type="button" class="demo-close-btn" onclick="closeDashboardModal()" title="Cerrar ventana del dashboard">
+            <i class="ph-bold ph-x"></i>
+            <span>Cerrar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Aviso informativo de datos de demostración -->
+      <div class="demo-modal-banner">
+        <i class="ph-bold ph-info"></i>
+        <span><strong>Entorno de Demostración Interactivo:</strong> Puede ingresar datos, realizar filtros o simular acciones. Los cambios operan en memoria y no persisten al cerrar.</span>
+      </div>
+
+      <!-- Contenedor del Viewport e Iframe -->
+      <div class="demo-modal-viewport-container" id="demoViewportContainer">
+        <!-- Spinner de Carga de Alto Rendimiento -->
+        <div class="demo-modal-loader" id="demoModalLoader">
+          <div class="demo-loader-spinner"></div>
+          <div class="demo-loader-text">Iniciando sistema interactivo...</div>
+          <div class="demo-loader-subtext">Cargando módulos analíticos y datos de prueba</div>
+        </div>
+
+        <!-- Wrapper con tamaño dinámico según dispositivo -->
+        <div class="demo-device-frame desktop" id="demoDeviceFrame">
+          <iframe id="demoModalIframe" class="demo-modal-iframe" title="Dashboard Demo Interactivo" allow="clipboard-read; clipboard-write; fullscreen"></iframe>
+        </div>
+      </div>
+
     </div>
   </div>
 

@@ -1998,3 +1998,358 @@ html {
   transform: translateZ(0);
 }
 
+/* =========================================================================
+   VENTANA EMERGENTE AISLADA PARA DASHBOARD DEMO (MODAL INTERACTIVO)
+   ========================================================================= */
+
+/* Bloqueo estricto del scroll y toque en fondo cuando el modal está activo */
+body.demo-modal-active {
+  overflow: hidden !important;
+  touch-action: none !important;
+  user-select: none;
+}
+
+.demo-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.demo-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Telón de fondo oscuro y con desenfoque que bloquea cualquier interacción */
+.demo-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 1;
+  cursor: default; /* Clic fuera NO cierra el modal */
+}
+
+/* Contenedor tipo ventana flotante con aceleración por hardware */
+.demo-modal-window {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1600px;
+  height: 94vh;
+  max-height: 960px;
+  background: #070d1e;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 18px;
+  box-shadow: 0 25px 80px -10px rgba(0, 0, 0, 0.9), 0 0 35px rgba(37, 99, 235, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  contain: content;
+  transform: translate3d(0, 0, 0) scale(0.97);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.demo-modal-overlay.active .demo-modal-window {
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Header de la ventana */
+.demo-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(11, 19, 43, 0.98);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  flex-wrap: wrap;
+  z-index: 3;
+}
+
+.demo-modal-info {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.demo-modal-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 0.25rem 0.65rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.demo-modal-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #f8fafc;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.demo-modal-badge {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* Selector responsivo de dispositivos */
+.demo-modal-devices {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 3px;
+}
+
+.demo-device-btn {
+  background: transparent;
+  color: #94a3b8;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 7px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.demo-device-btn:hover:not(.active) {
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.demo-device-btn.active {
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.45);
+}
+
+/* Acciones de la ventana */
+.demo-modal-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.demo-action-btn {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  color: #cbd5e1;
+  padding: 6px 11px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.demo-action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+/* Botón cerrar X */
+.demo-close-btn {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #f87171;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.demo-close-btn:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.45);
+  transform: translateY(-1px);
+}
+
+/* Banner de entorno de prueba */
+.demo-modal-banner {
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.12) 0%, rgba(14, 165, 233, 0.08) 100%);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+  padding: 0.4rem 1.25rem;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.demo-modal-banner i {
+  color: #38bdf8;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+/* Contenedor del Viewport e Iframe */
+.demo-modal-viewport-container {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  background: #020617;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* Spinner de carga */
+.demo-modal-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: #070d1e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.demo-modal-loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.demo-loader-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3.5px solid rgba(56, 189, 248, 0.15);
+  border-top-color: #38bdf8;
+  border-radius: 50%;
+  animation: demoSpin 0.75s linear infinite;
+}
+
+@keyframes demoSpin {
+  to { transform: rotate(360deg); }
+}
+
+.demo-loader-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.demo-loader-subtext {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* Frame con simulación de dispositivo */
+.demo-device-frame {
+  height: 100%;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.demo-device-frame.desktop {
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.demo-device-frame.laptop {
+  width: 1024px;
+  max-width: 100%;
+  border: 2px solid rgba(148, 163, 184, 0.35);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.demo-device-frame.tablet {
+  width: 768px;
+  max-width: 100%;
+  border: 3px solid rgba(148, 163, 184, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.65);
+}
+
+.demo-device-frame.mobile {
+  width: 390px;
+  max-width: 100%;
+  border: 4px solid rgba(148, 163, 184, 0.45);
+  border-radius: 26px;
+  box-shadow: 0 12px 45px rgba(0, 0, 0, 0.75);
+}
+
+.demo-modal-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background: #ffffff;
+}
+
+/* Responsividad en pantallas pequeñas del modal */
+@media (max-width: 900px) {
+  .demo-modal-overlay {
+    padding: 0.4rem;
+  }
+  .demo-modal-window {
+    height: 98vh;
+    border-radius: 12px;
+  }
+  .demo-modal-header {
+    padding: 0.6rem 0.8rem;
+    gap: 0.6rem;
+  }
+  .demo-device-btn .device-label,
+  .demo-action-btn .action-label {
+    display: none;
+  }
+}
+

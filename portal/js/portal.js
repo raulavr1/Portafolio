@@ -691,3 +691,191 @@ window.addEventListener('click', (e) => {
     closeTechModal();
   }
 });
+
+/* =========================================================================
+   VENTANA FLOTANTE AISLADA PARA DASHBOARD DEMO (MODAL INTERACTIVO)
+   ========================================================================= */
+
+let _currentDemoProject = null;
+let _pageScrollY = 0;
+
+// Bloqueo estricto del fondo para impedir interacción y scroll
+function _lockPageForDemo() {
+  _pageScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+  
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${_pageScrollY}px`;
+  document.body.style.left = '0';
+  document.body.style.right = '0';
+  document.body.style.width = '100%';
+  if (scrollbarWidth > 0) {
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+  }
+  document.body.classList.add('demo-modal-active');
+}
+
+// Desbloqueo y restauración precisa del scroll
+function _unlockPageForDemo() {
+  document.body.style.removeProperty('position');
+  document.body.style.removeProperty('top');
+  document.body.style.removeProperty('left');
+  document.body.style.removeProperty('right');
+  document.body.style.removeProperty('width');
+  document.body.style.removeProperty('padding-right');
+  document.body.classList.remove('demo-modal-active');
+  window.scrollTo(0, _pageScrollY);
+}
+
+// Abrir dashboard demo en ventana modal
+function openDashboardModal(projectId) {
+  const project = PROJECTS[projectId];
+  if (!project) return;
+
+  _currentDemoProject = project;
+  const modal = document.getElementById('dashboardDemoModal');
+  const iframe = document.getElementById('demoModalIframe');
+  const loader = document.getElementById('demoModalLoader');
+  const titleEl = document.getElementById('demoModalTitle');
+  const catEl = document.getElementById('demoModalCategory');
+  const tagEl = document.getElementById('demoModalTag');
+  const extLink = document.getElementById('demoExternalLink');
+
+  if (titleEl) titleEl.textContent = project.title;
+  if (catEl) catEl.textContent = project.category;
+  if (tagEl) tagEl.textContent = project.badge || 'Demo Interactivo';
+  if (extLink) extLink.href = project.directUrl;
+
+  // Restablecer vista inicial a escritorio
+  setDemoDevice('desktop');
+
+  // Bloquear completamente la página de fondo
+  _lockPageForDemo();
+
+  // Mostrar modal y loader
+  if (loader) loader.classList.remove('hidden');
+  if (modal) {
+    modal.style.display = 'flex';
+    void modal.offsetWidth; // Forzar reflow para animación suave
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  // Cargar iframe de forma aislada
+  if (iframe) {
+    let loaded = false;
+    const onIframeLoaded = () => {
+      if (loaded) return;
+      loaded = true;
+      setTimeout(() => {
+        if (loader) loader.classList.add('hidden');
+      }, 300);
+    };
+
+    iframe.onload = onIframeLoaded;
+    setTimeout(onIframeLoaded, 4000); // Respaldo de seguridad
+
+    iframe.src = project.directUrl;
+  }
+}
+window.openDashboardModal = openDashboardModal;
+
+// Cerrar ventana modal y liberar memoria al instante
+function closeDashboardModal() {
+  const modal = document.getElementById('dashboardDemoModal');
+  const iframe = document.getElementById('demoModalIframe');
+  const loader = document.getElementById('demoModalLoader');
+
+  if (modal) {
+    modal.classList.remove('active');
+    setTimeout(() => {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+    }, 250);
+  }
+
+  // Destruir iframe inmediatamente para liberar memoria, timers de gráficos y GPU
+  if (iframe) {
+    iframe.onload = null;
+    iframe.src = 'about:blank';
+  }
+
+  if (loader) {
+    loader.classList.remove('hidden');
+  }
+
+  // Desbloquear página de fondo y restaurar posición de scroll previa
+  _unlockPageForDemo();
+
+  // Salir de pantalla completa si estaba activa
+  if (document.fullscreenElement) {
+    try { document.exitFullscreen(); } catch (e) {}
+  }
+
+  _currentDemoProject = null;
+}
+window.closeDashboardModal = closeDashboardModal;
+
+// Cambiar emulación de dispositivo (responsividad)
+function setDemoDevice(deviceMode) {
+  const frame = document.getElementById('demoDeviceFrame');
+  const buttons = document.querySelectorAll('.demo-device-btn');
+  
+  if (frame) {
+    frame.className = `demo-device-frame ${deviceMode}`;
+  }
+  
+  buttons.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.device === deviceMode);
+  });
+}
+window.setDemoDevice = setDemoDevice;
+
+// Recargar el dashboard demo (restablecer datos de prueba)
+function reloadDemoIframe() {
+  const iframe = document.getElementById('demoModalIframe');
+  const loader = document.getElementById('demoModalLoader');
+  if (!_currentDemoProject || !iframe) return;
+
+  if (loader) loader.classList.remove('hidden');
+  iframe.src = 'about:blank';
+  setTimeout(() => {
+    iframe.src = _currentDemoProject.directUrl;
+  }, 100);
+}
+window.reloadDemoIframe = reloadDemoIframe;
+
+// Alternar pantalla completa
+function toggleDemoFullscreen() {
+  const windowEl = document.getElementById('demoModalWindow');
+  const icon = document.getElementById('demoFullscreenIcon');
+  if (!windowEl) return;
+
+  if (!document.fullscreenElement) {
+    windowEl.requestFullscreen().then(() => {
+      if (icon) icon.className = 'ph-bold ph-corners-in';
+    }).catch(() => {});
+  } else {
+    document.exitFullscreen().then(() => {
+      if (icon) icon.className = 'ph-bold ph-corners-out';
+    }).catch(() => {});
+  }
+}
+window.toggleDemoFullscreen = toggleDemoFullscreen;
+
+document.addEventListener('fullscreenchange', () => {
+  const icon = document.getElementById('demoFullscreenIcon');
+  if (!document.fullscreenElement && icon) {
+    icon.className = 'ph-bold ph-corners-out';
+  }
+});
+
+// Cerrar con tecla Escape
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const demoModal = document.getElementById('dashboardDemoModal');
+    if (demoModal && demoModal.classList.contains('active')) {
+      closeDashboardModal();
+    }
+  }
+});
