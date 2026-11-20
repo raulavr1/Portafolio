@@ -699,32 +699,47 @@ window.addEventListener('click', (e) => {
 let _currentDemoProject = null;
 let _pageScrollY = 0;
 
-// Bloqueo estricto del fondo para impedir interacción y scroll
+// Bloqueo estricto del fondo para impedir interacción y scroll sin alterar el flujo visual
 function _lockPageForDemo() {
-  _pageScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  _pageScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
   const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
   
-  document.body.style.position = 'fixed';
-  document.body.style.top = `-${_pageScrollY}px`;
-  document.body.style.left = '0';
-  document.body.style.right = '0';
-  document.body.style.width = '100%';
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
   if (scrollbarWidth > 0) {
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
+    document.documentElement.style.paddingRight = `${scrollbarWidth}px`;
   }
+  document.documentElement.classList.add('demo-modal-locked');
+  document.body.classList.add('demo-modal-locked');
   document.body.classList.add('demo-modal-active');
 }
 
-// Desbloqueo y restauración precisa del scroll
+// Desbloqueo y restauración instantánea sin movimientos rápidos ni saltos
 function _unlockPageForDemo() {
-  document.body.style.removeProperty('position');
-  document.body.style.removeProperty('top');
-  document.body.style.removeProperty('left');
-  document.body.style.removeProperty('right');
-  document.body.style.removeProperty('width');
-  document.body.style.removeProperty('padding-right');
+  // Desactivar temporalmente cualquier animación de scroll suave
+  const prevScrollBehavior = document.documentElement.style.scrollBehavior;
+  document.documentElement.style.scrollBehavior = 'auto';
+
+  document.documentElement.style.removeProperty('overflow');
+  document.body.style.removeProperty('overflow');
+  document.documentElement.style.removeProperty('padding-right');
+  document.documentElement.classList.remove('demo-modal-locked');
+  document.body.classList.remove('demo-modal-locked');
   document.body.classList.remove('demo-modal-active');
-  window.scrollTo(0, _pageScrollY);
+
+  // Asegurar que la posición previa se mantenga exactamente idéntica de forma instantánea
+  if (typeof _pageScrollY === 'number') {
+    window.scrollTo({ top: _pageScrollY, left: 0, behavior: 'instant' });
+  }
+
+  // Restaurar el comportamiento de scroll suave original
+  setTimeout(() => {
+    if (prevScrollBehavior) {
+      document.documentElement.style.scrollBehavior = prevScrollBehavior;
+    } else {
+      document.documentElement.style.removeProperty('scroll-behavior');
+    }
+  }, 60);
 }
 
 // Abrir dashboard demo en ventana modal

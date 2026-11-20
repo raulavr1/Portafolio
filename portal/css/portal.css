@@ -2002,11 +2002,13 @@ html {
    VENTANA EMERGENTE AISLADA PARA DASHBOARD DEMO (MODAL INTERACTIVO)
    ========================================================================= */
 
-/* Bloqueo estricto del scroll y toque en fondo cuando el modal está activo */
+/* Bloqueo estricto del scroll y toque en fondo cuando el modal está activo sin alterar la posición */
+html.demo-modal-locked,
+body.demo-modal-locked,
 body.demo-modal-active {
   overflow: hidden !important;
+  overscroll-behavior: none !important;
   touch-action: none !important;
-  user-select: none;
 }
 
 .demo-modal-overlay {
