@@ -630,8 +630,8 @@ window.verFacturaElectronicaPedido = function(id) {
               </div>
             </div>
             <div style="font-size:11px;color:var(--text-2);line-height:1.5;">
-              Av. Comercial 100, Módulo Demo, Lima - Perú<br>
-              Central Telefónica: +51 900 000 000 · contacto@demoventaspro.com<br>
+              Av. Comercial 100, Torre Empresarial, Módulo Central<br>
+              Central Telefónica: +1 (800) 555-0199 · contacto@demoventaspro.com<br>
               Web: www.demoventaspro.com
             </div>
           </div>
@@ -659,10 +659,10 @@ window.verFacturaElectronicaPedido = function(id) {
           </div>
           <div>
             <div style="font-size:10.5px;color:var(--text-3);font-weight:700;text-transform:uppercase;">Dirección Fiscal:</div>
-            <input class="form-input" id="fac-dir-cliente" value="${p.direccion || p.notas || 'Av. Principal 123, Lima'}" style="height:28px;font-size:11.5px;width:100%;margin-top:2px;" ${yaConcretado ? 'disabled' : ''} />
+            <input class="form-input" id="fac-dir-cliente" value="${p.direccion || p.notas || 'Av. Principal 123, Edificio Central'}" style="height:28px;font-size:11.5px;width:100%;margin-top:2px;" ${yaConcretado ? 'disabled' : ''} />
             <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--text-2);">
               <span><strong>Emisión:</strong> ${p.fecha}</span>
-              <span><strong>Moneda:</strong> ${p.moneda || 'PEN'} (Soles)</span>
+              <span><strong>Moneda:</strong> ${p.moneda || 'USD'} (${p.moneda === 'PEN' ? 'S/' : p.moneda || '$'})</span>
             </div>
           </div>
         </div>
@@ -950,11 +950,11 @@ function openProformaModal(id = null) {
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Cliente / Razón Social *</label>
-        <input class="form-input" id="pf-cliente" value="${p?.cliente || ''}" placeholder="Ej: TechCorp Perú S.A." />
+        <input class="form-input" id="pf-cliente" value="${p?.cliente || ''}" placeholder="Ej: TechCorp Global S.A." />
       </div>
       <div class="form-group">
         <label class="form-label">Teléfono de Contacto</label>
-        <input class="form-input" id="pf-telefono" value="${p?.telefono || ''}" placeholder="+51 987 654 321" />
+        <input class="form-input" id="pf-telefono" value="${p?.telefono || ''}" placeholder="+1 (800) 555-0199" />
       </div>
     </div>
     <div class="form-row">

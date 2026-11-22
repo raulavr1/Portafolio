@@ -449,7 +449,7 @@ function viewFactura(id) {
         <div class="fac-meta-label">Cliente / Receptor</div>
         <div class="fac-meta-value fac-meta-value--lg">${f.cliente}</div>
         <div class="fac-meta-label" style="margin-top:8px">Moneda</div>
-        <div class="fac-meta-value">${f.moneda === 'PEN' ? 'Soles Peruanos (S/)' : f.moneda === 'USD' ? 'Dólares Americanos ($)' : 'Euros (€)'}</div>
+        <div class="fac-meta-value">${f.moneda === 'PEN' ? 'Moneda Local (S/)' : f.moneda === 'USD' ? 'Dólares Americanos ($)' : 'Euros (€)'}</div>
       </div>
       <div class="fac-invoice-dates">
         <div class="fac-date-block">

@@ -3486,13 +3486,13 @@ function saveQuickAssignAndPrint(e){
 }
 
 /* =====================================================
-   DNI LOOKUP (apis.net.pe — Perú)
+   VALIDACIÓN DE IDENTIFICACIÓN (ID / CÉDULA)
    ===================================================== */
 async function lookupDNI(){
   const dni=document.getElementById('dniInput').value.trim();
   const resultEl=document.getElementById('dniResult');
   if(dni.length!==8){ showToast('⚠️ El DNI debe tener 8 dígitos','warning'); return; }
-  resultEl.innerHTML='<div class="dni-loading">⏳ Consultando RENIEC...</div>';
+  resultEl.innerHTML='<div class="dni-loading">⏳ Consultando Registro de Identidad...</div>';
   const data=await fetchDNI(dni);
   if(!data){ resultEl.innerHTML='<div class="dni-error">❌ No se encontraron datos. Verifica el DNI o ingrésalo manualmente.</div>'; return; }
   resultEl.innerHTML=`
@@ -3534,7 +3534,7 @@ async function lookupDNIEdit(){
 async function fetchDNI(dni){
   const endpoints = [
     `/api/dni?numero=${dni}`,
-    `https://api.apis.net.pe/v1/dni?numero=${dni}`,
+    `/api/id?numero=${dni}`,
   ];
   for(const url of endpoints){
     try {
@@ -4885,7 +4885,7 @@ function renderOfficeCards() {
         <div class="office-card-top">
           <div>
             <div class="office-name-clean">🏢 ${esc(name)}</div>
-            <div class="office-sede-label">Sede Lima · Oficinas Principales</div>
+            <div class="office-sede-label">Sede Central · Oficinas Corporativas</div>
           </div>
           <div class="office-stat-badge" style="background:${color}12;border:1px solid ${color}35">
             <span class="office-stat-num" style="color:${color}">${stats.total}</span>
